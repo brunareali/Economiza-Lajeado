@@ -142,7 +142,8 @@
 
         <small>Sua renda mensal</small>
 
-        <h2>R$ 15.000,00</h2>
+        <h2 id="rendaExibida">R$ 0,00</h2>
+
 
     </div>
 
@@ -204,6 +205,23 @@
     </button>
 
 </div>
+<script>
+
+const renda = localStorage.getItem("rendaMensal");
+
+if (renda) {
+
+    const valor = Number(renda);
+
+    document.getElementById("rendaExibida").textContent =
+        valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+}
+
+</script>
 
 </body>
 

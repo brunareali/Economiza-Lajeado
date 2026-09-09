@@ -351,6 +351,14 @@ function criarOrcamento() {
 
     }
 
+localStorage.setItem("orcamentoFixos", pegarValor("fixos"));
+localStorage.setItem("orcamentoAlimentacao", pegarValor("alimentacao"));
+localStorage.setItem("orcamentoSaude", pegarValor("saude"));
+localStorage.setItem("orcamentoHigiene", pegarValor("higiene"));
+localStorage.setItem("orcamentoLazer", pegarValor("lazer"));
+localStorage.setItem("orcamentoTransporte", pegarValor("transporte"));
+localStorage.setItem("orcamentoEducacao", pegarValor("educacao"));
+localStorage.setItem("orcamentoInvestimentos", pegarValor("investimentos"));
 
  window.location.href = "dashboard.html";
 

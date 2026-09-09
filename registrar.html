@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registrar gasto - Meu Dinheiro</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .voltar {
+            display: inline-block;
+            color: #287a4b;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 22px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            color: #718078;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8ded9;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1f633c;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <a href="dashboard.html" class="voltar">
+        ← Voltar para o resumo
+    </a>
+
+
+    <div class="card">
+
+        <h1>Registrar gasto 💸</h1>
+
+        <p class="subtitulo">
+            Anote uma compra para acompanhar
+            quanto você já gastou em cada área.
+        </p>
+
+
+        <label for="descricao">
+            O que você comprou?
+        </label>
+
+        <input
+            id="descricao"
+            type="text"
+            placeholder="Ex: Sabonete"
+        >
+
+
+        <label for="valor">
+            Quanto custou?
+        </label>
+
+        <input
+            id="valor"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Ex: 15"
+        >
+
+
+        <label for="categoria">
+            Qual categoria?
+        </label>
+
+        <select id="categoria">
+
+            <option value="">
+                Escolha uma categoria
+            </option>
+
+            <option value="fixos">
+                🏠 Gastos fixos
+            </option>
+
+            <option value="alimentacao">
+                🍎 Alimentação
+            </option>
+
+            <option value="saude">
+                🏥 Saúde
+            </option>
+
+            <option value="higiene">
+                🧼 Higiene
+            </option>
+
+            <option value="lazer">
+                🎮 Lazer
+            </option>
+
+            <option value="transporte">
+                🚗 Transporte
+            </option>
+
+            <option value="educacao">
+                📚 Educação
+            </option>
+
+            <option value="investimentos">
+                💰 Investimentos
+            </option>
+
+        </select>
+
+
+        <button onclick="registrarGasto()">
+            Registrar gasto →
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function registrarGasto() {
+
+    const descricao =
+        document.getElementById("descricao").value.trim();
+
+    const valor =
+        Number(document.getElementById("valor").value);
+
+    const categoria =
+        document.getElementById("categoria").value;
+
+
+    if (!descricao) {
+
+        alert("Digite o que você comprou.");
+
+        return;
+
+    }
+
+
+    if (!valor || valor <= 0) {
+
+        alert("Digite um valor válido.");
+
+        return;
+
+    }
+
+
+    if (!categoria) {
+
+        alert("Escolha uma categoria.");
+
+        return;
+
+    }
+
+
+    const gastosSalvos =
+        JSON.parse(localStorage.getItem("gastos")) || [];
+
+
+    const novoGasto = {
+
+        descricao: descricao,
+
+        valor: valor,
+
+        categoria: categoria,
+
+        data: new Date().toLocaleDateString("pt-BR")
+
+    };
+
+
+    gastosSalvos.push(novoGasto);
+
+
+    localStorage.setItem(
+        "gastos",
+        JSON.stringify(gastosSalvos)
+    );
+
+
+    alert("Gasto registrado com sucesso! 💚");
+
+
+    window.location.href = "dashboard.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

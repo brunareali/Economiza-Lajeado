@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Criar conta - Meu Dinheiro</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -78,63 +81,132 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        button:hover {
+            background: #1f633c;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <a href="index.html" class="voltar">← Voltar</a>
+    <a href="index.html" class="voltar">← Voltar</a>
 
-        <h1>Criar minha conta 💚</h1>
+    <h1>Criar minha conta 💚</h1>
 
-        <p class="subtitulo">
-            Primeiro vamos conhecer você e entender
-            como organizar seu dinheiro.
-        </p>
+    <p class="subtitulo">
+        Primeiro vamos conhecer você e entender
+        como organizar seu dinheiro.
+    </p>
 
-        <form>
+    <form onsubmit="salvarCadastro(event)">
 
-            <label>Seu nome</label>
-            <input type="text" placeholder="Ex: Maria" required>
+        <label>Seu nome</label>
 
-            <label>Seu e-mail</label>
-            <input type="email" placeholder="Ex: seuemail@email.com" required>
+        <input
+            id="nome"
+            type="text"
+            placeholder="Ex: Maria"
+            required
+        >
 
-            <label>Crie uma senha</label>
-            <input type="password" placeholder="Digite sua senha" required>
+        <label>Seu e-mail</label>
 
-            <label>Quanto você ganha por mês?</label>
-            <input id="renda" type="number" placeholder="Ex: 2500" required>
+        <input
+            id="email"
+            type="email"
+            placeholder="Ex: seuemail@email.com"
+            required
+        >
+
+        <label>Crie uma senha</label>
+
+        <input
+            id="senha"
+            type="password"
+            placeholder="Digite sua senha"
+            required
+        >
+
+        <label>Quanto você ganha por mês?</label>
+
+        <input
+            id="renda"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Ex: 2500"
+            required
+        >
+
+        <button type="submit">
+            Continuar →
+        </button>
+
+    </form>
+
+</div>
 
 
-            <button type="button" onclick="salvarCadastro()">
-    Continuar →
-</button>
-
-
-
-        </form>
-
-    </div>
 <script>
 
-function salvarCadastro() {
+function salvarCadastro(event) {
 
-    const renda = document.getElementById("renda").value;
+    event.preventDefault();
 
-    if (renda === "") {
-        alert("Digite quanto você ganha por mês.");
+    const nome = document.getElementById("nome").value.trim();
+
+    const email = document.getElementById("email").value.trim();
+
+    const senha = document.getElementById("senha").value;
+
+    const renda = Number(document.getElementById("renda").value);
+
+
+    if (!nome || !email || !senha || !renda) {
+
+        alert("Preencha todos os campos.");
+
         return;
+
     }
 
-    localStorage.setItem("rendaMensal", renda);
+
+    const usuario = {
+
+        nome: nome,
+
+        email: email,
+
+        senha: senha,
+
+        renda: renda
+
+    };
+
+
+    localStorage.setItem(
+        "usuario",
+        JSON.stringify(usuario)
+    );
+
+
+    localStorage.setItem(
+        "rendaMensal",
+        renda.toString()
+    );
+
 
     window.location.href = "orcamento.html";
+
 }
 
 </script>
 
 </body>
+
 </html>

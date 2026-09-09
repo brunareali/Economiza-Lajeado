@@ -59,10 +59,6 @@
             margin-top: 8px;
         }
 
-        .resumo p {
-            margin-top: 12px;
-        }
-
         .card {
             background: white;
             padding: 22px;
@@ -152,7 +148,7 @@
             R$ 0,00
         </h2>
 
-        <p id="totalGasto">
+        <p id="totalGasto" style="margin-top: 12px;">
             Você já gastou R$ 0,00 este mês.
         </p>
 
@@ -356,6 +352,10 @@
 <script>
 
 
+/* =========================
+   FORMATAÇÃO DE DINHEIRO
+========================= */
+
 function moeda(valor) {
 
     return Number(valor).toLocaleString("pt-BR", {
@@ -370,7 +370,7 @@ function moeda(valor) {
 
 
 /* =========================
-   RENDA
+   RENDA MENSAL
 ========================= */
 
 const renda =
@@ -397,7 +397,7 @@ if (usuarioSalvo) {
 
 
 /* =========================
-   ORÇAMENTOS
+   ORÇAMENTO DAS CATEGORIAS
 ========================= */
 
 const categorias = {
@@ -478,8 +478,7 @@ gastos.forEach(function(gasto) {
 
 
 /* =========================
-   VALOR DISPONÍVEL
-   EM CADA CATEGORIA
+   SALDO DE CADA CATEGORIA
 ========================= */
 
 const disponivelPorCategoria = {
@@ -520,7 +519,7 @@ const disponivelPorCategoria = {
 
 
 /* =========================
-   TOTAL GASTO
+   TOTAL DE GASTOS
 ========================= */
 
 let totalGasto = 0;
@@ -562,10 +561,10 @@ const totalDistribuido =
 
    IMPORTANTE:
 
-   Os gastos NÃO entram aqui.
+   Aqui NÃO descontamos os gastos.
 
-   O gasto já foi descontado
-   da categoria correspondente.
+   Os gastos já foram descontados
+   de suas respectivas categorias.
 
 ========================= */
 
@@ -582,36 +581,29 @@ document.getElementById("dinheiroDisponivel").textContent =
 
 
 /* =========================
-   MOSTRAR CATEGORIAS
+   MOSTRAR SALDO DAS CATEGORIAS
 ========================= */
 
 document.getElementById("fixos").textContent =
     moeda(disponivelPorCategoria.fixos);
 
-
 document.getElementById("alimentacao").textContent =
     moeda(disponivelPorCategoria.alimentacao);
-
 
 document.getElementById("saude").textContent =
     moeda(disponivelPorCategoria.saude);
 
-
 document.getElementById("higiene").textContent =
     moeda(disponivelPorCategoria.higiene);
-
 
 document.getElementById("lazer").textContent =
     moeda(disponivelPorCategoria.lazer);
 
-
 document.getElementById("transporte").textContent =
     moeda(disponivelPorCategoria.transporte);
 
-
 document.getElementById("educacao").textContent =
     moeda(disponivelPorCategoria.educacao);
-
 
 document.getElementById("investimentos").textContent =
     moeda(disponivelPorCategoria.investimentos);

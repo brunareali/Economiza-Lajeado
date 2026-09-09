@@ -134,11 +134,15 @@
 
     <div class="resumo">
 
-        <small>Dinheiro ainda disponível</small>
+    <small>Dinheiro ainda disponível</small>
 
-        <h2 id="dinheiroDisponivel">R$ 0,00</h2>
+    <h2 id="dinheiroDisponivel">R$ 0,00</h2>
 
-    </div>
+    <p id="totalGasto" style="margin-top: 12px;">
+        Você já gastou R$ 0,00 este mês.
+    </p>
+
+</div>
 
 
     <div class="card">
@@ -465,6 +469,8 @@ gastos.forEach(function(gasto) {
 
 });
 
+document.getElementById("totalGasto").textContent =
+    "Você já gastou " + moeda(totalGasto) + " este mês.";
 
 const totalDistribuido =
 

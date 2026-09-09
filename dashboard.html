@@ -59,6 +59,10 @@
             margin-top: 8px;
         }
 
+        .resumo p {
+            margin-top: 12px;
+        }
+
         .card {
             background: white;
             padding: 22px;
@@ -95,22 +99,25 @@
             font-weight: bold;
         }
 
-       .botao {
-    width: 100%;
-    padding: 17px;
-    border: none;
-    border-radius: 15px;
-    background: #287a4b;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-}
+        .botao {
+            width: 100%;
+            padding: 17px;
+            border: none;
+            border-radius: 15px;
+            background: #287a4b;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
 
+        .botao:hover {
+            background: #1f633c;
+        }
 
     </style>
 
@@ -124,25 +131,32 @@
 
     <div class="topo">
 
-      <h1 id="tituloSaudacao">Meu Dinheiro 💚</h1>
+        <h1 id="tituloSaudacao">
+            Meu Dinheiro 💚
+        </h1>
 
-
-        <p>Seu resumo financeiro deste mês.</p>
+        <p>
+            Seu resumo financeiro deste mês.
+        </p>
 
     </div>
 
 
     <div class="resumo">
 
-    <small>Dinheiro ainda disponível</small>
+        <small>
+            Dinheiro ainda disponível
+        </small>
 
-    <h2 id="dinheiroDisponivel">R$ 0,00</h2>
+        <h2 id="dinheiroDisponivel">
+            R$ 0,00
+        </h2>
 
-    <p id="totalGasto" style="margin-top: 12px;">
-        Você já gastou R$ 0,00 este mês.
-    </p>
+        <p id="totalGasto">
+            Você já gastou R$ 0,00 este mês.
+        </p>
 
-</div>
+    </div>
 
 
     <div class="card">
@@ -155,7 +169,7 @@
 
                 <h3>Gastos fixos</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -178,7 +192,7 @@
 
                 <h3>Alimentação</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -201,7 +215,7 @@
 
                 <h3>Saúde</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -224,7 +238,7 @@
 
                 <h3>Higiene</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -247,7 +261,7 @@
 
                 <h3>Lazer</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -270,7 +284,7 @@
 
                 <h3>Transporte</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -293,7 +307,7 @@
 
                 <h3>Educação</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -316,7 +330,7 @@
 
                 <h3>Investimentos</h3>
 
-                <p>Valor reservado</p>
+                <p>Valor disponível</p>
 
             </div>
 
@@ -329,12 +343,11 @@
     </div>
 
 
-   <a href="registrar.html" class="botao">
+    <a href="registrar.html" class="botao">
 
-    ➕ Registrar gasto
+        ➕ Registrar gasto
 
-</a>
-
+    </a>
 
 
 </div>
@@ -342,23 +355,40 @@
 
 <script>
 
+
 function moeda(valor) {
 
     return Number(valor).toLocaleString("pt-BR", {
+
         style: "currency",
+
         currency: "BRL"
+
     });
 
 }
 
 
+/* =========================
+   RENDA
+========================= */
+
 const renda =
     Number(localStorage.getItem("rendaMensal")) || 0;
-const usuarioSalvo = localStorage.getItem("usuario");
+
+
+/* =========================
+   NOME DO USUÁRIO
+========================= */
+
+const usuarioSalvo =
+    localStorage.getItem("usuario");
+
 
 if (usuarioSalvo) {
 
-    const usuario = JSON.parse(usuarioSalvo);
+    const usuario =
+        JSON.parse(usuarioSalvo);
 
     document.getElementById("tituloSaudacao").textContent =
         "Olá, " + usuario.nome + "! 💚";
@@ -366,34 +396,50 @@ if (usuarioSalvo) {
 }
 
 
+/* =========================
+   ORÇAMENTOS
+========================= */
+
 const categorias = {
 
-    fixos: Number(localStorage.getItem("orcamentoFixos")) || 0,
+    fixos:
+        Number(localStorage.getItem("orcamentoFixos")) || 0,
 
-    alimentacao: Number(localStorage.getItem("orcamentoAlimentacao")) || 0,
+    alimentacao:
+        Number(localStorage.getItem("orcamentoAlimentacao")) || 0,
 
-    saude: Number(localStorage.getItem("orcamentoSaude")) || 0,
+    saude:
+        Number(localStorage.getItem("orcamentoSaude")) || 0,
 
-    higiene: Number(localStorage.getItem("orcamentoHigiene")) || 0,
+    higiene:
+        Number(localStorage.getItem("orcamentoHigiene")) || 0,
 
-    lazer: Number(localStorage.getItem("orcamentoLazer")) || 0,
+    lazer:
+        Number(localStorage.getItem("orcamentoLazer")) || 0,
 
-    transporte: Number(localStorage.getItem("orcamentoTransporte")) || 0,
+    transporte:
+        Number(localStorage.getItem("orcamentoTransporte")) || 0,
 
-    educacao: Number(localStorage.getItem("orcamentoEducacao")) || 0,
+    educacao:
+        Number(localStorage.getItem("orcamentoEducacao")) || 0,
 
-    investimentos: Number(localStorage.getItem("orcamentoInvestimentos")) || 0
+    investimentos:
+        Number(localStorage.getItem("orcamentoInvestimentos")) || 0
 
 };
 
 
-/* Pega os gastos registrados */
+/* =========================
+   GASTOS REGISTRADOS
+========================= */
 
 const gastos =
     JSON.parse(localStorage.getItem("gastos")) || [];
 
 
-/* Soma quanto já foi gasto em cada categoria */
+/* =========================
+   GASTOS POR CATEGORIA
+========================= */
 
 const gastosPorCategoria = {
 
@@ -418,7 +464,10 @@ const gastosPorCategoria = {
 
 gastos.forEach(function(gasto) {
 
-    if (gastosPorCategoria[gasto.categoria] !== undefined) {
+    if (
+        gastosPorCategoria[gasto.categoria]
+        !== undefined
+    ) {
 
         gastosPorCategoria[gasto.categoria] +=
             Number(gasto.valor);
@@ -428,49 +477,72 @@ gastos.forEach(function(gasto) {
 });
 
 
-/* Calcula quanto ainda existe em cada categoria */
+/* =========================
+   VALOR DISPONÍVEL
+   EM CADA CATEGORIA
+========================= */
 
 const disponivelPorCategoria = {
 
     fixos:
-        categorias.fixos - gastosPorCategoria.fixos,
+        categorias.fixos -
+        gastosPorCategoria.fixos,
 
     alimentacao:
-        categorias.alimentacao - gastosPorCategoria.alimentacao,
+        categorias.alimentacao -
+        gastosPorCategoria.alimentacao,
 
     saude:
-        categorias.saude - gastosPorCategoria.saude,
+        categorias.saude -
+        gastosPorCategoria.saude,
 
     higiene:
-        categorias.higiene - gastosPorCategoria.higiene,
+        categorias.higiene -
+        gastosPorCategoria.higiene,
 
     lazer:
-        categorias.lazer - gastosPorCategoria.lazer,
+        categorias.lazer -
+        gastosPorCategoria.lazer,
 
     transporte:
-        categorias.transporte - gastosPorCategoria.transporte,
+        categorias.transporte -
+        gastosPorCategoria.transporte,
 
     educacao:
-        categorias.educacao - gastosPorCategoria.educacao,
+        categorias.educacao -
+        gastosPorCategoria.educacao,
 
     investimentos:
-        categorias.investimentos - gastosPorCategoria.investimentos
+        categorias.investimentos -
+        gastosPorCategoria.investimentos
 
 };
 
 
-/* Calcula o dinheiro total que ainda está disponível */
+/* =========================
+   TOTAL GASTO
+========================= */
 
 let totalGasto = 0;
 
+
 gastos.forEach(function(gasto) {
 
-    totalGasto += Number(gasto.valor);
+    totalGasto +=
+        Number(gasto.valor);
 
 });
 
+
 document.getElementById("totalGasto").textContent =
-    "Você já gastou " + moeda(totalGasto) + " este mês.";
+    "Você já gastou " +
+    moeda(totalGasto) +
+    " este mês.";
+
+
+/* =========================
+   TOTAL RESERVADO
+========================= */
 
 const totalDistribuido =
 
@@ -484,44 +556,68 @@ const totalDistribuido =
     categorias.investimentos;
 
 
+/* =========================
+   DINHEIRO LIVRE
+=========================
+
+   IMPORTANTE:
+
+   Os gastos NÃO entram aqui.
+
+   O gasto já foi descontado
+   da categoria correspondente.
+
+========================= */
+
 const dinheiroDisponivel =
-    renda - totalDistribuido - totalGasto;
+    renda - totalDistribuido;
 
 
-/* Mostra o dinheiro disponível */
+/* =========================
+   MOSTRAR DINHEIRO LIVRE
+========================= */
 
 document.getElementById("dinheiroDisponivel").textContent =
     moeda(dinheiroDisponivel);
 
 
-/* Mostra cada categoria */
+/* =========================
+   MOSTRAR CATEGORIAS
+========================= */
 
 document.getElementById("fixos").textContent =
     moeda(disponivelPorCategoria.fixos);
 
+
 document.getElementById("alimentacao").textContent =
     moeda(disponivelPorCategoria.alimentacao);
+
 
 document.getElementById("saude").textContent =
     moeda(disponivelPorCategoria.saude);
 
+
 document.getElementById("higiene").textContent =
     moeda(disponivelPorCategoria.higiene);
+
 
 document.getElementById("lazer").textContent =
     moeda(disponivelPorCategoria.lazer);
 
+
 document.getElementById("transporte").textContent =
     moeda(disponivelPorCategoria.transporte);
+
 
 document.getElementById("educacao").textContent =
     moeda(disponivelPorCategoria.educacao);
 
+
 document.getElementById("investimentos").textContent =
     moeda(disponivelPorCategoria.investimentos);
 
-</script>
 
+</script>
 
 
 </body>

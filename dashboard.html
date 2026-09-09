@@ -124,7 +124,8 @@
 
     <div class="topo">
 
-        <h1>Meu Dinheiro 💚</h1>
+      <h1 id="tituloSaudacao">Meu Dinheiro 💚</h1>
+
 
         <p>Seu resumo financeiro deste mês.</p>
 
@@ -349,6 +350,16 @@ function moeda(valor) {
 
 const renda =
     Number(localStorage.getItem("rendaMensal")) || 0;
+const usuarioSalvo = localStorage.getItem("usuario");
+
+if (usuarioSalvo) {
+
+    const usuario = JSON.parse(usuarioSalvo);
+
+    document.getElementById("tituloSaudacao").textContent =
+        "Olá, " + usuario.nome + "! 💚";
+
+}
 
 
 const categorias = {

@@ -97,7 +97,7 @@
         <form>
 
             <label>Seu nome</label>
-            <input type="text" placeholder="Ex: Bruna" required>
+            <input type="text" placeholder="Ex: Maria" required>
 
             <label>Seu e-mail</label>
             <input type="email" placeholder="Ex: seuemail@email.com" required>
@@ -106,16 +106,35 @@
             <input type="password" placeholder="Digite sua senha" required>
 
             <label>Quanto você ganha por mês?</label>
-            <input type="number" placeholder="Ex: 15000" required>
+            <input id="renda" type="number" placeholder="Ex: 2500" required>
 
-            <button type="button" onclick="window.location.href='orcamento.html'">
+
+            <button type="button" onclick="salvarCadastro()">
     Continuar →
 </button>
+
 
 
         </form>
 
     </div>
+<script>
+
+function salvarCadastro() {
+
+    const renda = document.getElementById("renda").value;
+
+    if (renda === "") {
+        alert("Digite quanto você ganha por mês.");
+        return;
+    }
+
+    localStorage.setItem("rendaMensal", renda);
+
+    window.location.href = "orcamento.html";
+}
+
+</script>
 
 </body>
 </html>

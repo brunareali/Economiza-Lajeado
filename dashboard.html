@@ -131,7 +131,7 @@
 
         <small>Dinheiro ainda disponível</small>
 
-        <h2>R$ 0,00</h2>
+        <h2 id="dinheiroDisponivel">R$ 0,00</h2>
 
     </div>
 
@@ -146,11 +146,11 @@
 
                 <h3>Gastos fixos</h3>
 
-                <p>Valor disponível</p>
+                <p>Valor reservado</p>
 
             </div>
 
-            <div class="valor">
+            <div class="valor" id="fixos">
                 R$ 0,00
             </div>
 
@@ -169,11 +169,11 @@
 
                 <h3>Alimentação</h3>
 
-                <p>Valor disponível</p>
+                <p>Valor reservado</p>
 
             </div>
 
-            <div class="valor">
+            <div class="valor" id="alimentacao">
                 R$ 0,00
             </div>
 
@@ -192,11 +192,11 @@
 
                 <h3>Saúde</h3>
 
-                <p>Valor disponível</p>
+                <p>Valor reservado</p>
 
             </div>
 
-            <div class="valor">
+            <div class="valor" id="saude">
                 R$ 0,00
             </div>
 
@@ -215,11 +215,11 @@
 
                 <h3>Higiene</h3>
 
-                <p>Valor disponível</p>
+                <p>Valor reservado</p>
 
             </div>
 
-            <div class="valor">
+            <div class="valor" id="higiene">
                 R$ 0,00
             </div>
 
@@ -238,11 +238,80 @@
 
                 <h3>Lazer</h3>
 
-                <p>Valor disponível</p>
+                <p>Valor reservado</p>
 
             </div>
 
-            <div class="valor">
+            <div class="valor" id="lazer">
+                R$ 0,00
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="categoria">
+
+            <div class="icone">🚗</div>
+
+            <div class="info">
+
+                <h3>Transporte</h3>
+
+                <p>Valor reservado</p>
+
+            </div>
+
+            <div class="valor" id="transporte">
+                R$ 0,00
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="categoria">
+
+            <div class="icone">📚</div>
+
+            <div class="info">
+
+                <h3>Educação</h3>
+
+                <p>Valor reservado</p>
+
+            </div>
+
+            <div class="valor" id="educacao">
+                R$ 0,00
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="categoria">
+
+            <div class="icone">💰</div>
+
+            <div class="info">
+
+                <h3>Investimentos</h3>
+
+                <p>Valor reservado</p>
+
+            </div>
+
+            <div class="valor" id="investimentos">
                 R$ 0,00
             </div>
 
@@ -259,6 +328,97 @@
 
 
 </div>
+
+
+<script>
+
+function moeda(valor) {
+
+    return Number(valor).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+
+}
+
+
+const renda =
+    Number(localStorage.getItem("rendaMensal")) || 0;
+
+
+const categorias = {
+
+    fixos: Number(localStorage.getItem("orcamentoFixos")) || 0,
+
+    alimentacao: Number(localStorage.getItem("orcamentoAlimentacao")) || 0,
+
+    saude: Number(localStorage.getItem("orcamentoSaude")) || 0,
+
+    higiene: Number(localStorage.getItem("orcamentoHigiene")) || 0,
+
+    lazer: Number(localStorage.getItem("orcamentoLazer")) || 0,
+
+    transporte: Number(localStorage.getItem("orcamentoTransporte")) || 0,
+
+    educacao: Number(localStorage.getItem("orcamentoEducacao")) || 0,
+
+    investimentos: Number(localStorage.getItem("orcamentoInvestimentos")) || 0
+
+};
+
+
+const totalDistribuido =
+
+    categorias.fixos +
+    categorias.alimentacao +
+    categorias.saude +
+    categorias.higiene +
+    categorias.lazer +
+    categorias.transporte +
+    categorias.educacao +
+    categorias.investimentos;
+
+
+const disponivel = renda - totalDistribuido;
+
+
+document.getElementById("dinheiroDisponivel").textContent =
+    moeda(disponivel);
+
+
+document.getElementById("fixos").textContent =
+    moeda(categorias.fixos);
+
+
+document.getElementById("alimentacao").textContent =
+    moeda(categorias.alimentacao);
+
+
+document.getElementById("saude").textContent =
+    moeda(categorias.saude);
+
+
+document.getElementById("higiene").textContent =
+    moeda(categorias.higiene);
+
+
+document.getElementById("lazer").textContent =
+    moeda(categorias.lazer);
+
+
+document.getElementById("transporte").textContent =
+    moeda(categorias.transporte);
+
+
+document.getElementById("educacao").textContent =
+    moeda(categorias.educacao);
+
+
+document.getElementById("investimentos").textContent =
+    moeda(categorias.investimentos);
+
+</script>
+
 
 </body>
 

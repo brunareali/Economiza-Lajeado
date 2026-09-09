@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Meu orçamento - Meu Dinheiro</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        .topo {
+            margin-bottom: 25px;
+        }
+
+        .topo h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+        }
+
+        .topo p {
+            color: #718078;
+            line-height: 1.5;
+        }
+
+        .renda {
+            background: #287a4b;
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .renda pequena {
+            display: block;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .renda h2 {
+            font-size: 32px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+        }
+
+        .categoria {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .icone {
+            font-size: 25px;
+            width: 40px;
+        }
+
+        .categoria input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d8ded9;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .total {
+            background: #f0f5f1;
+            padding: 18px;
+            border-radius: 14px;
+            margin-top: 20px;
+        }
+
+        .total strong {
+            color: #287a4b;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1f633c;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topo">
+
+        <h1>Vamos organizar seu dinheiro 💚</h1>
+
+        <p>
+            Agora escolha quanto você quer reservar
+            para cada área da sua vida.
+        </p>
+
+    </div>
+
+    <div class="renda">
+
+        <small>Sua renda mensal</small>
+
+        <h2>R$ 15.000,00</h2>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Quanto você quer reservar?</h2>
+
+        <div class="categoria">
+            <div class="icone">🏠</div>
+            <input type="number" placeholder="Gastos fixos">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">🍎</div>
+            <input type="number" placeholder="Alimentação">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">🏥</div>
+            <input type="number" placeholder="Saúde">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">🧼</div>
+            <input type="number" placeholder="Higiene">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">🎮</div>
+            <input type="number" placeholder="Lazer">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">🚗</div>
+            <input type="number" placeholder="Transporte">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">📚</div>
+            <input type="number" placeholder="Educação">
+        </div>
+
+        <div class="categoria">
+            <div class="icone">💰</div>
+            <input type="number" placeholder="Investimentos">
+        </div>
+
+        <div class="total">
+
+            Total distribuído:
+            <strong>R$ 0,00</strong>
+
+        </div>
+
+    </div>
+
+    <button>
+        Criar meu orçamento →
+    </button>
+
+</div>
+
+</body>
+
+</html>

@@ -89,6 +89,16 @@
             background: #1f633c;
         }
 
+        .disponivel {
+            background: #f0f5f1;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: -5px;
+            margin-bottom: 20px;
+            color: #287a4b;
+            font-weight: bold;
+        }
+
     </style>
 
 </head>
@@ -141,7 +151,7 @@
             Qual categoria?
         </label>
 
-        <select id="categoria">
+        <select id="categoria" onchange="mostrarDisponivel()">
 
             <option value="">
                 Escolha uma categoria
@@ -182,6 +192,16 @@
         </select>
 
 
+        <div
+            id="disponivel"
+            class="disponivel"
+            style="display: none;"
+        >
+            Disponível nesta categoria:
+            R$ 0,00
+        </div>
+
+
         <button onclick="registrarGasto()">
             Registrar gasto →
         </button>
@@ -193,13 +213,102 @@
 
 <script>
 
+
+function moeda(valor) {
+
+    return Number(valor).toLocaleString("pt-BR", {
+
+        style: "currency",
+
+        currency: "BRL"
+
+    });
+
+}
+
+
+/* =========================
+   MOSTRAR DISPONÍVEL
+========================= */
+
+function mostrarDisponivel() {
+
+    const categoria =
+        document.getElementById("categoria").value;
+
+
+    const elemento =
+        document.getElementById("disponivel");
+
+
+    if (!categoria) {
+
+        elemento.style.display = "none";
+
+        return;
+
+    }
+
+
+    const orcamento =
+        Number(
+            localStorage.getItem(
+                "orcamento" +
+                categoria.charAt(0).toUpperCase() +
+                categoria.slice(1)
+            )
+        ) || 0;
+
+
+    const gastos =
+        JSON.parse(
+            localStorage.getItem("gastos")
+        ) || [];
+
+
+    let totalGasto = 0;
+
+
+    gastos.forEach(function(gasto) {
+
+        if (gasto.categoria === categoria) {
+
+            totalGasto += Number(gasto.valor);
+
+        }
+
+    });
+
+
+    const disponivel =
+        orcamento - totalGasto;
+
+
+    elemento.textContent =
+        "Disponível nesta categoria: " +
+        moeda(disponivel);
+
+
+    elemento.style.display = "block";
+
+}
+
+
+/* =========================
+   REGISTRAR GASTO
+========================= */
+
 function registrarGasto() {
 
     const descricao =
         document.getElementById("descricao").value.trim();
 
+
     const valor =
-        Number(document.getElementById("valor").value);
+        Number(
+            document.getElementById("valor").value
+        );
+
 
     const categoria =
         document.getElementById("categoria").value;
@@ -207,7 +316,9 @@ function registrarGasto() {
 
     if (!descricao) {
 
-        alert("Digite o que você comprou.");
+        alert(
+            "Digite o que você comprou."
+        );
 
         return;
 
@@ -216,7 +327,9 @@ function registrarGasto() {
 
     if (!valor || valor <= 0) {
 
-        alert("Digite um valor válido.");
+        alert(
+            "Digite um valor válido."
+        );
 
         return;
 
@@ -225,16 +338,83 @@ function registrarGasto() {
 
     if (!categoria) {
 
-        alert("Escolha uma categoria.");
+        alert(
+            "Escolha uma categoria."
+        );
 
         return;
 
     }
 
 
-    const gastosSalvos =
-        JSON.parse(localStorage.getItem("gastos")) || [];
+    /* =========================
+       DESCOBRE O ORÇAMENTO
+       DA CATEGORIA
+    ========================= */
 
+    const nomeCategoria =
+        categoria.charAt(0).toUpperCase() +
+        categoria.slice(1);
+
+
+    const orcamento =
+        Number(
+            localStorage.getItem(
+                "orcamento" + nomeCategoria
+            )
+        ) || 0;
+
+
+    /* =========================
+       CALCULA O QUE JÁ FOI GASTO
+    ========================= */
+
+    const gastosSalvos =
+        JSON.parse(
+            localStorage.getItem("gastos")
+        ) || [];
+
+
+    let totalGastoCategoria = 0;
+
+
+    gastosSalvos.forEach(function(gasto) {
+
+        if (gasto.categoria === categoria) {
+
+            totalGastoCategoria +=
+                Number(gasto.valor);
+
+        }
+
+    });
+
+
+    const disponivel =
+        orcamento - totalGastoCategoria;
+
+
+    /* =========================
+       VERIFICA SE TEM DINHEIRO
+    ========================= */
+
+    if (valor > disponivel) {
+
+        alert(
+            "Você não tem dinheiro suficiente " +
+            "nessa categoria.\n\n" +
+            "Disponível: " +
+            moeda(disponivel)
+        );
+
+        return;
+
+    }
+
+
+    /* =========================
+       CRIA O GASTO
+    ========================= */
 
     const novoGasto = {
 
@@ -244,7 +424,8 @@ function registrarGasto() {
 
         categoria: categoria,
 
-        data: new Date().toLocaleDateString("pt-BR")
+        data: new Date()
+            .toLocaleDateString("pt-BR")
 
     };
 
@@ -258,12 +439,16 @@ function registrarGasto() {
     );
 
 
-    alert("Gasto registrado com sucesso! 💚");
+    alert(
+        "Gasto registrado com sucesso! 💚"
+    );
 
 
-    window.location.href = "dashboard.html";
+    window.location.href =
+        "dashboard.html";
 
 }
+
 
 </script>
 

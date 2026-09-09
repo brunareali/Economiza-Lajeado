@@ -372,6 +372,89 @@ const categorias = {
 };
 
 
+/* Pega os gastos registrados */
+
+const gastos =
+    JSON.parse(localStorage.getItem("gastos")) || [];
+
+
+/* Soma quanto já foi gasto em cada categoria */
+
+const gastosPorCategoria = {
+
+    fixos: 0,
+
+    alimentacao: 0,
+
+    saude: 0,
+
+    higiene: 0,
+
+    lazer: 0,
+
+    transporte: 0,
+
+    educacao: 0,
+
+    investimentos: 0
+
+};
+
+
+gastos.forEach(function(gasto) {
+
+    if (gastosPorCategoria[gasto.categoria] !== undefined) {
+
+        gastosPorCategoria[gasto.categoria] +=
+            Number(gasto.valor);
+
+    }
+
+});
+
+
+/* Calcula quanto ainda existe em cada categoria */
+
+const disponivelPorCategoria = {
+
+    fixos:
+        categorias.fixos - gastosPorCategoria.fixos,
+
+    alimentacao:
+        categorias.alimentacao - gastosPorCategoria.alimentacao,
+
+    saude:
+        categorias.saude - gastosPorCategoria.saude,
+
+    higiene:
+        categorias.higiene - gastosPorCategoria.higiene,
+
+    lazer:
+        categorias.lazer - gastosPorCategoria.lazer,
+
+    transporte:
+        categorias.transporte - gastosPorCategoria.transporte,
+
+    educacao:
+        categorias.educacao - gastosPorCategoria.educacao,
+
+    investimentos:
+        categorias.investimentos - gastosPorCategoria.investimentos
+
+};
+
+
+/* Calcula o dinheiro total que ainda está disponível */
+
+let totalGasto = 0;
+
+gastos.forEach(function(gasto) {
+
+    totalGasto += Number(gasto.valor);
+
+});
+
+
 const totalDistribuido =
 
     categorias.fixos +
@@ -384,45 +467,44 @@ const totalDistribuido =
     categorias.investimentos;
 
 
-const disponivel = renda - totalDistribuido;
+const dinheiroDisponivel =
+    renda - totalDistribuido - totalGasto;
 
+
+/* Mostra o dinheiro disponível */
 
 document.getElementById("dinheiroDisponivel").textContent =
-    moeda(disponivel);
+    moeda(dinheiroDisponivel);
 
+
+/* Mostra cada categoria */
 
 document.getElementById("fixos").textContent =
-    moeda(categorias.fixos);
-
+    moeda(disponivelPorCategoria.fixos);
 
 document.getElementById("alimentacao").textContent =
-    moeda(categorias.alimentacao);
-
+    moeda(disponivelPorCategoria.alimentacao);
 
 document.getElementById("saude").textContent =
-    moeda(categorias.saude);
-
+    moeda(disponivelPorCategoria.saude);
 
 document.getElementById("higiene").textContent =
-    moeda(categorias.higiene);
-
+    moeda(disponivelPorCategoria.higiene);
 
 document.getElementById("lazer").textContent =
-    moeda(categorias.lazer);
-
+    moeda(disponivelPorCategoria.lazer);
 
 document.getElementById("transporte").textContent =
-    moeda(categorias.transporte);
-
+    moeda(disponivelPorCategoria.transporte);
 
 document.getElementById("educacao").textContent =
-    moeda(categorias.educacao);
-
+    moeda(disponivelPorCategoria.educacao);
 
 document.getElementById("investimentos").textContent =
-    moeda(categorias.investimentos);
+    moeda(disponivelPorCategoria.investimentos);
 
 </script>
+
 
 
 </body>

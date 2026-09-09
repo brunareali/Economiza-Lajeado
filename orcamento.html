@@ -50,7 +50,7 @@
             margin-bottom: 25px;
         }
 
-        .renda pequena {
+        .renda small {
             display: block;
             opacity: 0.8;
             margin-bottom: 8px;
@@ -103,6 +103,14 @@
             color: #287a4b;
         }
 
+        .disponivel {
+            margin-top: 10px;
+        }
+
+        .alerta {
+            color: #c0392b !important;
+        }
+
         button {
             width: 100%;
             padding: 16px;
@@ -144,7 +152,6 @@
 
         <h2 id="rendaExibida">R$ 0,00</h2>
 
-
     </div>
 
     <div class="card">
@@ -153,110 +160,218 @@
 
         <div class="categoria">
             <div class="icone">🏠</div>
-            <input type="number" placeholder="Gastos fixos">
+            <input
+                type="number"
+                id="fixos"
+                placeholder="Gastos fixos"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">🍎</div>
-            <input type="number" id="alimentacao" placeholder="Alimentação" oninput="calcularOrcamento()">
+            <input
+                type="number"
+                id="alimentacao"
+                placeholder="Alimentação"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">🏥</div>
-            <input type="number" placeholder="Saúde">
+            <input
+                type="number"
+                id="saude"
+                placeholder="Saúde"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">🧼</div>
-            <input type="number" placeholder="Higiene">
+            <input
+                type="number"
+                id="higiene"
+                placeholder="Higiene"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">🎮</div>
-            <input type="number" placeholder="Lazer">
+            <input
+                type="number"
+                id="lazer"
+                placeholder="Lazer"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">🚗</div>
-            <input type="number" placeholder="Transporte">
+            <input
+                type="number"
+                id="transporte"
+                placeholder="Transporte"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">📚</div>
-            <input type="number" placeholder="Educação">
+            <input
+                type="number"
+                id="educacao"
+                placeholder="Educação"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="categoria">
             <div class="icone">💰</div>
-            <input type="number" placeholder="Investimentos">
+            <input
+                type="number"
+                id="investimentos"
+                placeholder="Investimentos"
+                oninput="calcularOrcamento()"
+            >
         </div>
 
         <div class="total">
 
-          Total distribuído:
-<strong id="totalDistribuido">R$ 0,00</strong>
-<div class="total">
+            <div>
+                Total distribuído:
+                <strong id="totalDistribuido">R$ 0,00</strong>
+            </div>
 
-    Ainda disponível:
-    <strong id="valorDisponivel">R$ 0,00</strong>
-
-</div>
-
+            <div class="disponivel">
+                Ainda disponível:
+                <strong id="valorDisponivel">R$ 0,00</strong>
+            </div>
 
         </div>
 
     </div>
 
-    <button>
+    <button onclick="criarOrcamento()">
         Criar meu orçamento →
     </button>
 
 </div>
+
+
 <script>
 
-const renda = localStorage.getItem("rendaMensal");
+function formatarMoeda(valor) {
 
-if (renda) {
-
-    const valor = Number(renda);
-
-    document.getElementById("rendaExibida").textContent =
-        valor.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
+    return valor.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
 
 }
 
-<script>
+
+function pegarValor(id) {
+
+    return Number(document.getElementById(id).value) || 0;
+
+}
+
 
 function calcularOrcamento() {
 
-    const renda = Number(localStorage.getItem("rendaMensal")) || 0;
+    const renda =
+        Number(localStorage.getItem("rendaMensal")) || 0;
 
-    const alimentacao =
-        Number(document.getElementById("alimentacao").value) || 0;
+    const fixos = pegarValor("fixos");
 
-    const total = alimentacao;
+    const alimentacao = pegarValor("alimentacao");
+
+    const saude = pegarValor("saude");
+
+    const higiene = pegarValor("higiene");
+
+    const lazer = pegarValor("lazer");
+
+    const transporte = pegarValor("transporte");
+
+    const educacao = pegarValor("educacao");
+
+    const investimentos = pegarValor("investimentos");
+
+
+    const total =
+        fixos +
+        alimentacao +
+        saude +
+        higiene +
+        lazer +
+        transporte +
+        educacao +
+        investimentos;
+
 
     const disponivel = renda - total;
 
+
     document.getElementById("totalDistribuido").textContent =
-        total.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
+        formatarMoeda(total);
+
 
     document.getElementById("valorDisponivel").textContent =
-        disponivel.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
+        formatarMoeda(disponivel);
+
+
+    if (disponivel < 0) {
+
+        document.getElementById("valorDisponivel").classList.add("alerta");
+
+    } else {
+
+        document.getElementById("valorDisponivel").classList.remove("alerta");
+
+    }
+
+}
+
+
+function criarOrcamento() {
+
+    const renda =
+        Number(localStorage.getItem("rendaMensal")) || 0;
+
+    const total =
+        pegarValor("fixos") +
+        pegarValor("alimentacao") +
+        pegarValor("saude") +
+        pegarValor("higiene") +
+        pegarValor("lazer") +
+        pegarValor("transporte") +
+        pegarValor("educacao") +
+        pegarValor("investimentos");
+
+
+    if (total > renda) {
+
+        alert(
+            "Você está tentando distribuir mais dinheiro do que sua renda mensal."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Orçamento criado com sucesso! 💚"
+    );
+
 }
 
 </script>
 
 </body>
+
 </html>
-
-

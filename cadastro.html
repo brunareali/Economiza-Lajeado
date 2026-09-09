@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta - Meu Dinheiro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 430px;
+            padding: 35px 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+        }
+
+        .voltar {
+            color: #287a4b;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            color: #718078;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8ded9;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <a href="index.html" class="voltar">← Voltar</a>
+
+        <h1>Criar minha conta 💚</h1>
+
+        <p class="subtitulo">
+            Primeiro vamos conhecer você e entender
+            como organizar seu dinheiro.
+        </p>
+
+        <form>
+
+            <label>Seu nome</label>
+            <input type="text" placeholder="Ex: Bruna" required>
+
+            <label>Seu e-mail</label>
+            <input type="email" placeholder="Ex: seuemail@email.com" required>
+
+            <label>Crie uma senha</label>
+            <input type="password" placeholder="Digite sua senha" required>
+
+            <label>Quanto você ganha por mês?</label>
+            <input type="number" placeholder="Ex: 15000" required>
+
+            <button type="submit">
+                Continuar →
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

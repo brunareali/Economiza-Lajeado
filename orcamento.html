@@ -193,8 +193,15 @@
 
         <div class="total">
 
-            Total distribuído:
-            <strong>R$ 0,00</strong>
+          Total distribuído:
+<strong id="totalDistribuido">R$ 0,00</strong>
+<div class="total">
+
+    Ainda disponível:
+    <strong id="valorDisponivel">R$ 0,00</strong>
+
+</div>
+
 
         </div>
 
@@ -221,8 +228,35 @@ if (renda) {
 
 }
 
+<script>
+
+function calcularOrcamento() {
+
+    const renda = Number(localStorage.getItem("rendaMensal")) || 0;
+
+    const alimentacao =
+        Number(document.getElementById("alimentacao").value) || 0;
+
+    const total = alimentacao;
+
+    const disponivel = renda - total;
+
+    document.getElementById("totalDistribuido").textContent =
+        total.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+    document.getElementById("valorDisponivel").textContent =
+        disponivel.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+}
+
 </script>
 
 </body>
-
 </html>
+
+

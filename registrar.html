@@ -1,458 +1,191 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrar gasto - Meu Dinheiro</title>
 
-<head>
+<style>
 
-    <meta charset="UTF-8">
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    body {
+        background: #f5f7f5;
+        color: #26352b;
+        min-height: 100vh;
+        padding: 20px;
+    }
 
-    <title>Registrar gasto - Meu Dinheiro</title>
+    .container {
+        max-width: 500px;
+        margin: 40px auto;
+    }
 
-    <style>
+    .voltar {
+        display: inline-block;
+        color: #287a4b;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 22px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
 
-        body {
-            background: #f5f7f5;
-            color: #26352b;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    h1 {
+        color: #287a4b;
+        margin-bottom: 8px;
+    }
 
-        .container {
-            max-width: 500px;
-            margin: 40px auto;
-        }
+    .subtitulo {
+        color: #718078;
+        line-height: 1.5;
+        margin-bottom: 25px;
+    }
 
-        .voltar {
-            display: inline-block;
-            color: #287a4b;
-            text-decoration: none;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 22px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-        }
+    input,
+    select {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d8ded9;
+        border-radius: 12px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        background: white;
+    }
 
-        h1 {
-            color: #287a4b;
-            margin-bottom: 8px;
-        }
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        background: #287a4b;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        .subtitulo {
-            color: #718078;
-            line-height: 1.5;
-            margin-bottom: 25px;
-        }
+    button:hover {
+        background: #1f633c;
+    }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 7px;
-        }
+    .disponivel {
+        background: #f0f5f1;
+        padding: 14px;
+        border-radius: 12px;
+        margin-top: -5px;
+        margin-bottom: 20px;
+        color: #287a4b;
+        font-weight: bold;
+    }
 
-        input,
-        select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #d8ded9;
-            border-radius: 12px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            background: white;
-        }
+</style>
 
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            background: #287a4b;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+</head> <body> <div class="container">
+<a href="dashboard.html" class="voltar">
+    ← Voltar para o resumo
+</a>
 
-        button:hover {
-            background: #1f633c;
-        }
+<div class="card">
 
-        .disponivel {
-            background: #f0f5f1;
-            padding: 14px;
-            border-radius: 12px;
-            margin-top: -5px;
-            margin-bottom: 20px;
-            color: #287a4b;
-            font-weight: bold;
-        }
+    <h1>Registrar gasto 💸</h1>
 
-    </style>
+    <p class="subtitulo">
+        Anote uma compra para acompanhar
+        quanto você já gastou em cada área.
+    </p>
 
-</head>
+    <label for="descricao">
+        O que você comprou?
+    </label>
 
+    <input
+        id="descricao"
+        type="text"
+        placeholder="Ex: Sabonete"
+    >
 
-<body>
+    <label for="valor">
+        Quanto custou?
+    </label>
 
-<div class="container">
+    <input
+        id="valor"
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="Ex: 15"
+    >
 
-    <a href="dashboard.html" class="voltar">
-        ← Voltar para o resumo
-    </a>
+    <label for="categoria">
+        Qual categoria?
+    </label>
 
+    <select id="categoria" onchange="mostrarDisponivel()">
 
-    <div class="card">
+        <option value="">
+            Escolha uma categoria
+        </option>
 
-        <h1>Registrar gasto 💸</h1>
+        <option value="fixos">
+            🏠 Gastos fixos
+        </option>
 
-        <p class="subtitulo">
-            Anote uma compra para acompanhar
-            quanto você já gastou em cada área.
-        </p>
+        <option value="alimentacao">
+            🍎 Alimentação
+        </option>
 
+        <option value="saude">
+            🏥 Saúde
+        </option>
 
-        <label for="descricao">
-            O que você comprou?
-        </label>
+        <option value="higiene">
+            🧼 Higiene
+        </option>
 
-        <input
-            id="descricao"
-            type="text"
-            placeholder="Ex: Sabonete"
-        >
+        <option value="lazer">
+            🎮 Lazer
+        </option>
 
+        <option value="transporte">
+            🚗 Transporte
+        </option>
 
-        <label for="valor">
-            Quanto custou?
-        </label>
+        <option value="educacao">
+            📚 Educação
+        </option>
 
-        <input
-            id="valor"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="Ex: 15"
-        >
+        <option value="investimentos">
+            💰 Investimentos
+        </option>
 
+    </select>
 
-        <label for="categoria">
-            Qual categoria?
-        </label>
-
-        <select id="categoria" onchange="mostrarDisponivel()">
-
-            <option value="">
-                Escolha uma categoria
-            </option>
-
-            <option value="fixos">
-                🏠 Gastos fixos
-            </option>
-
-            <option value="alimentacao">
-                🍎 Alimentação
-            </option>
-
-            <option value="saude">
-                🏥 Saúde
-            </option>
-
-            <option value="higiene">
-                🧼 Higiene
-            </option>
-
-            <option value="lazer">
-                🎮 Lazer
-            </option>
-
-            <option value="transporte">
-                🚗 Transporte
-            </option>
-
-            <option value="educacao">
-                📚 Educação
-            </option>
-
-            <option value="investimentos">
-                💰 Investimentos
-            </option>
-
-        </select>
-
-
-        <div
-            id="disponivel"
-            class="disponivel"
-            style="display: none;"
-        >
-            Disponível nesta categoria:
-            R$ 0,00
-        </div>
-
-
-        <button onclick="registrarGasto()">
-            Registrar gasto →
-        </button>
-
+    <div
+        id="disponivel"
+        class="disponivel"
+        style="display: none;"
+    >
+        Disponível nesta categoria:
+        R$ 0,00
     </div>
+
+    <button onclick="registrarGasto()">
+        Registrar gasto →
+    </button>
 
 </div>
 
-
-<script>
-
-
-function moeda(valor) {
-
-    return Number(valor).toLocaleString("pt-BR", {
-
-        style: "currency",
-
-        currency: "BRL"
-
-    });
-
-}
-
-
-/* =========================
-   MOSTRAR DISPONÍVEL
-========================= */
-
-function mostrarDisponivel() {
-
-    const categoria =
-        document.getElementById("categoria").value;
-
-
-    const elemento =
-        document.getElementById("disponivel");
-
-
-    if (!categoria) {
-
-        elemento.style.display = "none";
-
-        return;
-
-    }
-
-
-    const orcamento =
-        Number(
-            localStorage.getItem(
-                "orcamento" +
-                categoria.charAt(0).toUpperCase() +
-                categoria.slice(1)
-            )
-        ) || 0;
-
-
-    const gastos =
-        JSON.parse(
-            localStorage.getItem("gastos")
-        ) || [];
-
-
-    let totalGasto = 0;
-
-
-    gastos.forEach(function(gasto) {
-
-        if (gasto.categoria === categoria) {
-
-            totalGasto += Number(gasto.valor);
-
-        }
-
-    });
-
-
-    const disponivel =
-        orcamento - totalGasto;
-
-
-    elemento.textContent =
-        "Disponível nesta categoria: " +
-        moeda(disponivel);
-
-
-    elemento.style.display = "block";
-
-}
-
-
-/* =========================
-   REGISTRAR GASTO
-========================= */
-
-function registrarGasto() {
-
-    const descricao =
-        document.getElementById("descricao").value.trim();
-
-
-    const valor =
-        Number(
-            document.getElementById("valor").value
-        );
-
-
-    const categoria =
-        document.getElementById("categoria").value;
-
-
-    if (!descricao) {
-
-        alert(
-            "Digite o que você comprou."
-        );
-
-        return;
-
-    }
-
-
-    if (!valor || valor <= 0) {
-
-        alert(
-            "Digite um valor válido."
-        );
-
-        return;
-
-    }
-
-
-    if (!categoria) {
-
-        alert(
-            "Escolha uma categoria."
-        );
-
-        return;
-
-    }
-
-
-    /* =========================
-       DESCOBRE O ORÇAMENTO
-       DA CATEGORIA
-    ========================= */
-
-    const nomeCategoria =
-        categoria.charAt(0).toUpperCase() +
-        categoria.slice(1);
-
-
-    const orcamento =
-        Number(
-            localStorage.getItem(
-                "orcamento" + nomeCategoria
-            )
-        ) || 0;
-
-
-    /* =========================
-       CALCULA O QUE JÁ FOI GASTO
-    ========================= */
-
-    const gastosSalvos =
-        JSON.parse(
-            localStorage.getItem("gastos")
-        ) || [];
-
-
-    let totalGastoCategoria = 0;
-
-
-    gastosSalvos.forEach(function(gasto) {
-
-        if (gasto.categoria === categoria) {
-
-            totalGastoCategoria +=
-                Number(gasto.valor);
-
-        }
-
-    });
-
-
-    const disponivel =
-        orcamento - totalGastoCategoria;
-
-
-    /* =========================
-       VERIFICA SE TEM DINHEIRO
-    ========================= */
-
-    if (valor > disponivel) {
-
-        alert(
-            "Você não tem dinheiro suficiente " +
-            "nessa categoria.\n\n" +
-            "Disponível: " +
-            moeda(disponivel)
-        );
-
-        return;
-
-    }
-
-
-    /* =========================
-       CRIA O GASTO
-    ========================= */
-
-    const novoGasto = {
-
-        descricao: descricao,
-
-        valor: valor,
-
-        categoria: categoria,
-
-        data: new Date()
-            .toLocaleDateString("pt-BR")
-
-    };
-
-
-    gastosSalvos.push(novoGasto);
-
-
-    localStorage.setItem(
-        "gastos",
-        JSON.stringify(gastosSalvos)
-    );
-
-
-    alert(
-        "Gasto registrado com sucesso! 💚"
-    );
-
-
-    window.location.href =
-        "dashboard.html";
-
-}
-
-
-</script>
-
-
-</body>
-
-</html>
+</div> <script> function moeda(valor) { return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); } /* ========================= IDENTIFICA O MÊS ATUAL ========================= */ function mesAtual() { const agora = new Date(); return agora.getFullYear() + "-" + String(agora.getMonth() + 1).padStart(2, "0"); } /* ========================= PEGA O ORÇAMENTO ========================= */ function pegarOrcamento(categoria) { const nomeCategoria = categoria.charAt(0).toUpperCase() + categoria.slice(1); return Number( localStorage.getItem( "orcamento" + nomeCategoria ) ) || 0; } /* ========================= MOSTRAR DISPONÍVEL ========================= */ function mostrarDisponivel() { const categoria = document.getElementById("categoria").value; const elemento = document.getElementById("disponivel"); if (!categoria) { elemento.style.display = "none"; return; } const orcamento = pegarOrcamento(categoria); const gastos = JSON.parse( localStorage.getItem("gastos") ) || []; let totalGasto = 0; gastos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { totalGasto += Number(gasto.valor); } }); const disponivel = orcamento - totalGasto; elemento.textContent = "Disponível nesta categoria: " + moeda(disponivel); elemento.style.display = "block"; } /* ========================= REGISTRAR GASTO ========================= */ function registrarGasto() { const descricao = document.getElementById("descricao").value.trim(); const valor = Number( document.getElementById("valor").value ); const categoria = document.getElementById("categoria").value; if (!descricao) { alert("Digite o que você comprou."); return; } if (!valor || valor <= 0) { alert("Digite um valor válido."); return; } if (!categoria) { alert("Escolha uma categoria."); return; } const orcamento = pegarOrcamento(categoria); const gastosSalvos = JSON.parse( localStorage.getItem("gastos") ) || []; let totalGastoCategoria = 0; gastosSalvos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { totalGastoCategoria += Number(gasto.valor); } }); const disponivel = orcamento - totalGastoCategoria; if (valor > disponivel) { alert( "Você não tem dinheiro suficiente nessa categoria.\n\n" + "Disponível: " + moeda(disponivel) ); return; } /* ========================= SALVA O GASTO COM O MÊS ========================= */ const novoGasto = { descricao: descricao, valor: valor, categoria: categoria, data: new Date() .toLocaleDateString("pt-BR"), mes: mesAtual() }; gastosSalvos.push(novoGasto); localStorage.setItem( "gastos", JSON.stringify(gastosSalvos) ); alert( "Gasto registrado com sucesso! 💚" ); window.location.href = "dashboard.html"; } </script> </body> </html>

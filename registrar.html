@@ -2,286 +2,285 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Registrar gasto - Meu Dinheiro</title>
+<title>Registrar gasto - Meu Dinheiro</title>
 
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-        body {
-            background: #f5f7f5;
-            color: #26352b;
-            min-height: 100vh;
-            padding: 20px;
-        }
+body {
+    background: #f5f7f5;
+    color: #26352b;
+    min-height: 100vh;
+    padding: 20px;
+}
 
-        .container {
-            max-width: 500px;
-            margin: 30px auto;
-        }
+.container {
+    max-width: 500px;
+    margin: 30px auto;
+}
 
-        .voltar {
-            display: inline-block;
-            color: #287a4b;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+.voltar {
+    display: inline-block;
+    color: #287a4b;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 22px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.07);
-        }
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+}
 
-        h1 {
-            color: #287a4b;
-            margin-bottom: 8px;
-        }
+h1 {
+    color: #287a4b;
+    margin-bottom: 8px;
+}
 
-        .subtitulo {
-            color: #718078;
-            line-height: 1.5;
-            margin-bottom: 25px;
-        }
+.subtitulo {
+    color: #718078;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #d8ded9;
-            border-radius: 12px;
-            font-size: 16px;
-            margin-bottom: 18px;
-            background: white;
-        }
+input,
+select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d8ded9;
+    border-radius: 12px;
+    font-size: 16px;
+    margin-bottom: 18px;
+    background: white;
+}
 
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #287a4b;
-            box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
-        }
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #287a4b;
+    box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
+}
 
-        .orcamento {
-            background: #f0f5f1;
-            color: #287a4b;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            display: none;
-        }
+.orcamento {
+    background: #f0f5f1;
+    color: #287a4b;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    display: none;
+}
 
-        .orcamento.excedido {
-            background: #fff0ee;
-            color: #c0392b;
-        }
+.orcamento.excedido {
+    background: #fff0ee;
+    color: #c0392b;
+}
 
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            background: #287a4b;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.orcamento.atencao {
+    background: #fff8df;
+    color: #856404;
+}
 
-        button:hover {
-            background: #1f633c;
-        }
+.orcamento strong {
+    font-weight: bold;
+}
 
-        .cancelar {
-            margin-top: 10px;
-            background: white;
-            color: #287a4b;
-            border: 1px solid #287a4b;
-        }
+button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: #287a4b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .cancelar:hover {
-            background: #eef5f0;
-        }
+button:hover {
+    background: #1f633c;
+}
 
-    </style>
+.cancelar {
+    margin-top: 10px;
+    background: white;
+    color: #287a4b;
+    border: 1px solid #287a4b;
+}
+
+.cancelar:hover {
+    background: #eef5f0;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <a href="dashboard.html" class="voltar">
-        ← Voltar para o resumo
-    </a>
+<a href="dashboard.html" class="voltar">
+← Voltar para o resumo
+</a>
 
-    <div class="card">
+<div class="card">
 
-        <h1>
-            Registrar gasto 💸
-        </h1>
+<h1>
+Registrar gasto 💸
+</h1>
 
-        <p class="subtitulo">
-            Registre seu gasto para acompanhar
-            quanto você já utilizou em cada categoria.
-        </p>
+<p class="subtitulo">
+Registre seu gasto para acompanhar
+quanto você já utilizou em cada categoria.
+</p>
 
-        <form onsubmit="registrarGasto(event)">
+<form onsubmit="registrarGasto(event)">
 
-            <label for="descricao">
-                O que você comprou?
-            </label>
+<label for="descricao">
+O que você comprou?
+</label>
 
-            <input
-                id="descricao"
-                type="text"
-                placeholder="Ex: Mercado"
-                required
-            >
+<input
+id="descricao"
+type="text"
+placeholder="Ex: Mercado"
+required
+>
 
-            <label for="valor">
-                Quanto você gastou?
-            </label>
+<label for="valor">
+Quanto você gastou?
+</label>
 
-            <input
-                id="valor"
-                type="number"
-                min="0.01"
-                step="0.01"
-                placeholder="Ex: 50,00"
-                required
-            >
+<input
+id="valor"
+type="number"
+min="0.01"
+step="0.01"
+placeholder="Ex: 50,00"
+required
+oninput="mostrarOrcamento()"
+>
 
-            <label for="categoria">
-                Categoria
-            </label>
+<label for="categoria">
+Categoria
+</label>
 
-            <select
-                id="categoria"
-                required
-                onchange="mostrarOrcamento()"
-            >
+<select
+id="categoria"
+required
+onchange="mostrarOrcamento()"
+>
 
-                <option value="">
-                    Escolha uma categoria
-                </option>
+<option value="">
+Escolha uma categoria
+</option>
 
-                <option value="fixos">
-                    🏠 Gastos fixos
-                </option>
+<option value="fixos">
+🏠 Gastos fixos
+</option>
 
-                <option value="alimentacao">
-                    🍎 Alimentação
-                </option>
+<option value="alimentacao">
+🍎 Alimentação
+</option>
 
-                <option value="saude">
-                    🏥 Saúde
-                </option>
+<option value="saude">
+🏥 Saúde
+</option>
 
-                <option value="higiene">
-                    🧼 Higiene
-                </option>
+<option value="higiene">
+🧼 Higiene
+</option>
 
-                <option value="lazer">
-                    🎮 Lazer
-                </option>
+<option value="lazer">
+🎮 Lazer
+</option>
 
-                <option value="transporte">
-                    🚗 Transporte
-                </option>
+<option value="transporte">
+🚗 Transporte
+</option>
 
-                <option value="educacao">
-                    📚 Educação
-                </option>
+<option value="educacao">
+📚 Educação
+</option>
 
-                <option value="investimentos">
-                    💰 Investimentos
-                </option>
+<option value="investimentos">
+💰 Investimentos
+</option>
 
-            </select>
+</select>
 
-            <div
-                id="informacaoOrcamento"
-                class="orcamento"
-            ></div>
+<div
+id="informacaoOrcamento"
+class="orcamento"
+></div>
 
-            <label for="data">
-                Data do gasto
-            </label>
+<label for="data">
+Data do gasto
+</label>
 
-            <input
-                id="data"
-                type="date"
-                required
-            >
+<input
+id="data"
+type="date"
+required
+>
 
-            <button type="submit">
-                💾 Salvar gasto
-            </button>
+<button type="submit">
+💾 Salvar gasto
+</button>
 
-        </form>
+</form>
 
-        <button
-            class="cancelar"
-            onclick="window.location.href='dashboard.html'"
-        >
-            Cancelar
-        </button>
+<button
+class="cancelar"
+onclick="window.location.href='dashboard.html'"
+>
+Cancelar
+</button>
 
-    </div>
+</div>
 
 </div>
 
 <script>
 
-/* =========================
-   DATA DE HOJE
-========================= */
-
 function colocarDataAtual() {
 
-    const hoje =
-        new Date();
+    const hoje = new Date();
 
-    const ano =
-        hoje.getFullYear();
+    const ano = hoje.getFullYear();
 
-    const mes =
-        String(
-            hoje.getMonth() + 1
-        ).padStart(2, "0");
+    const mes = String(
+        hoje.getMonth() + 1
+    ).padStart(2, "0");
 
-    const dia =
-        String(
-            hoje.getDate()
-        ).padStart(2, "0");
+    const dia = String(
+        hoje.getDate()
+    ).padStart(2, "0");
 
     document.getElementById("data").value =
         ano + "-" + mes + "-" + dia;
 
 }
 
-
-/* =========================
-   MOEDA
-========================= */
 
 function moeda(valor) {
 
@@ -296,14 +295,9 @@ function moeda(valor) {
 }
 
 
-/* =========================
-   PERÍODO
-========================= */
-
 function obterMesAtual() {
 
-    const hoje =
-        new Date();
+    const hoje = new Date();
 
     return (
         hoje.getFullYear() +
@@ -324,9 +318,7 @@ function obterPeriodo() {
         );
 
     if (salvo) {
-
         return salvo;
-
     }
 
     const periodo =
@@ -342,19 +334,13 @@ function obterPeriodo() {
 }
 
 
-/* =========================
-   PEGAR GASTOS
-========================= */
-
 function pegarGastos() {
 
     const salvo =
         localStorage.getItem("gastos");
 
     if (!salvo) {
-
         return [];
-
     }
 
     try {
@@ -375,47 +361,105 @@ function pegarGastos() {
 }
 
 
-/* =========================
-   PEGAR ORÇAMENTO
-========================= */
-
 function pegarOrcamento() {
+
+    const planejamentoSalvo =
+        localStorage.getItem(
+            "planejamentoFinanceiro"
+        );
+
+    if (planejamentoSalvo) {
+
+        try {
+
+            const planejamento =
+                JSON.parse(
+                    planejamentoSalvo
+                );
+
+            if (
+                planejamento &&
+                planejamento.categorias
+            ) {
+
+                return planejamento.categorias;
+
+            }
+
+        } catch {
+
+            console.log(
+                "Planejamento inválido."
+            );
+
+        }
+
+    }
 
     const salvo =
         localStorage.getItem(
             "orcamento"
         );
 
-    if (!salvo) {
+    if (salvo) {
 
-        return {};
+        try {
+
+            const orcamento =
+                JSON.parse(salvo);
+
+            if (
+                orcamento &&
+                typeof orcamento === "object"
+            ) {
+
+                return orcamento;
+
+            }
+
+        } catch {
+
+            console.log(
+                "Orçamento inválido."
+            );
+
+        }
 
     }
 
-    try {
-
-        const orcamento =
-            JSON.parse(salvo);
-
-        return (
-            orcamento &&
-            typeof orcamento === "object"
-        )
-            ? orcamento
-            : {};
-
-    } catch {
-
-        return {};
-
-    }
+    return {};
 
 }
 
 
-/* =========================
-   MOSTRAR ORÇAMENTO
-========================= */
+function calcularUtilizado(categoria) {
+
+    const gastos =
+        pegarGastos();
+
+    const periodo =
+        obterPeriodo();
+
+    let utilizado = 0;
+
+    gastos.forEach(function(gasto) {
+
+        if (
+            gasto.categoria === categoria &&
+            gasto.mes === periodo
+        ) {
+
+            utilizado +=
+                Number(gasto.valor) || 0;
+
+        }
+
+    });
+
+    return utilizado;
+
+}
+
 
 function mostrarOrcamento() {
 
@@ -424,6 +468,13 @@ function mostrarOrcamento() {
             "categoria"
         ).value;
 
+    const valor =
+        Number(
+            document.getElementById(
+                "valor"
+            ).value
+        ) || 0;
+
     const caixa =
         document.getElementById(
             "informacaoOrcamento"
@@ -431,8 +482,7 @@ function mostrarOrcamento() {
 
     if (!categoria) {
 
-        caixa.style.display =
-            "none";
+        caixa.style.display = "none";
 
         return;
 
@@ -446,84 +496,167 @@ function mostrarOrcamento() {
             orcamento[categoria]
         ) || 0;
 
-    const gastos =
-        pegarGastos();
-
-    const periodo =
-        obterPeriodo();
-
-    let utilizado = 0;
-
-    gastos.forEach(
-        function(gasto) {
-
-            if (
-                gasto.categoria === categoria &&
-                gasto.mes === periodo
-            ) {
-
-                utilizado +=
-                    Number(gasto.valor) || 0;
-
-            }
-
-        }
-    );
+    const utilizado =
+        calcularUtilizado(
+            categoria
+        );
 
     const disponivel =
         limite - utilizado;
 
-    caixa.style.display =
-        "block";
+    const restanteDepois =
+        limite -
+        (utilizado + valor);
 
-    caixa.classList.remove(
-        "excedido"
-    );
+    caixa.style.display = "block";
+
+    caixa.className = "orcamento";
+
 
     if (limite <= 0) {
 
-        caixa.textContent =
-            "⚠️ Você ainda não definiu um orçamento para esta categoria. " +
-            "Você pode definir um em Editar orçamento.";
+        caixa.innerHTML =
+            "⚠️ Você ainda não definiu um orçamento " +
+            "para esta categoria.<br><br>" +
+
+            "Você pode definir um valor em " +
+            "<strong>Editar orçamento</strong>.";
 
         return;
 
     }
 
-    caixa.textContent =
-        "Orçamento: " +
-        moeda(limite) +
-        " | Já utilizado: " +
-        moeda(utilizado) +
-        " | Disponível: " +
-        moeda(disponivel);
 
-    if (disponivel < 0) {
+    if (valor <= 0) {
+
+        caixa.innerHTML =
+            "💰 <strong>Orçamento:</strong> " +
+            moeda(limite) +
+
+            "<br>" +
+
+            "📊 <strong>Já utilizado:</strong> " +
+            moeda(utilizado) +
+
+            "<br>" +
+
+            "💚 <strong>Disponível:</strong> " +
+            moeda(disponivel);
+
+        return;
+
+    }
+
+
+    if (restanteDepois < 0) {
 
         caixa.classList.add(
             "excedido"
         );
 
+        caixa.innerHTML =
+            "⚠️ <strong>Atenção!</strong> " +
+            "Este gasto ultrapassará seu orçamento." +
+
+            "<br><br>" +
+
+            "💰 Orçamento: " +
+            moeda(limite) +
+
+            "<br>" +
+
+            "📊 Já utilizado: " +
+            moeda(utilizado) +
+
+            "<br>" +
+
+            "🛒 Novo gasto: " +
+            moeda(valor) +
+
+            "<br>" +
+
+            "🔴 Ultrapassará em: " +
+            moeda(
+                Math.abs(restanteDepois)
+            );
+
+        return;
+
     }
+
+
+    if (
+        restanteDepois <=
+        limite * 0.2
+    ) {
+
+        caixa.classList.add(
+            "atencao"
+        );
+
+        caixa.innerHTML =
+            "⚠️ <strong>Quase no limite!</strong>" +
+
+            "<br><br>" +
+
+            "💰 Orçamento: " +
+            moeda(limite) +
+
+            "<br>" +
+
+            "📊 Já utilizado: " +
+            moeda(utilizado) +
+
+            "<br>" +
+
+            "🛒 Novo gasto: " +
+            moeda(valor) +
+
+            "<br>" +
+
+            "🟡 Restará: " +
+            moeda(restanteDepois);
+
+        return;
+
+    }
+
+
+    caixa.innerHTML =
+        "✅ <strong>Tudo certo!</strong>" +
+
+        "<br><br>" +
+
+        "💰 Orçamento: " +
+        moeda(limite) +
+
+        "<br>" +
+
+        "📊 Já utilizado: " +
+        moeda(utilizado) +
+
+        "<br>" +
+
+        "🛒 Novo gasto: " +
+        moeda(valor) +
+
+        "<br>" +
+
+        "💚 Restará: " +
+        moeda(restanteDepois);
 
 }
 
 
-/* =========================
-   REGISTRAR GASTO
-========================= */
-
 function registrarGasto(event) {
 
     event.preventDefault();
-
 
     const descricao =
         document
             .getElementById("descricao")
             .value
             .trim();
-
 
     const valor =
         Number(
@@ -532,22 +665,16 @@ function registrarGasto(event) {
                 .value
         );
 
-
     const categoria =
         document
             .getElementById("categoria")
             .value;
-
 
     const data =
         document
             .getElementById("data")
             .value;
 
-
-    /* =========================
-       VALIDAR
-    ========================= */
 
     if (!descricao) {
 
@@ -596,77 +723,54 @@ function registrarGasto(event) {
     }
 
 
-    /* =========================
-       PERÍODO
-    ========================= */
-
     const periodo =
         obterPeriodo();
 
-
-    /* =========================
-       ORÇAMENTO
-    ========================= */
-
     const orcamento =
         pegarOrcamento();
-
 
     const limite =
         Number(
             orcamento[categoria]
         ) || 0;
 
-
-    /*
-        Soma o que já foi gasto
-        na categoria neste período.
-    */
-
     const gastos =
         pegarGastos();
 
+    let utilizado = 0;
 
-    let utilizado =
-        0;
+    gastos.forEach(function(gasto) {
 
+        if (
+            gasto.categoria === categoria &&
+            gasto.mes === periodo
+        ) {
 
-    gastos.forEach(
-        function(gasto) {
-
-            if (
-                gasto.categoria === categoria &&
-                gasto.mes === periodo
-            ) {
-
-                utilizado +=
-                    Number(gasto.valor) || 0;
-
-            }
+            utilizado +=
+                Number(gasto.valor) || 0;
 
         }
-    );
 
+    });
 
-    /*
-        Se existe orçamento definido,
-        verifica se o novo gasto
-        ultrapassa o limite.
-    */
 
     if (
         limite > 0 &&
         utilizado + valor > limite
     ) {
 
-        const restante =
-            limite - utilizado;
-
+        const excesso =
+            utilizado +
+            valor -
+            limite;
 
         const continuar =
             confirm(
 
-                "⚠️ Esse gasto ultrapassa o orçamento da categoria.\n\n" +
+                "⚠️ ATENÇÃO!\n\n" +
+
+                "Este gasto vai ultrapassar " +
+                "o orçamento desta categoria.\n\n" +
 
                 "Orçamento: " +
                 moeda(limite) +
@@ -677,26 +781,19 @@ function registrarGasto(event) {
                 "\nNovo gasto: " +
                 moeda(valor) +
 
-                "\nDisponível antes do gasto: " +
-                moeda(Math.max(restante, 0)) +
+                "\n\nUltrapassará em: " +
+                moeda(excesso) +
 
                 "\n\nDeseja registrar mesmo assim?"
 
             );
 
-
         if (!continuar) {
-
             return;
-
         }
 
     }
 
-
-    /* =========================
-       CRIAR GASTO
-    ========================= */
 
     const gasto = {
 
@@ -727,14 +824,7 @@ function registrarGasto(event) {
     };
 
 
-    /* =========================
-       SALVAR
-    ========================= */
-
-    gastos.push(
-        gasto
-    );
-
+    gastos.push(gasto);
 
     localStorage.setItem(
         "gastos",
@@ -747,19 +837,11 @@ function registrarGasto(event) {
     );
 
 
-    /*
-        Volta para o Dashboard.
-    */
-
     window.location.href =
         "dashboard.html";
 
 }
 
-
-/* =========================
-   INICIAR
-========================= */
 
 colocarDataAtual();
 

@@ -109,6 +109,92 @@
             color: #c0392b;
         }
 
+        /* =========================
+           SAÚDE FINANCEIRA
+        ========================= */
+
+        .saude-financeira {
+            margin-bottom: 20px;
+        }
+
+        .saude-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .saude-header h2 {
+            font-size: 21px;
+            color: #26352b;
+        }
+
+        .percentual {
+            font-size: 18px;
+            font-weight: bold;
+            color: #287a4b;
+        }
+
+        .barra-saude {
+            width: 100%;
+            height: 16px;
+            background: #e7ece8;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .barra-saude-preenchida {
+            height: 100%;
+            width: 0%;
+            background: #287a4b;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .barra-saude-preenchida.atencao {
+            background: #e6a700;
+        }
+
+        .barra-saude-preenchida.perigo {
+            background: #c0392b;
+        }
+
+        .saude-texto {
+            color: #718078;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .saude-texto strong {
+            color: #26352b;
+        }
+
+        .saude-alerta {
+            margin-top: 15px;
+            padding: 13px;
+            border-radius: 12px;
+            background: #e9f5ed;
+            color: #287a4b;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .saude-alerta.atencao {
+            background: #fff7df;
+            color: #856404;
+        }
+
+        .saude-alerta.perigo {
+            background: #fff0ee;
+            color: #c0392b;
+        }
+
+        /* =========================
+           GASTOS
+        ========================= */
+
         .gastos-card {
             margin-bottom: 20px;
         }
@@ -170,6 +256,10 @@
             background: #c0392b;
         }
 
+        /* =========================
+           BOTÕES
+        ========================= */
+
         .botoes {
             display: grid;
             gap: 12px;
@@ -213,6 +303,10 @@
             font-size: 14px;
             line-height: 1.5;
         }
+
+        /* =========================
+           MODAL
+        ========================= */
 
         .modal {
             display: none;
@@ -288,6 +382,10 @@
 
             .categoria-valor {
                 text-align: left;
+            }
+
+            .saude-header {
+                align-items: flex-start;
             }
 
         }
@@ -387,6 +485,54 @@
                 -
             </h2>
 
+        </div>
+
+    </div>
+
+
+    <!-- SAÚDE FINANCEIRA -->
+
+    <div class="card saude-financeira">
+
+        <div class="saude-header">
+
+            <h2>
+                📊 Saúde financeira
+            </h2>
+
+            <span
+                class="percentual"
+                id="percentualGasto"
+            >
+                0%
+            </span>
+
+        </div>
+
+
+        <div class="barra-saude">
+
+            <div
+                class="barra-saude-preenchida"
+                id="barraSaude"
+            ></div>
+
+        </div>
+
+
+        <div
+            class="saude-texto"
+            id="saudeTexto"
+        >
+            Você ainda não gastou nada neste período.
+        </div>
+
+
+        <div
+            class="saude-alerta"
+            id="saudeAlerta"
+        >
+            🟢 Seu dinheiro está sob controle.
         </div>
 
     </div>
@@ -898,6 +1044,210 @@ function calcularTotalGasto() {
 
 
 /* =========================
+   SAÚDE FINANCEIRA
+========================= */
+
+function atualizarSaudeFinanceira(
+    renda,
+    totalGastos
+) {
+
+    const percentualElemento =
+        document.getElementById(
+            "percentualGasto"
+        );
+
+    const barra =
+        document.getElementById(
+            "barraSaude"
+        );
+
+    const texto =
+        document.getElementById(
+            "saudeTexto"
+        );
+
+    const alerta =
+        document.getElementById(
+            "saudeAlerta"
+        );
+
+
+    /*
+        Se a renda for zero,
+        não conseguimos calcular
+        a porcentagem.
+    */
+
+    if (renda <= 0) {
+
+        percentualElemento.textContent =
+            "0%";
+
+        barra.style.width =
+            "0%";
+
+        barra.className =
+            "barra-saude-preenchida";
+
+        texto.innerHTML =
+            "Defina sua renda para acompanhar " +
+            "sua saúde financeira.";
+
+        alerta.className =
+            "saude-alerta atencao";
+
+        alerta.textContent =
+            "⚠️ Sua renda ainda não foi definida.";
+
+        return;
+
+    }
+
+
+    const percentual =
+        (
+            totalGastos /
+            renda
+        ) * 100;
+
+
+    const percentualExibido =
+        Math.round(
+            percentual
+        );
+
+
+    percentualElemento.textContent =
+        percentualExibido +
+        "%";
+
+
+    const largura =
+        Math.min(
+            Math.max(percentual, 0),
+            100
+        );
+
+
+    barra.style.width =
+        largura +
+        "%";
+
+
+    barra.className =
+        "barra-saude-preenchida";
+
+
+    alerta.className =
+        "saude-alerta";
+
+
+    /*
+        Até 50% da renda.
+    */
+
+    if (percentual <= 50) {
+
+        alerta.classList.add(
+            "ok"
+        );
+
+        alerta.textContent =
+            "🟢 Seu dinheiro está sob controle.";
+
+    }
+
+
+    /*
+        Entre 50% e 80%.
+    */
+
+    else if (percentual <= 80) {
+
+        barra.classList.add(
+            "atencao"
+        );
+
+        alerta.classList.add(
+            "atencao"
+        );
+
+        alerta.textContent =
+            "🟡 Atenção: você já utilizou " +
+            percentualExibido +
+            "% da sua renda.";
+
+    }
+
+
+    /*
+        Entre 80% e 100%.
+    */
+
+    else if (percentual <= 100) {
+
+        barra.classList.add(
+            "perigo"
+        );
+
+        alerta.classList.add(
+            "perigo"
+        );
+
+        alerta.textContent =
+            "🔴 Cuidado: sua renda está quase toda comprometida.";
+
+    }
+
+
+    /*
+        Acima da renda.
+    */
+
+    else {
+
+        barra.classList.add(
+            "perigo"
+        );
+
+        alerta.classList.add(
+            "perigo"
+        );
+
+        alerta.textContent =
+            "🚨 Você gastou mais do que sua renda neste período.";
+
+    }
+
+
+    const disponivel =
+        renda -
+        totalGastos;
+
+
+    if (disponivel >= 0) {
+
+        texto.innerHTML =
+            "Você já utilizou <strong>" +
+            moeda(totalGastos) +
+            "</strong> e ainda tem <strong>" +
+            moeda(disponivel) +
+            "</strong> disponíveis.";
+
+    } else {
+
+        texto.innerHTML =
+            "Você ultrapassou sua renda em <strong>" +
+            moeda(Math.abs(disponivel)) +
+            "</strong>.";
+
+    }
+
+}
+
+
+/* =========================
    CARREGAR DASHBOARD
 ========================= */
 
@@ -922,7 +1272,8 @@ function carregarDashboard() {
         calcularTotalGasto();
 
     const saldo =
-        renda - totalGastos;
+        renda -
+        totalGastos;
 
     const periodo =
         obterPeriodo();
@@ -985,6 +1336,12 @@ function carregarDashboard() {
         );
 
     }
+
+
+    atualizarSaudeFinanceira(
+        renda,
+        totalGastos
+    );
 
 
     mostrarCategorias();
@@ -1166,7 +1523,7 @@ function mostrarCategorias() {
 
 
 /* =========================
-   ABRIR EDITAR RENDA
+   EDITAR RENDA
 ========================= */
 
 function abrirEditarRenda() {
@@ -1177,7 +1534,8 @@ function abrirEditarRenda() {
 
     document
         .getElementById("novaRenda")
-        .value = renda;
+        .value =
+        renda;
 
 
     document
@@ -1186,10 +1544,6 @@ function abrirEditarRenda() {
 
 }
 
-
-/* =========================
-   FECHAR MODAL
-========================= */
 
 function fecharEditarRenda() {
 
@@ -1285,7 +1639,7 @@ function salvarNovaRenda() {
 
 
 /* =========================
-   REGISTRAR GASTO
+   NAVEGAÇÃO
 ========================= */
 
 function registrarGasto() {
@@ -1296,10 +1650,6 @@ function registrarGasto() {
 }
 
 
-/* =========================
-   VER REGISTROS
-========================= */
-
 function verRegistros() {
 
     window.location.href =
@@ -1307,10 +1657,6 @@ function verRegistros() {
 
 }
 
-
-/* =========================
-   EDITAR ORÇAMENTO
-========================= */
 
 function editarOrcamento() {
 
@@ -1361,23 +1707,6 @@ function novoMes() {
     }
 
 
-    /*
-        Se a pessoa clicar no botão no
-        mesmo mês do calendário, precisamos
-        criar um identificador de período
-        diferente para separar os gastos.
-
-        Exemplo:
-
-        2026-09-01
-        2026-09-02
-        2026-09-03
-
-        Assim podemos receber o pagamento
-        mais de uma vez no mesmo mês sem
-        misturar os gastos antigos com os novos.
-    */
-
     let novoPeriodoFinanceiro;
 
 
@@ -1410,12 +1739,6 @@ function novoMes() {
 
     } else {
 
-        /*
-            Quando muda o mês real,
-            começa normalmente pelo
-            novo mês.
-        */
-
         localStorage.setItem(
             "contadorPeriodo",
             "0"
@@ -1428,28 +1751,11 @@ function novoMes() {
     }
 
 
-    /*
-        Salva o novo período.
-
-        Os gastos antigos permanecem
-        intactos dentro de "gastos".
-    */
-
     localStorage.setItem(
         "periodoFinanceiro",
         novoPeriodoFinanceiro
     );
 
-
-    /*
-        Recarrega o Dashboard.
-
-        Como gastosDoPeriodo() procura
-        somente gastos que possuem o
-        mesmo identificador do período,
-        os gastos anteriores deixam de
-        aparecer no Dashboard.
-    */
 
     carregarDashboard();
 

@@ -1,499 +1,557 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Dinheiro - Dashboard</title>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+    <title>Meu Dinheiro - Dashboard</title>
 
-    body {
-        background: #f5f7f5;
-        color: #26352b;
-        min-height: 100vh;
-        padding: 20px;
-    }
+    <style>
 
-    .container {
-        max-width: 700px;
-        margin: 30px auto;
-    }
-
-    .topo {
-        margin-bottom: 25px;
-    }
-
-    .topo h1 {
-        color: #287a4b;
-        margin-bottom: 8px;
-    }
-
-    .topo p {
-        color: #718078;
-        line-height: 1.5;
-    }
-
-    .cards {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .card {
-        background: white;
-        padding: 22px;
-        border-radius: 20px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-    }
-
-    .card small {
-        display: block;
-        color: #718078;
-        margin-bottom: 8px;
-    }
-
-    .card h2 {
-        color: #287a4b;
-        font-size: 26px;
-    }
-
-    .renda-card {
-        background: #287a4b;
-        color: white;
-        position: relative;
-    }
-
-    .renda-card small {
-        color: white;
-        opacity: 0.85;
-    }
-
-    .renda-card h2 {
-        color: white;
-    }
-
-    .editar-renda {
-        margin-top: 15px;
-        background: white;
-        color: #287a4b;
-        border: none;
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .editar-renda:hover {
-        background: #eef5f0;
-    }
-
-    .saldo {
-        background: #e9f5ed;
-    }
-
-    .saldo.negativo {
-        background: #fff0ee;
-    }
-
-    .saldo.negativo h2 {
-        color: #c0392b;
-    }
-
-    .gastos-card {
-        margin-bottom: 20px;
-    }
-
-    .gastos-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .gastos-header h2 {
-        color: #26352b;
-        font-size: 21px;
-    }
-
-    .gastos-header span {
-        color: #718078;
-        font-size: 14px;
-    }
-
-    .categoria {
-        margin-bottom: 18px;
-    }
-
-    .categoria-topo {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 7px;
-    }
-
-    .categoria-nome {
-        font-weight: bold;
-    }
-
-    .categoria-valor {
-        color: #718078;
-        font-size: 14px;
-    }
-
-    .barra {
-        width: 100%;
-        height: 9px;
-        background: #e7ece8;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .barra-preenchida {
-        height: 100%;
-        background: #287a4b;
-        border-radius: 20px;
-        transition: width 0.3s;
-    }
-
-    .barra-preenchida.excedida {
-        background: #c0392b;
-    }
-
-    .botoes {
-        display: grid;
-        gap: 12px;
-        margin-bottom: 20px;
-    }
-
-    button.acao {
-        width: 100%;
-        padding: 16px;
-        border: none;
-        border-radius: 14px;
-        background: #287a4b;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    button.acao:hover {
-        background: #1f633c;
-    }
-
-    button.secundario {
-        background: white !important;
-        color: #287a4b !important;
-        border: 1px solid #287a4b !important;
-    }
-
-    button.perigo {
-        background: #fff0ee !important;
-        color: #c0392b !important;
-        border: 1px solid #f1c5bf !important;
-    }
-
-    .periodo {
-        background: #f0f5f1;
-        padding: 14px;
-        border-radius: 14px;
-        margin-bottom: 20px;
-        color: #287a4b;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.45);
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        z-index: 10;
-    }
-
-    .modal.ativo {
-        display: flex;
-    }
-
-    .modal-conteudo {
-        background: white;
-        width: 100%;
-        max-width: 400px;
-        padding: 25px;
-        border-radius: 22px;
-    }
-
-    .modal-conteudo h2 {
-        color: #287a4b;
-        margin-bottom: 10px;
-    }
-
-    .modal-conteudo p {
-        color: #718078;
-        line-height: 1.5;
-        margin-bottom: 20px;
-    }
-
-    .modal-conteudo input {
-        width: 100%;
-        padding: 14px;
-        border: 1px solid #d8ded9;
-        border-radius: 12px;
-        font-size: 16px;
-        margin-bottom: 15px;
-    }
-
-    .modal-conteudo input:focus {
-        outline: none;
-        border-color: #287a4b;
-    }
-
-    .modal-botoes {
-        display: grid;
-        gap: 10px;
-    }
-
-    @media (max-width: 550px) {
-
-        .cards {
-            grid-template-columns: 1fr;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
 
-    }
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-</style>
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+        }
 
-</head> <body> <div class="container">
-<div class="topo">
+        .topo {
+            margin-bottom: 25px;
+        }
 
-    <h1 id="saudacao">
-        Olá! 👋
-    </h1>
+        .topo h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+        }
 
-    <p>
-        Aqui está o resumo do seu dinheiro.
-    </p>
+        .topo p {
+            color: #718078;
+            line-height: 1.5;
+        }
 
-</div>
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-<div class="periodo">
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
 
-    📅 <strong>Período atual:</strong>
-    <span id="periodoAtual">-</span>
+        .card small {
+            display: block;
+            color: #718078;
+            margin-bottom: 8px;
+        }
 
-    <br>
+        .card h2 {
+            color: #287a4b;
+            font-size: 26px;
+        }
 
-    Seus gastos anteriores continuam
-    salvos no histórico.
+        .renda-card {
+            background: #287a4b;
+            color: white;
+            position: relative;
+        }
 
-</div>
+        .renda-card small {
+            color: white;
+            opacity: 0.85;
+        }
 
-<div class="cards">
+        .renda-card h2 {
+            color: white;
+        }
 
-    <div class="card renda-card">
+        .editar-renda {
+            margin-top: 15px;
+            background: white;
+            color: #287a4b;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-        <small>
-            Renda deste período
-        </small>
+        .editar-renda:hover {
+            background: #eef5f0;
+        }
 
-        <h2 id="renda">
-            R$ 0,00
-        </h2>
+        .saldo {
+            background: #e9f5ed;
+        }
 
-        <button
-            class="editar-renda"
-            onclick="abrirEditarRenda()"
+        .saldo.negativo {
+            background: #fff0ee;
+        }
+
+        .saldo.negativo h2 {
+            color: #c0392b;
+        }
+
+        .gastos-card {
+            margin-bottom: 20px;
+        }
+
+        .gastos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .gastos-header h2 {
+            color: #26352b;
+            font-size: 21px;
+        }
+
+        .gastos-header span {
+            color: #718078;
+            font-size: 14px;
+        }
+
+        .categoria {
+            margin-bottom: 18px;
+        }
+
+        .categoria-topo {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            gap: 10px;
+        }
+
+        .categoria-nome {
+            font-weight: bold;
+        }
+
+        .categoria-valor {
+            color: #718078;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .barra {
+            width: 100%;
+            height: 9px;
+            background: #e7ece8;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .barra-preenchida {
+            height: 100%;
+            background: #287a4b;
+            border-radius: 20px;
+            transition: width 0.3s;
+        }
+
+        .barra-preenchida.excedida {
+            background: #c0392b;
+        }
+
+        .botoes {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        button.acao {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button.acao:hover {
+            background: #1f633c;
+        }
+
+        button.secundario {
+            background: white !important;
+            color: #287a4b !important;
+            border: 1px solid #287a4b !important;
+        }
+
+        button.perigo {
+            background: #fff0ee !important;
+            color: #c0392b !important;
+            border: 1px solid #f1c5bf !important;
+        }
+
+        .periodo {
+            background: #f0f5f1;
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            color: #287a4b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .modal.ativo {
+            display: flex;
+        }
+
+        .modal-conteudo {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 22px;
+        }
+
+        .modal-conteudo h2 {
+            color: #287a4b;
+            margin-bottom: 10px;
+        }
+
+        .modal-conteudo p {
+            color: #718078;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .modal-conteudo input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8ded9;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .modal-conteudo input:focus {
+            outline: none;
+            border-color: #287a4b;
+        }
+
+        .modal-botoes {
+            display: grid;
+            gap: 10px;
+        }
+
+        .sem-planejamento {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 12px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 550px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .categoria-topo {
+                flex-direction: column;
+            }
+
+            .categoria-valor {
+                text-align: left;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topo">
+
+        <h1 id="saudacao">
+            Olá! 👋
+        </h1>
+
+        <p>
+            Aqui está o resumo do seu dinheiro.
+        </p>
+
+    </div>
+
+
+    <div class="periodo">
+
+        📅 <strong>Período atual:</strong>
+        <span id="periodoAtual">-</span>
+
+        <br>
+
+        Seus gastos anteriores continuam
+        salvos no histórico.
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card renda-card">
+
+            <small>
+                Renda deste período
+            </small>
+
+            <h2 id="renda">
+                R$ 0,00
+            </h2>
+
+            <button
+                class="editar-renda"
+                onclick="abrirEditarRenda()"
+            >
+                ✏️ Editar renda
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                Gastos deste período
+            </small>
+
+            <h2 id="totalGastos">
+                R$ 0,00
+            </h2>
+
+        </div>
+
+
+        <div
+            class="card saldo"
+            id="cardSaldo"
         >
-            ✏️ Editar renda
-        </button>
+
+            <small>
+                Saldo disponível
+            </small>
+
+            <h2 id="saldo">
+                R$ 0,00
+            </h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                Mês atual
+            </small>
+
+            <h2 id="mesAtual">
+                -
+            </h2>
+
+        </div>
 
     </div>
 
-    <div class="card">
 
-        <small>
-            Gastos deste período
-        </small>
+    <div class="card gastos-card">
 
-        <h2 id="totalGastos">
-            R$ 0,00
-        </h2>
+        <div class="gastos-header">
 
-    </div>
+            <h2>
+                Gastos por categoria
+            </h2>
 
-    <div
-        class="card saldo"
-        id="cardSaldo"
-    >
+            <span>
+                Período atual
+            </span>
 
-        <small>
-            Saldo disponível
-        </small>
+        </div>
 
-        <h2 id="saldo">
-            R$ 0,00
-        </h2>
+
+        <div id="avisoPlanejamento"></div>
+
+
+        <div id="categorias"></div>
 
     </div>
 
-    <div class="card">
 
-        <small>
-            Mês atual
-        </small>
-
-        <h2 id="mesAtual">
-            -
-        </h2>
-
-    </div>
-
-</div>
-
-<div class="card gastos-card">
-
-    <div class="gastos-header">
-
-        <h2>
-            Gastos por categoria
-        </h2>
-
-        <span>
-            Período atual
-        </span>
-
-    </div>
-
-    <div id="categorias"></div>
-
-</div>
-
-<div class="botoes">
-
-    <button
-        class="acao"
-        onclick="registrarGasto()"
-    >
-        ➕ Registrar gasto
-    </button>
-
-    <button
-        class="acao secundario"
-        onclick="verRegistros()"
-    >
-        📋 Ver registros
-    </button>
-
-    <button
-        class="acao secundario"
-        onclick="editarOrcamento()"
-    >
-        ⚙️ Editar orçamento
-    </button>
-
-    <button
-        class="acao perigo"
-        onclick="novoMes()"
-    >
-        💰 Recebi meu pagamento
-    </button>
-
-</div>
-
-</div> <div class="modal" id="modalRenda" >
-<div class="modal-conteudo">
-
-    <h2>
-        Editar renda 💰
-    </h2>
-
-    <p>
-        Informe quanto você recebeu
-        neste período.
-    </p>
-
-    <input
-        id="novaRenda"
-        type="number"
-        min="0"
-        step="0.01"
-        placeholder="Ex: 2500"
-    >
-
-    <div class="modal-botoes">
+    <div class="botoes">
 
         <button
             class="acao"
-            onclick="salvarNovaRenda()"
+            onclick="registrarGasto()"
         >
-            Salvar renda
+            ➕ Registrar gasto
         </button>
+
 
         <button
             class="acao secundario"
-            onclick="fecharEditarRenda()"
+            onclick="verRegistros()"
         >
-            Cancelar
+            📋 Ver registros
+        </button>
+
+
+        <button
+            class="acao secundario"
+            onclick="editarOrcamento()"
+        >
+            ⚙️ Editar orçamento
+        </button>
+
+
+        <button
+            class="acao perigo"
+            onclick="novoMes()"
+        >
+            💰 Recebi meu pagamento
         </button>
 
     </div>
 
 </div>
 
-</div> <script>
+
+<!-- MODAL EDITAR RENDA -->
+
+<div
+    class="modal"
+    id="modalRenda"
+>
+
+    <div class="modal-conteudo">
+
+        <h2>
+            Editar renda 💰
+        </h2>
+
+        <p>
+            Informe quanto você recebeu
+            neste período.
+        </p>
+
+        <input
+            id="novaRenda"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Ex: 2500"
+        >
+
+        <div class="modal-botoes">
+
+            <button
+                class="acao"
+                onclick="salvarNovaRenda()"
+            >
+                Salvar renda
+            </button>
+
+            <button
+                class="acao secundario"
+                onclick="fecharEditarRenda()"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
 /* =========================
 CATEGORIAS
 ========================= */
 
 const categorias = {
 
-fixos: {
-    nome: "Gastos fixos",
-    icone: "🏠"
-},
+    fixos: {
+        nome: "Gastos fixos",
+        icone: "🏠"
+    },
 
-alimentacao: {
-    nome: "Alimentação",
-    icone: "🍎"
-},
+    alimentacao: {
+        nome: "Alimentação",
+        icone: "🍎"
+    },
 
-saude: {
-    nome: "Saúde",
-    icone: "🏥"
-},
+    saude: {
+        nome: "Saúde",
+        icone: "🏥"
+    },
 
-higiene: {
-    nome: "Higiene",
-    icone: "🧼"
-},
+    higiene: {
+        nome: "Higiene",
+        icone: "🧼"
+    },
 
-lazer: {
-    nome: "Lazer",
-    icone: "🎮"
-},
+    lazer: {
+        nome: "Lazer",
+        icone: "🎮"
+    },
 
-transporte: {
-    nome: "Transporte",
-    icone: "🚗"
-},
+    transporte: {
+        nome: "Transporte",
+        icone: "🚗"
+    },
 
-educacao: {
-    nome: "Educação",
-    icone: "📚"
-},
+    educacao: {
+        nome: "Educação",
+        icone: "📚"
+    },
 
-investimentos: {
-    nome: "Investimentos",
-    icone: "💰"
-}
+    investimentos: {
+        nome: "Investimentos",
+        icone: "💰"
+    }
 
 };
+
 
 /* =========================
 MOEDA
@@ -501,15 +559,16 @@ MOEDA
 
 function moeda(valor) {
 
-return Number(valor).toLocaleString(
-    "pt-BR",
-    {
-        style: "currency",
-        currency: "BRL"
-    }
-);
+    return Number(valor).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
 }
+
 
 /* =========================
 MÊS REAL
@@ -517,17 +576,18 @@ MÊS REAL
 
 function obterMesReal() {
 
-const agora = new Date();
+    const agora = new Date();
 
-return (
-    agora.getFullYear() +
-    "-" +
-    String(
-        agora.getMonth() + 1
-    ).padStart(2, "0")
-);
+    return (
+        agora.getFullYear() +
+        "-" +
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0")
+    );
 
 }
+
 
 /* =========================
 PERÍODO FINANCEIRO
@@ -535,28 +595,29 @@ PERÍODO FINANCEIRO
 
 function obterPeriodo() {
 
-const periodoSalvo =
-    localStorage.getItem(
-        "periodoFinanceiro"
+    const periodoSalvo =
+        localStorage.getItem(
+            "periodoFinanceiro"
+        );
+
+    if (periodoSalvo) {
+
+        return periodoSalvo;
+
+    }
+
+    const periodo =
+        obterMesReal();
+
+    localStorage.setItem(
+        "periodoFinanceiro",
+        periodo
     );
 
-if (periodoSalvo) {
-
-    return periodoSalvo;
+    return periodo;
 
 }
 
-const periodo =
-    obterMesReal();
-
-localStorage.setItem(
-    "periodoFinanceiro",
-    periodo
-);
-
-return periodo;
-
-}
 
 /* =========================
 NOME DO MÊS
@@ -564,42 +625,46 @@ NOME DO MÊS
 
 function nomeDoMes(mes) {
 
-if (!mes || !mes.includes("-")) {
+    if (
+        !mes ||
+        !mes.includes("-")
+    ) {
 
-    return "-";
+        return "-";
+
+    }
+
+    const partes =
+        mes.split("-");
+
+    const numero =
+        Number(partes[1]);
+
+    const meses = [
+
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+
+    ];
+
+    return (
+        meses[numero - 1] +
+        " " +
+        partes[0]
+    );
 
 }
 
-const partes =
-    mes.split("-");
-
-const numero =
-    Number(partes[1]);
-
-const meses = [
-
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro"
-
-];
-
-return (
-    meses[numero - 1] +
-    " " +
-    partes[0]
-);
-
-}
 
 /* =========================
 USUÁRIO
@@ -607,26 +672,27 @@ USUÁRIO
 
 function pegarUsuario() {
 
-const salvo =
-    localStorage.getItem("usuario");
+    const salvo =
+        localStorage.getItem("usuario");
 
-if (!salvo) {
+    if (!salvo) {
 
-    return null;
+        return null;
+
+    }
+
+    try {
+
+        return JSON.parse(salvo);
+
+    } catch {
+
+        return null;
+
+    }
 
 }
 
-try {
-
-    return JSON.parse(salvo);
-
-} catch {
-
-    return null;
-
-}
-
-}
 
 /* =========================
 GASTOS
@@ -634,31 +700,74 @@ GASTOS
 
 function pegarGastos() {
 
-const salvo =
-    localStorage.getItem("gastos");
+    const salvo =
+        localStorage.getItem("gastos");
 
-if (!salvo) {
+    if (!salvo) {
 
-    return [];
+        return [];
+
+    }
+
+    try {
+
+        const gastos =
+            JSON.parse(salvo);
+
+        return Array.isArray(gastos)
+            ? gastos
+            : [];
+
+    } catch {
+
+        return [];
+
+    }
 
 }
 
-try {
 
-    const gastos =
-        JSON.parse(salvo);
+/* =========================
+PLANEJAMENTO
+========================= */
 
-    return Array.isArray(gastos)
-        ? gastos
-        : [];
+function pegarPlanejamento() {
 
-} catch {
+    const salvo =
+        localStorage.getItem(
+            "planejamentoFinanceiro"
+        );
 
-    return [];
+    if (!salvo) {
+
+        return null;
+
+    }
+
+    try {
+
+        const planejamento =
+            JSON.parse(salvo);
+
+        if (
+            planejamento &&
+            typeof planejamento === "object"
+        ) {
+
+            return planejamento;
+
+        }
+
+        return null;
+
+    } catch {
+
+        return null;
+
+    }
 
 }
 
-}
 
 /* =========================
 ORÇAMENTO
@@ -666,66 +775,103 @@ ORÇAMENTO
 
 function pegarOrcamento() {
 
-/*
-    Primeiro tenta usar o novo formato.
-*/
+    const planejamento =
+        pegarPlanejamento();
 
-const salvo =
-    localStorage.getItem("orcamento");
+    /*
+        O novo sistema usa
+        planejamentoFinanceiro.
+    */
 
-if (salvo) {
+    if (
+        planejamento &&
+        planejamento.categorias
+    ) {
 
-    try {
-
-        const objeto =
-            JSON.parse(salvo);
-
-        if (
-            objeto &&
-            typeof objeto === "object"
-        ) {
-
-            return objeto;
-
-        }
-
-    } catch {
-
-        console.log(
-            "Orçamento salvo em formato inválido."
-        );
+        return planejamento.categorias;
 
     }
 
-}
 
-/*
-    Compatibilidade com o seu
-    orcamento.html antigo.
-*/
+    /*
+        Compatibilidade com o
+        sistema antigo.
+    */
 
-const orcamento = {};
+    const salvo =
+        localStorage.getItem(
+            "orcamento"
+        );
 
-Object.keys(categorias)
-    .forEach(function(categoria) {
+    if (salvo) {
 
-        const nome =
-            categoria.charAt(0).toUpperCase() +
-            categoria.slice(1);
+        try {
 
-        const valor =
-            localStorage.getItem(
-                "orcamento" + nome
+            const objeto =
+                JSON.parse(salvo);
+
+            if (
+                objeto &&
+                typeof objeto === "object"
+            ) {
+
+                return objeto;
+
+            }
+
+        } catch {
+
+            console.log(
+                "Orçamento antigo inválido."
             );
 
-        orcamento[categoria] =
-            Number(valor) || 0;
+        }
 
-    });
+    }
 
-return orcamento;
+    return {};
 
 }
+
+
+/* =========================
+RENDA
+========================= */
+
+function pegarRenda() {
+
+    /*
+        Primeiro tenta usar a renda
+        salva pelo planejamento.
+    */
+
+    const planejamento =
+        pegarPlanejamento();
+
+    if (
+        planejamento &&
+        planejamento.renda !== undefined
+    ) {
+
+        return Number(
+            planejamento.renda
+        ) || 0;
+
+    }
+
+
+    /*
+        Depois tenta a renda antiga.
+    */
+
+    return Number(
+        localStorage.getItem(
+            "rendaMensal"
+        )
+    ) || 0;
+
+}
+
 
 /* =========================
 GASTOS DO PERÍODO
@@ -733,22 +879,20 @@ GASTOS DO PERÍODO
 
 function gastosDoPeriodo() {
 
-const periodo =
-    obterPeriodo();
+    const periodo =
+        obterPeriodo();
 
-return pegarGastos()
-    .filter(function(gasto) {
+    return pegarGastos()
+        .filter(function(gasto) {
 
-        /*
-            Só entram gastos que tenham
-            exatamente o período atual.
-        */
+            return (
+                gasto.mes === periodo
+            );
 
-        return gasto.mes === periodo;
-
-    });
+        });
 
 }
+
 
 /* =========================
 TOTAL DOS GASTOS
@@ -756,15 +900,23 @@ TOTAL DOS GASTOS
 
 function calcularTotalGasto() {
 
-return gastosDoPeriodo()
-    .reduce(function(total, gasto) {
+    return gastosDoPeriodo()
+        .reduce(function(
+            total,
+            gasto
+        ) {
 
-        return total +
-            (Number(gasto.valor) || 0);
+            return total +
+                (
+                    Number(
+                        gasto.valor
+                    ) || 0
+                );
 
-    }, 0);
+        }, 0);
 
 }
+
 
 /* =========================
 CARREGAR DASHBOARD
@@ -772,88 +924,94 @@ CARREGAR DASHBOARD
 
 function carregarDashboard() {
 
-const usuario =
-    pegarUsuario();
+    const usuario =
+        pegarUsuario();
 
-if (!usuario) {
+    if (!usuario) {
 
-    window.location.href =
-        "cadastro.html";
+        window.location.href =
+            "cadastro.html";
 
-    return;
+        return;
+
+    }
+
+    const renda =
+        pegarRenda();
+
+    const totalGastos =
+        calcularTotalGasto();
+
+    const saldo =
+        renda - totalGastos;
+
+    const periodo =
+        obterPeriodo();
+
+
+    document
+        .getElementById("saudacao")
+        .textContent =
+            "Olá, " +
+            usuario.nome +
+            "! 👋";
+
+
+    document
+        .getElementById("renda")
+        .textContent =
+            moeda(renda);
+
+
+    document
+        .getElementById("totalGastos")
+        .textContent =
+            moeda(totalGastos);
+
+
+    document
+        .getElementById("saldo")
+        .textContent =
+            moeda(saldo);
+
+
+    document
+        .getElementById("mesAtual")
+        .textContent =
+            nomeDoMes(periodo);
+
+
+    document
+        .getElementById("periodoAtual")
+        .textContent =
+            nomeDoMes(periodo);
+
+
+    const cardSaldo =
+        document.getElementById(
+            "cardSaldo"
+        );
+
+
+    if (saldo < 0) {
+
+        cardSaldo.classList.add(
+            "negativo"
+        );
+
+    } else {
+
+        cardSaldo.classList.remove(
+            "negativo"
+        );
+
+    }
+
+
+    mostrarCategorias();
 
 }
 
-const renda =
-    Number(
-        localStorage.getItem(
-            "rendaMensal"
-        )
-    ) || 0;
-
-const totalGastos =
-    calcularTotalGasto();
-
-const saldo =
-    renda - totalGastos;
-
-const periodo =
-    obterPeriodo();
-
-document
-    .getElementById("saudacao")
-    .textContent =
-        "Olá, " +
-        usuario.nome +
-        "! 👋";
-
-document
-    .getElementById("renda")
-    .textContent =
-        moeda(renda);
-
-document
-    .getElementById("totalGastos")
-    .textContent =
-        moeda(totalGastos);
-
-document
-    .getElementById("saldo")
-    .textContent =
-        moeda(saldo);
-
-document
-    .getElementById("mesAtual")
-    .textContent =
-        nomeDoMes(periodo);
-
-document
-    .getElementById("periodoAtual")
-    .textContent =
-        nomeDoMes(periodo);
-
-const cardSaldo =
-    document.getElementById(
-        "cardSaldo"
-    );
-
-if (saldo < 0) {
-
-    cardSaldo.classList.add(
-        "negativo"
-    );
-
-} else {
-
-    cardSaldo.classList.remove(
-        "negativo"
-    );
-
-}
-
-mostrarCategorias();
-
-}
 
 /* =========================
 MOSTRAR CATEGORIAS
@@ -861,136 +1019,218 @@ MOSTRAR CATEGORIAS
 
 function mostrarCategorias() {
 
-const container =
-    document.getElementById(
-        "categorias"
-    );
+    const container =
+        document.getElementById(
+            "categorias"
+        );
 
-const orcamento =
-    pegarOrcamento();
+    const aviso =
+        document.getElementById(
+            "avisoPlanejamento"
+        );
 
-const gastos =
-    gastosDoPeriodo();
+    const planejamento =
+        pegarPlanejamento();
 
-container.innerHTML = "";
+    const orcamento =
+        pegarOrcamento();
 
-Object.keys(categorias)
-    .forEach(function(chave) {
+    const gastos =
+        gastosDoPeriodo();
 
-        const info =
-            categorias[chave];
 
-        const limite =
-            Number(
-                orcamento[chave]
-            ) || 0;
+    container.innerHTML = "";
 
-        let gasto = 0;
+    aviso.innerHTML = "";
 
-        gastos.forEach(function(item) {
 
-            if (
-                item.categoria === chave
-            ) {
+    /*
+        Se ainda não existir planejamento,
+        avisa o usuário.
+    */
 
-                gasto +=
-                    Number(item.valor) || 0;
+    if (!planejamento) {
 
-            }
+        aviso.innerHTML = `
 
-        });
+            <div class="sem-planejamento">
 
-        let porcentagem = 0;
+                ⚠️ Você ainda não definiu
+                seu planejamento mensal.
 
-        if (limite > 0) {
+                <br><br>
 
-            porcentagem =
-                (gasto / limite) * 100;
-
-        }
-
-        const porcentagemBarra =
-            Math.min(
-                porcentagem,
-                100
-            );
-
-        const excedida =
-            gasto > limite &&
-            limite > 0;
-
-        const div =
-            document.createElement(
-                "div"
-            );
-
-        div.className =
-            "categoria";
-
-        div.innerHTML = `
-
-            <div class="categoria-topo">
-
-                <span class="categoria-nome">
-
-                    ${info.icone}
-                    ${info.nome}
-
-                </span>
-
-                <span class="categoria-valor">
-
-                    ${moeda(gasto)}
-                    /
-                    ${moeda(limite)}
-
-                </span>
-
-            </div>
-
-            <div class="barra">
-
-                <div
-                    class="barra-preenchida
-                    ${excedida ? "excedida" : ""}"
-                    style="
-                        width:
-                        ${porcentagemBarra}%;
-                    "
-                ></div>
+                Clique em
+                <strong>
+                    "Editar orçamento"
+                </strong>
+                para definir quanto pretende
+                gastar em cada categoria.
 
             </div>
 
         `;
 
-        container.appendChild(div);
+    }
 
-    });
+
+    Object.keys(categorias)
+        .forEach(function(chave) {
+
+            const info =
+                categorias[chave];
+
+
+            /*
+                Pega o limite definido
+                no planejamento.
+            */
+
+            const limite =
+                Number(
+                    orcamento[chave]
+                ) || 0;
+
+
+            /*
+                Soma os gastos daquela
+                categoria no período.
+            */
+
+            let gasto = 0;
+
+
+            gastos.forEach(function(item) {
+
+                if (
+                    item.categoria === chave
+                ) {
+
+                    gasto +=
+                        Number(
+                            item.valor
+                        ) || 0;
+
+                }
+
+            });
+
+
+            /*
+                Calcula porcentagem.
+            */
+
+            let porcentagem = 0;
+
+
+            if (limite > 0) {
+
+                porcentagem =
+                    (
+                        gasto /
+                        limite
+                    ) * 100;
+
+            }
+
+
+            const porcentagemBarra =
+                Math.min(
+                    porcentagem,
+                    100
+                );
+
+
+            /*
+                Verifica se ultrapassou
+                o planejamento.
+            */
+
+            const excedida =
+                limite > 0 &&
+                gasto > limite;
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "categoria";
+
+
+            div.innerHTML = `
+
+                <div class="categoria-topo">
+
+                    <span class="categoria-nome">
+
+                        ${info.icone}
+                        ${info.nome}
+
+                    </span>
+
+                    <span class="categoria-valor">
+
+                        ${moeda(gasto)}
+                        /
+                        ${moeda(limite)}
+
+                    </span>
+
+                </div>
+
+
+                <div class="barra">
+
+                    <div
+                        class="
+                            barra-preenchida
+                            ${excedida ? "excedida" : ""}
+                        "
+                        style="
+                            width:
+                            ${porcentagemBarra}%;
+                        "
+                    ></div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        });
 
 }
 
+
 /* =========================
-EDITAR RENDA
+ABRIR EDITAR RENDA
 ========================= */
 
 function abrirEditarRenda() {
 
-const renda =
-    Number(
-        localStorage.getItem(
-            "rendaMensal"
-        )
-    ) || 0;
+    const renda =
+        pegarRenda();
 
-document
-    .getElementById("novaRenda")
-    .value = renda;
 
-document
-    .getElementById("modalRenda")
-    .classList.add("ativo");
+    document
+        .getElementById("novaRenda")
+        .value = renda;
+
+
+    document
+        .getElementById("modalRenda")
+        .classList.add("ativo");
 
 }
+
 
 /* =========================
 FECHAR MODAL
@@ -998,68 +1238,108 @@ FECHAR MODAL
 
 function fecharEditarRenda() {
 
-document
-    .getElementById("modalRenda")
-    .classList.remove("ativo");
+    document
+        .getElementById("modalRenda")
+        .classList.remove("ativo");
 
 }
 
+
 /* =========================
-SALVAR RENDA
+SALVAR NOVA RENDA
 ========================= */
 
 function salvarNovaRenda() {
 
-const campo =
-    document.getElementById(
-        "novaRenda"
-    );
+    const campo =
+        document.getElementById(
+            "novaRenda"
+        );
 
-const renda =
-    Number(campo.value);
 
-if (
-    !Number.isFinite(renda) ||
-    renda < 0
-) {
+    const renda =
+        Number(campo.value);
 
-    alert(
-        "Digite uma renda válida."
-    );
 
-    return;
+    if (
+        !Number.isFinite(renda) ||
+        renda < 0
+    ) {
 
-}
+        alert(
+            "Digite uma renda válida."
+        );
 
-localStorage.setItem(
-    "rendaMensal",
-    renda.toString()
-);
+        return;
 
-const usuario =
-    pegarUsuario();
+    }
 
-if (usuario) {
 
-    usuario.renda =
-        renda;
+    /*
+        Atualiza a renda antiga.
+    */
 
     localStorage.setItem(
-        "usuario",
-        JSON.stringify(usuario)
+        "rendaMensal",
+        renda.toString()
+    );
+
+
+    /*
+        Atualiza o usuário.
+    */
+
+    const usuario =
+        pegarUsuario();
+
+
+    if (usuario) {
+
+        usuario.renda =
+            renda;
+
+        localStorage.setItem(
+            "usuario",
+            JSON.stringify(usuario)
+        );
+
+    }
+
+
+    /*
+        Atualiza também o planejamento.
+    */
+
+    const planejamento =
+        pegarPlanejamento();
+
+
+    if (planejamento) {
+
+        planejamento.renda =
+            renda;
+
+        localStorage.setItem(
+            "planejamentoFinanceiro",
+            JSON.stringify(
+                planejamento
+            )
+        );
+
+    }
+
+
+    fecharEditarRenda();
+
+    carregarDashboard();
+
+
+    alert(
+        "Renda atualizada com sucesso! 💚"
     );
 
 }
 
-fecharEditarRenda();
-
-carregarDashboard();
-
-alert(
-    "Renda atualizada com sucesso! 💚"
-);
-
-}
 
 /* =========================
 REGISTRAR GASTO
@@ -1067,10 +1347,11 @@ REGISTRAR GASTO
 
 function registrarGasto() {
 
-window.location.href =
-    "registrar.html";
+    window.location.href =
+        "registrar.html";
 
 }
+
 
 /* =========================
 VER REGISTROS
@@ -1078,10 +1359,11 @@ VER REGISTROS
 
 function verRegistros() {
 
-window.location.href =
-    "registros.html";
+    window.location.href =
+        "registros.html";
 
 }
+
 
 /* =========================
 EDITAR ORÇAMENTO
@@ -1089,10 +1371,11 @@ EDITAR ORÇAMENTO
 
 function editarOrcamento() {
 
-window.location.href =
-    "orcamento.html";
+    window.location.href =
+        "orcamento.html";
 
 }
+
 
 /* =========================
 NOVO PERÍODO
@@ -1100,66 +1383,78 @@ NOVO PERÍODO
 
 function novoMes() {
 
-const periodoAtual =
-    obterPeriodo();
+    const periodoAtual =
+        obterPeriodo();
 
-const novoPeriodo =
-    obterMesReal();
+    const novoPeriodo =
+        obterMesReal();
 
-/*
-    Se o mês do computador já for
-    diferente, podemos simplesmente
-    mudar o período.
-*/
 
-if (periodoAtual === novoPeriodo) {
+    /*
+        Se ainda estiver no mesmo mês,
+        pergunta antes de iniciar.
+    */
 
-    const resposta =
-        confirm(
+    if (
+        periodoAtual ===
+        novoPeriodo
+    ) {
 
-            "Você recebeu seu pagamento?\n\n" +
+        const resposta =
+            confirm(
 
-            "Isso vai começar um novo " +
-            "período de gastos.\n\n" +
+                "Você recebeu seu pagamento?\n\n" +
 
-            "Os gastos antigos NÃO serão apagados."
+                "Isso vai começar um novo " +
+                "período de gastos.\n\n" +
 
-        );
+                "Os gastos antigos NÃO serão apagados."
 
-    if (!resposta) {
+            );
 
-        return;
+
+        if (!resposta) {
+
+            return;
+
+        }
 
     }
 
+
+    /*
+        Cria o novo período.
+    */
+
+    localStorage.setItem(
+        "periodoFinanceiro",
+        novoPeriodo
+    );
+
+
+    alert(
+
+        "Novo período iniciado! 💚\n\n" +
+
+        "Seus gastos anteriores continuam " +
+        "salvos nos registros."
+
+    );
+
+
+    carregarDashboard();
+
 }
 
-/*
-    Cria o novo período financeiro.
-*/
-
-localStorage.setItem(
-    "periodoFinanceiro",
-    novoPeriodo
-);
-
-alert(
-
-    "Novo período iniciado! 💚\n\n" +
-
-    "Seus gastos anteriores continuam " +
-    "salvos nos registros."
-
-);
-
-carregarDashboard();
-
-}
 
 /* =========================
-CARREGAR
+INICIAR
 ========================= */
 
 carregarDashboard();
 
-</script> </body> </html>
+</script>
+
+</body>
+
+</html>

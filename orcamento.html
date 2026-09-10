@@ -1,372 +1,291 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu orçamento - Meu Dinheiro</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
 
-    <title>Meu orçamento - Meu Dinheiro</title>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
 
-    <style>
+    body {
+        background: #f5f7f5;
+        color: #26352b;
+        min-height: 100vh;
+        padding: 20px;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+    .container {
+        max-width: 700px;
+        margin: 30px auto;
+    }
 
-        body {
-            background: #f5f7f5;
-            color: #26352b;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    .topo {
+        margin-bottom: 25px;
+    }
 
-        .container {
-            max-width: 700px;
-            margin: 30px auto;
-        }
+    .topo h1 {
+        color: #287a4b;
+        margin-bottom: 8px;
+    }
 
-        .topo {
-            margin-bottom: 25px;
-        }
+    .topo p {
+        color: #718078;
+        line-height: 1.5;
+    }
 
-        .topo h1 {
-            color: #287a4b;
-            margin-bottom: 8px;
-        }
+    .renda {
+        background: #287a4b;
+        color: white;
+        padding: 25px;
+        border-radius: 20px;
+        margin-bottom: 25px;
+    }
 
-        .topo p {
-            color: #718078;
-            line-height: 1.5;
-        }
+    .renda small {
+        display: block;
+        opacity: 0.8;
+        margin-bottom: 8px;
+    }
 
-        .renda {
-            background: #287a4b;
-            color: white;
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-        }
+    .renda h2 {
+        font-size: 32px;
+    }
 
-        .renda small {
-            display: block;
-            opacity: 0.8;
-            margin-bottom: 8px;
-        }
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        margin-bottom: 20px;
+    }
 
-        .renda h2 {
-            font-size: 32px;
-        }
+    .card h2 {
+        margin-bottom: 20px;
+    }
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-            margin-bottom: 20px;
-        }
+    .categoria {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
 
-        .card h2 {
-            margin-bottom: 20px;
-        }
+    .icone {
+        font-size: 25px;
+        width: 40px;
+    }
 
-        .categoria {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
+    .categoria input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #d8ded9;
+        border-radius: 10px;
+        font-size: 16px;
+    }
 
-        .icone {
-            font-size: 25px;
-            width: 40px;
-        }
+    .categoria input:focus {
+        outline: none;
+        border-color: #287a4b;
+    }
 
-        .categoria input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #d8ded9;
-            border-radius: 10px;
-            font-size: 16px;
-        }
+    .total {
+        background: #f0f5f1;
+        padding: 18px;
+        border-radius: 14px;
+        margin-top: 20px;
+    }
 
-        .total {
-            background: #f0f5f1;
-            padding: 18px;
-            border-radius: 14px;
-            margin-top: 20px;
-        }
+    .total strong {
+        color: #287a4b;
+    }
 
-        .total strong {
-            color: #287a4b;
-        }
+    .disponivel {
+        margin-top: 10px;
+    }
 
-        .disponivel {
-            margin-top: 10px;
-        }
+    .alerta {
+        color: #c0392b !important;
+    }
 
-        .alerta {
-            color: #c0392b !important;
-        }
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        background: #287a4b;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            background: #287a4b;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    button:hover {
+        background: #1f633c;
+    }
 
-        button:hover {
-            background: #1f633c;
-        }
+</style>
 
-    </style>
+</head> <body> <div class="container">
+<div class="topo">
 
-</head>
+    <h1>Vamos organizar seu dinheiro 💚</h1>
 
-<body>
-
-<div class="container">
-
-    <div class="topo">
-
-        <h1>Vamos organizar seu dinheiro 💚</h1>
-
-        <p>
-            Agora escolha quanto você quer reservar
-            para cada área da sua vida.
-        </p>
-
-    </div>
-
-    <div class="renda">
-
-        <small>Sua renda mensal</small>
-
-        <h2 id="rendaExibida">R$ 0,00</h2>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Quanto você quer reservar?</h2>
-
-        <div class="categoria">
-            <div class="icone">🏠</div>
-            <input
-                type="number"
-                id="fixos"
-                placeholder="Gastos fixos"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">🍎</div>
-            <input
-                type="number"
-                id="alimentacao"
-                placeholder="Alimentação"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">🏥</div>
-            <input
-                type="number"
-                id="saude"
-                placeholder="Saúde"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">🧼</div>
-            <input
-                type="number"
-                id="higiene"
-                placeholder="Higiene"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">🎮</div>
-            <input
-                type="number"
-                id="lazer"
-                placeholder="Lazer"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">🚗</div>
-            <input
-                type="number"
-                id="transporte"
-                placeholder="Transporte"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">📚</div>
-            <input
-                type="number"
-                id="educacao"
-                placeholder="Educação"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="categoria">
-            <div class="icone">💰</div>
-            <input
-                type="number"
-                id="investimentos"
-                placeholder="Investimentos"
-                oninput="calcularOrcamento()"
-            >
-        </div>
-
-        <div class="total">
-
-            <div>
-                Total distribuído:
-                <strong id="totalDistribuido">R$ 0,00</strong>
-            </div>
-
-            <div class="disponivel">
-                Ainda disponível:
-                <strong id="valorDisponivel">R$ 0,00</strong>
-            </div>
-
-        </div>
-
-    </div>
-
-    <button onclick="criarOrcamento()">
-        Criar meu orçamento →
-    </button>
+    <p>
+        Agora escolha quanto você quer reservar
+        para cada área da sua vida.
+    </p>
 
 </div>
 
 
-<script>
+<div class="renda">
 
-const rendaSalva = localStorage.getItem("rendaMensal");
+    <small>Sua renda mensal</small>
 
-const renda = Number(rendaSalva);
+    <h2 id="rendaExibida">R$ 0,00</h2>
 
-document.getElementById("rendaExibida").textContent =
-    renda.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
+</div>
 
 
-function formatarMoeda(valor) {
+<div class="card">
 
-    return valor.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
-
-}
+    <h2>Quanto você quer reservar?</h2>
 
 
-function pegarValor(id) {
+    <div class="categoria">
+        <div class="icone">🏠</div>
 
-    return Number(document.getElementById(id).value) || 0;
-
-}
-
-
-function calcularOrcamento() {
-
-    const total =
-        pegarValor("fixos") +
-        pegarValor("alimentacao") +
-        pegarValor("saude") +
-        pegarValor("higiene") +
-        pegarValor("lazer") +
-        pegarValor("transporte") +
-        pegarValor("educacao") +
-        pegarValor("investimentos");
-
-    const disponivel = renda - total;
+        <input
+            type="number"
+            id="fixos"
+            min="0"
+            step="0.01"
+            placeholder="Gastos fixos"
+            oninput="calcularOrcamento()"
+        >
+    </div>
 
 
-    document.getElementById("totalDistribuido").textContent =
-        formatarMoeda(total);
+    <div class="categoria">
+        <div class="icone">🍎</div>
 
-    document.getElementById("valorDisponivel").textContent =
-        formatarMoeda(disponivel);
-
-
-    if (disponivel < 0) {
-
-        document.getElementById("valorDisponivel")
-            .classList.add("alerta");
-
-    } else {
-
-        document.getElementById("valorDisponivel")
-            .classList.remove("alerta");
-
-    }
-
-}
+        <input
+            type="number"
+            id="alimentacao"
+            min="0"
+            step="0.01"
+            placeholder="Alimentação"
+            oninput="calcularOrcamento()"
+        >
+    </div>
 
 
-function criarOrcamento() {
+    <div class="categoria">
+        <div class="icone">🏥</div>
 
-    const total =
-        pegarValor("fixos") +
-        pegarValor("alimentacao") +
-        pegarValor("saude") +
-        pegarValor("higiene") +
-        pegarValor("lazer") +
-        pegarValor("transporte") +
-        pegarValor("educacao") +
-        pegarValor("investimentos");
-
-
-    if (total > renda) {
-
-        alert(
-            "Você está tentando distribuir mais dinheiro do que sua renda mensal."
-        );
-
-        return;
-
-    }
-
-localStorage.setItem("orcamentoFixos", pegarValor("fixos"));
-localStorage.setItem("orcamentoAlimentacao", pegarValor("alimentacao"));
-localStorage.setItem("orcamentoSaude", pegarValor("saude"));
-localStorage.setItem("orcamentoHigiene", pegarValor("higiene"));
-localStorage.setItem("orcamentoLazer", pegarValor("lazer"));
-localStorage.setItem("orcamentoTransporte", pegarValor("transporte"));
-localStorage.setItem("orcamentoEducacao", pegarValor("educacao"));
-localStorage.setItem("orcamentoInvestimentos", pegarValor("investimentos"));
-
- window.location.href = "dashboard.html";
+        <input
+            type="number"
+            id="saude"
+            min="0"
+            step="0.01"
+            placeholder="Saúde"
+            oninput="calcularOrcamento()"
+        >
+    </div>
 
 
-}
+    <div class="categoria">
+        <div class="icone">🧼</div>
 
-</script>
+        <input
+            type="number"
+            id="higiene"
+            min="0"
+            step="0.01"
+            placeholder="Higiene"
+            oninput="calcularOrcamento()"
+        >
+    </div>
 
-</body>
 
-</html>
+    <div class="categoria">
+        <div class="icone">🎮</div>
+
+        <input
+            type="number"
+            id="lazer"
+            min="0"
+            step="0.01"
+            placeholder="Lazer"
+            oninput="calcularOrcamento()"
+        >
+    </div>
+
+
+    <div class="categoria">
+        <div class="icone">🚗</div>
+
+        <input
+            type="number"
+            id="transporte"
+            min="0"
+            step="0.01"
+            placeholder="Transporte"
+            oninput="calcularOrcamento()"
+        >
+    </div>
+
+
+    <div class="categoria">
+        <div class="icone">📚</div>
+
+        <input
+            type="number"
+            id="educacao"
+            min="0"
+            step="0.01"
+            placeholder="Educação"
+            oninput="calcularOrcamento()"
+        >
+    </div>
+
+
+    <div class="categoria">
+        <div class="icone">💰</div>
+
+        <input
+            type="number"
+            id="investimentos"
+            min="0"
+            step="0.01"
+            placeholder="Investimentos"
+            oninput="calcularOrcamento()"
+        >
+    </div>
+
+
+    <div class="total">
+
+        <div>
+            Total distribuído:
+            <strong id="totalDistribuido">R$ 0,00</strong>
+        </div>
+
+        <div class="disponivel">
+            Ainda disponível:
+            <strong id="valorDisponivel">R$ 0,00</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<button onclick="criarOrcamento()">
+    Criar meu orçamento →
+</button>
+
+</div> <script> /* Recupera a renda salva no cadastro. */ const rendaSalva = localStorage.getItem("rendaMensal"); const renda = Number(rendaSalva) || 0; /* Mostra a renda na tela. */ document.getElementById("rendaExibida").textContent = formatarMoeda(renda); /* Formata valores para reais. */ function formatarMoeda(valor) { return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); } /* Pega o valor de um campo. */ function pegarValor(id) { const campo = document.getElementById(id); return Number(campo.value) || 0; } /* Calcula o orçamento enquanto o usuário digita. */ function calcularOrcamento() { const total = pegarValor("fixos") + pegarValor("alimentacao") + pegarValor("saude") + pegarValor("higiene") + pegarValor("lazer") + pegarValor("transporte") + pegarValor("educacao") + pegarValor("investimentos"); const disponivel = renda - total; document.getElementById("totalDistribuido").textContent = formatarMoeda(total); document.getElementById("valorDisponivel").textContent = formatarMoeda(disponivel); if (disponivel < 0) { document .getElementById("valorDisponivel") .classList.add("alerta"); } else { document .getElementById("valorDisponivel") .classList.remove("alerta"); } } /* Salva o orçamento. */ function criarOrcamento() { const orcamento = { fixos: pegarValor("fixos"), alimentacao: pegarValor("alimentacao"), saude: pegarValor("saude"), higiene: pegarValor("higiene"), lazer: pegarValor("lazer"), transporte: pegarValor("transporte"), educacao: pegarValor("educacao"), investimentos: pegarValor("investimentos") }; /* Soma todas as categorias. */ const total = orcamento.fixos + orcamento.alimentacao + orcamento.saude + orcamento.higiene + orcamento.lazer + orcamento.transporte + orcamento.educacao + orcamento.investimentos; /* Não permite ultrapassar a renda. */ if (total > renda) { alert( "Você está tentando distribuir mais dinheiro do que sua renda mensal." ); return; } /* Salva o orçamento completo como um único objeto. */ localStorage.setItem( "orcamento", JSON.stringify(orcamento) ); /* Mantém também as chaves antigas. Isso ajuda a evitar problemas com outras páginas do seu projeto. */ localStorage.setItem("orcamentoFixos", orcamento.fixos); localStorage.setItem("orcamentoAlimentacao", orcamento.alimentacao); localStorage.setItem("orcamentoSaude", orcamento.saude); localStorage.setItem("orcamentoHigiene", orcamento.higiene); localStorage.setItem("orcamentoLazer", orcamento.lazer); localStorage.setItem("orcamentoTransporte", orcamento.transporte); localStorage.setItem("orcamentoEducacao", orcamento.educacao); localStorage.setItem("orcamentoInvestimentos", orcamento.investimentos); /* Cria o mês atual caso ainda não exista. */ if (!localStorage.getItem("mesAtual")) { const agora = new Date(); const mesAtual = agora.getFullYear() + "-" + String(agora.getMonth() + 1).padStart(2, "0"); localStorage.setItem( "mesAtual", mesAtual ); } /* Garante que exista uma lista de gastos. */ if (!localStorage.getItem("gastos")) { localStorage.setItem( "gastos", JSON.stringify([]) ); } /* Vai para o painel. */ window.location.href = "dashboard.html"; } /* Calcula os valores assim que a página abre. */ calcularOrcamento(); </script> </body> </html>

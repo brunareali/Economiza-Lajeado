@@ -1,11 +1,4 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head>
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meu Dinheiro - Dashboard</title>
 
 <style>
@@ -18,447 +11,258 @@
     }
 
     body {
-
         background: #f5f7f5;
-
         color: #26352b;
-
         min-height: 100vh;
-
         padding: 20px;
-
     }
 
     .container {
-
         max-width: 700px;
-
         margin: 30px auto;
-
     }
 
-    /* =========================
-       TOPO
-    ========================= */
-
     .topo {
-
         margin-bottom: 25px;
-
     }
 
     .topo h1 {
-
         color: #287a4b;
-
         margin-bottom: 8px;
-
     }
 
     .topo p {
-
         color: #718078;
-
         line-height: 1.5;
-
     }
 
-    /* =========================
-       CARDS PRINCIPAIS
-    ========================= */
-
     .cards {
-
         display: grid;
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
-
         margin-bottom: 20px;
-
     }
 
     .card {
-
         background: white;
-
         padding: 22px;
-
         border-radius: 20px;
-
-        box-shadow:
-            0 5px 20px
-            rgba(0,0,0,0.06);
-
+        box-shadow: 0 5px 20px rgba(0,0,0,0.06);
     }
 
     .card small {
-
         display: block;
-
         color: #718078;
-
         margin-bottom: 8px;
-
     }
 
     .card h2 {
-
         color: #287a4b;
-
         font-size: 26px;
-
     }
 
-    /* =========================
-       RENDA
-    ========================= */
-
     .renda-card {
-
         background: #287a4b;
-
         color: white;
-
         position: relative;
-
     }
 
     .renda-card small {
-
         color: white;
-
         opacity: 0.85;
-
     }
 
     .renda-card h2 {
-
         color: white;
-
     }
 
     .editar-renda {
-
         margin-top: 15px;
-
         background: white;
-
         color: #287a4b;
-
         border: none;
-
         padding: 10px 14px;
-
         border-radius: 10px;
-
         font-weight: bold;
-
         cursor: pointer;
-
     }
 
     .editar-renda:hover {
-
         background: #eef5f0;
-
     }
 
-    /* =========================
-       SALDO
-    ========================= */
-
     .saldo {
-
         background: #e9f5ed;
-
     }
 
     .saldo.negativo {
-
         background: #fff0ee;
-
     }
 
     .saldo.negativo h2 {
-
         color: #c0392b;
-
     }
 
-    /* =========================
-       GASTOS
-    ========================= */
-
     .gastos-card {
-
         margin-bottom: 20px;
-
     }
 
     .gastos-header {
-
         display: flex;
-
         justify-content: space-between;
-
         align-items: center;
-
         margin-bottom: 20px;
-
     }
 
     .gastos-header h2 {
-
         color: #26352b;
-
         font-size: 21px;
-
     }
 
     .gastos-header span {
-
         color: #718078;
-
         font-size: 14px;
-
     }
 
-    /* =========================
-       CATEGORIAS
-    ========================= */
-
     .categoria {
-
         margin-bottom: 18px;
-
     }
 
     .categoria-topo {
-
         display: flex;
-
         justify-content: space-between;
-
         margin-bottom: 7px;
-
     }
 
     .categoria-nome {
-
         font-weight: bold;
-
     }
 
     .categoria-valor {
-
         color: #718078;
-
         font-size: 14px;
-
     }
 
     .barra {
-
         width: 100%;
-
         height: 9px;
-
         background: #e7ece8;
-
         border-radius: 20px;
-
         overflow: hidden;
-
     }
 
     .barra-preenchida {
-
         height: 100%;
-
         background: #287a4b;
-
         border-radius: 20px;
-
         transition: width 0.3s;
-
     }
 
     .barra-preenchida.excedida {
-
         background: #c0392b;
-
     }
 
-    /* =========================
-       BOTÕES
-    ========================= */
-
     .botoes {
-
         display: grid;
-
         gap: 12px;
-
         margin-bottom: 20px;
-
     }
 
     button.acao {
-
         width: 100%;
-
         padding: 16px;
-
         border: none;
-
         border-radius: 14px;
-
         background: #287a4b;
-
         color: white;
-
         font-size: 16px;
-
         font-weight: bold;
-
         cursor: pointer;
-
     }
 
     button.acao:hover {
-
         background: #1f633c;
-
     }
 
     button.secundario {
-
         background: white !important;
-
         color: #287a4b !important;
-
         border: 1px solid #287a4b !important;
-
     }
 
     button.perigo {
-
         background: #fff0ee !important;
-
         color: #c0392b !important;
-
         border: 1px solid #f1c5bf !important;
-
     }
 
-    /* =========================
-       MODAL
-    ========================= */
+    .periodo {
+        background: #f0f5f1;
+        padding: 14px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        color: #287a4b;
+        font-size: 14px;
+        line-height: 1.5;
+    }
 
     .modal {
-
         display: none;
-
         position: fixed;
-
         inset: 0;
-
-        background:
-            rgba(0,0,0,0.45);
-
+        background: rgba(0,0,0,0.45);
         align-items: center;
-
         justify-content: center;
-
         padding: 20px;
-
         z-index: 10;
-
     }
 
     .modal.ativo {
-
         display: flex;
-
     }
 
     .modal-conteudo {
-
         background: white;
-
         width: 100%;
-
         max-width: 400px;
-
         padding: 25px;
-
         border-radius: 22px;
-
     }
 
     .modal-conteudo h2 {
-
         color: #287a4b;
-
         margin-bottom: 10px;
-
     }
 
     .modal-conteudo p {
-
         color: #718078;
-
         line-height: 1.5;
-
         margin-bottom: 20px;
-
     }
 
     .modal-conteudo input {
-
         width: 100%;
-
         padding: 14px;
-
         border: 1px solid #d8ded9;
-
         border-radius: 12px;
-
         font-size: 16px;
-
         margin-bottom: 15px;
-
     }
 
     .modal-conteudo input:focus {
-
         outline: none;
-
         border-color: #287a4b;
-
     }
 
     .modal-botoes {
-
         display: grid;
-
         gap: 10px;
-
     }
-
-    /* =========================
-       RESPONSIVO
-    ========================= */
 
     @media (max-width: 550px) {
 
         .cards {
-
             grid-template-columns: 1fr;
-
         }
 
     }
@@ -466,10 +270,6 @@
 </style>
 
 </head> <body> <div class="container">
-<!-- =========================
-     TOPO
-========================= -->
-
 <div class="topo">
 
     <h1 id="saudacao">
@@ -477,24 +277,29 @@
     </h1>
 
     <p>
-        Aqui está o resumo do seu dinheiro
-        neste mês.
+        Aqui está o resumo do seu dinheiro.
     </p>
 
 </div>
 
-<!-- =========================
-     CARDS
-========================= -->
+<div class="periodo">
+
+    📅 <strong>Período atual:</strong>
+    <span id="periodoAtual">-</span>
+
+    <br>
+
+    Seus gastos anteriores continuam
+    salvos no histórico.
+
+</div>
 
 <div class="cards">
-
-    <!-- RENDA -->
 
     <div class="card renda-card">
 
         <small>
-            Renda deste mês
+            Renda deste período
         </small>
 
         <h2 id="renda">
@@ -510,12 +315,10 @@
 
     </div>
 
-    <!-- GASTOS -->
-
     <div class="card">
 
         <small>
-            Gastos deste mês
+            Gastos deste período
         </small>
 
         <h2 id="totalGastos">
@@ -523,8 +326,6 @@
         </h2>
 
     </div>
-
-    <!-- SALDO -->
 
     <div
         class="card saldo"
@@ -541,8 +342,6 @@
 
     </div>
 
-    <!-- MÊS -->
-
     <div class="card">
 
         <small>
@@ -557,10 +356,6 @@
 
 </div>
 
-<!-- =========================
-     GASTOS POR CATEGORIA
-========================= -->
-
 <div class="card gastos-card">
 
     <div class="gastos-header">
@@ -569,23 +364,15 @@
             Gastos por categoria
         </h2>
 
-        <span id="textoCategorias">
-            Este mês
+        <span>
+            Período atual
         </span>
 
     </div>
 
-    <div id="categorias">
-
-        <!-- Preenchido pelo JavaScript -->
-
-    </div>
+    <div id="categorias"></div>
 
 </div>
-
-<!-- =========================
-     BOTÕES
-========================= -->
 
 <div class="botoes">
 
@@ -614,12 +401,12 @@
         class="acao perigo"
         onclick="novoMes()"
     >
-        🔄 Iniciar novo mês
+        💰 Recebi meu pagamento
     </button>
 
 </div>
 
-</div> <!-- ========================= MODAL EDITAR RENDA ========================= --> <div class="modal" id="modalRenda" >
+</div> <div class="modal" id="modalRenda" >
 <div class="modal-conteudo">
 
     <h2>
@@ -628,7 +415,7 @@
 
     <p>
         Informe quanto você recebeu
-        neste mês.
+        neste período.
     </p>
 
     <input
@@ -725,10 +512,10 @@ return Number(valor).toLocaleString(
 }
 
 /* =========================
-MÊS ATUAL
+MÊS REAL
 ========================= */
 
-function obterMesAtual() {
+function obterMesReal() {
 
 const agora = new Date();
 
@@ -743,10 +530,45 @@ return (
 }
 
 /* =========================
+PERÍODO FINANCEIRO
+========================= */
+
+function obterPeriodo() {
+
+const periodoSalvo =
+    localStorage.getItem(
+        "periodoFinanceiro"
+    );
+
+if (periodoSalvo) {
+
+    return periodoSalvo;
+
+}
+
+const periodo =
+    obterMesReal();
+
+localStorage.setItem(
+    "periodoFinanceiro",
+    periodo
+);
+
+return periodo;
+
+}
+
+/* =========================
 NOME DO MÊS
 ========================= */
 
 function nomeDoMes(mes) {
+
+if (!mes || !mes.includes("-")) {
+
+    return "-";
+
+}
 
 const partes =
     mes.split("-");
@@ -844,52 +666,97 @@ ORÇAMENTO
 
 function pegarOrcamento() {
 
+/*
+    Primeiro tenta usar o novo formato.
+*/
+
 const salvo =
     localStorage.getItem("orcamento");
 
-if (!salvo) {
+if (salvo) {
 
-    return {};
+    try {
+
+        const objeto =
+            JSON.parse(salvo);
+
+        if (
+            objeto &&
+            typeof objeto === "object"
+        ) {
+
+            return objeto;
+
+        }
+
+    } catch {
+
+        console.log(
+            "Orçamento salvo em formato inválido."
+        );
+
+    }
 
 }
 
-try {
+/*
+    Compatibilidade com o seu
+    orcamento.html antigo.
+*/
 
-    return JSON.parse(salvo);
+const orcamento = {};
 
-} catch {
+Object.keys(categorias)
+    .forEach(function(categoria) {
 
-    return {};
+        const nome =
+            categoria.charAt(0).toUpperCase() +
+            categoria.slice(1);
 
-}
+        const valor =
+            localStorage.getItem(
+                "orcamento" + nome
+            );
+
+        orcamento[categoria] =
+            Number(valor) || 0;
+
+    });
+
+return orcamento;
 
 }
 
 /* =========================
-GASTOS DO MÊS
+GASTOS DO PERÍODO
 ========================= */
 
-function gastosDoMes() {
+function gastosDoPeriodo() {
 
-const mes =
-    obterMesAtual();
+const periodo =
+    obterPeriodo();
 
 return pegarGastos()
     .filter(function(gasto) {
 
-        return gasto.mes === mes;
+        /*
+            Só entram gastos que tenham
+            exatamente o período atual.
+        */
+
+        return gasto.mes === periodo;
 
     });
 
 }
 
 /* =========================
-TOTAL GASTO
+TOTAL DOS GASTOS
 ========================= */
 
 function calcularTotalGasto() {
 
-return gastosDoMes()
+return gastosDoPeriodo()
     .reduce(function(total, gasto) {
 
         return total +
@@ -900,18 +767,13 @@ return gastosDoMes()
 }
 
 /* =========================
-INICIAR DASHBOARD
+CARREGAR DASHBOARD
 ========================= */
 
 function carregarDashboard() {
 
 const usuario =
     pegarUsuario();
-
-/*
-    Se não houver usuário,
-    volta para o cadastro.
-*/
 
 if (!usuario) {
 
@@ -935,7 +797,8 @@ const totalGastos =
 const saldo =
     renda - totalGastos;
 
-/* Nome */
+const periodo =
+    obterPeriodo();
 
 document
     .getElementById("saudacao")
@@ -944,56 +807,49 @@ document
         usuario.nome +
         "! 👋";
 
-/* Renda */
-
 document
     .getElementById("renda")
     .textContent =
         moeda(renda);
-
-/* Gastos */
 
 document
     .getElementById("totalGastos")
     .textContent =
         moeda(totalGastos);
 
-/* Saldo */
-
 document
     .getElementById("saldo")
     .textContent =
         moeda(saldo);
 
-/* Mês */
-
-const mes =
-    obterMesAtual();
-
 document
     .getElementById("mesAtual")
     .textContent =
-        nomeDoMes(mes);
+        nomeDoMes(periodo);
 
-/* Cor do saldo */
+document
+    .getElementById("periodoAtual")
+    .textContent =
+        nomeDoMes(periodo);
 
 const cardSaldo =
-    document
-        .getElementById("cardSaldo");
+    document.getElementById(
+        "cardSaldo"
+    );
 
 if (saldo < 0) {
 
-    cardSaldo
-        .classList.add("negativo");
+    cardSaldo.classList.add(
+        "negativo"
+    );
 
 } else {
 
-    cardSaldo
-        .classList.remove("negativo");
+    cardSaldo.classList.remove(
+        "negativo"
+    );
 
 }
-
-/* Categorias */
 
 mostrarCategorias();
 
@@ -1014,7 +870,7 @@ const orcamento =
     pegarOrcamento();
 
 const gastos =
-    gastosDoMes();
+    gastosDoPeriodo();
 
 container.innerHTML = "";
 
@@ -1029,8 +885,7 @@ Object.keys(categorias)
                 orcamento[chave]
             ) || 0;
 
-        let gasto =
-            0;
+        let gasto = 0;
 
         gastos.forEach(function(item) {
 
@@ -1044,12 +899,6 @@ Object.keys(categorias)
             }
 
         });
-
-        /*
-            Se não houver orçamento
-            nem gasto, ainda mostramos
-            a categoria.
-        */
 
         let porcentagem = 0;
 
@@ -1083,8 +932,10 @@ Object.keys(categorias)
             <div class="categoria-topo">
 
                 <span class="categoria-nome">
+
                     ${info.icone}
                     ${info.nome}
+
                 </span>
 
                 <span class="categoria-valor">
@@ -1142,7 +993,7 @@ document
 }
 
 /* =========================
-FECHAR EDITAR RENDA
+FECHAR MODAL
 ========================= */
 
 function fecharEditarRenda() {
@@ -1154,16 +1005,15 @@ document
 }
 
 /* =========================
-SALVAR NOVA RENDA
+SALVAR RENDA
 ========================= */
 
 function salvarNovaRenda() {
 
 const campo =
-    document
-        .getElementById(
-            "novaRenda"
-        );
+    document.getElementById(
+        "novaRenda"
+    );
 
 const renda =
     Number(campo.value);
@@ -1181,18 +1031,10 @@ if (
 
 }
 
-/*
-    Atualiza a renda principal.
-*/
-
 localStorage.setItem(
     "rendaMensal",
     renda.toString()
 );
-
-/*
-    Atualiza também o usuário.
-*/
 
 const usuario =
     pegarUsuario();
@@ -1253,46 +1095,60 @@ window.location.href =
 }
 
 /* =========================
-NOVO MÊS
+NOVO PERÍODO
 ========================= */
 
 function novoMes() {
 
-const resposta =
-    confirm(
+const periodoAtual =
+    obterPeriodo();
 
-        "Deseja iniciar um novo mês?\n\n" +
+const novoPeriodo =
+    obterMesReal();
 
-        "Seus gastos anteriores " +
-        "não serão apagados.\n\n" +
+/*
+    Se o mês do computador já for
+    diferente, podemos simplesmente
+    mudar o período.
+*/
 
-        "O novo mês começará " +
-        "com R$ 0,00 em gastos."
+if (periodoAtual === novoPeriodo) {
 
-    );
+    const resposta =
+        confirm(
 
-if (!resposta) {
+            "Você recebeu seu pagamento?\n\n" +
 
-    return;
+            "Isso vai começar um novo " +
+            "período de gastos.\n\n" +
+
+            "Os gastos antigos NÃO serão apagados."
+
+        );
+
+    if (!resposta) {
+
+        return;
+
+    }
 
 }
 
 /*
-    Não apagamos os gastos.
-    Eles continuam no histórico
-    identificados pelo mês.
-
-    O sistema automaticamente
-    considera somente os gastos
-    do mês atual.
+    Cria o novo período financeiro.
 */
+
+localStorage.setItem(
+    "periodoFinanceiro",
+    novoPeriodo
+);
 
 alert(
 
-    "Novo mês iniciado! 💚\n\n" +
+    "Novo período iniciado! 💚\n\n" +
 
-    "Os registros anteriores " +
-    "continuam salvos no histórico."
+    "Seus gastos anteriores continuam " +
+    "salvos nos registros."
 
 );
 
@@ -1301,7 +1157,7 @@ carregarDashboard();
 }
 
 /* =========================
-CARREGA AO ABRIR
+CARREGAR
 ========================= */
 
 carregarDashboard();

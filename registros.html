@@ -1,0 +1,1168 @@
+<!DOCTYPE html> <html lang="pt-BR"> <head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Meus registros - Meu Dinheiro</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+
+        background: #f5f7f5;
+
+        color: #26352b;
+
+        min-height: 100vh;
+
+        padding: 20px;
+
+    }
+
+    .container {
+
+        max-width: 700px;
+
+        margin: 30px auto;
+
+    }
+
+    .voltar {
+
+        display: inline-block;
+
+        color: #287a4b;
+
+        text-decoration: none;
+
+        font-weight: bold;
+
+        margin-bottom: 20px;
+
+    }
+
+    .topo {
+
+        margin-bottom: 25px;
+
+    }
+
+    .topo h1 {
+
+        color: #287a4b;
+
+        margin-bottom: 8px;
+
+    }
+
+    .topo p {
+
+        color: #718078;
+
+        line-height: 1.5;
+
+    }
+
+    .resumo {
+
+        background: #287a4b;
+
+        color: white;
+
+        padding: 22px;
+
+        border-radius: 20px;
+
+        margin-bottom: 25px;
+
+    }
+
+    .resumo small {
+
+        display: block;
+
+        opacity: 0.8;
+
+        margin-bottom: 7px;
+
+    }
+
+    .resumo h2 {
+
+        font-size: 30px;
+
+    }
+
+    .filtros {
+
+        background: white;
+
+        padding: 20px;
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 5px 20px
+            rgba(0,0,0,0.06);
+
+        margin-bottom: 20px;
+
+    }
+
+    .filtros label {
+
+        display: block;
+
+        font-weight: bold;
+
+        margin-bottom: 8px;
+
+    }
+
+    .filtros select {
+
+        width: 100%;
+
+        padding: 13px;
+
+        border: 1px solid #d8ded9;
+
+        border-radius: 12px;
+
+        font-size: 16px;
+
+        background: white;
+
+    }
+
+    .registro {
+
+        background: white;
+
+        padding: 20px;
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 5px 20px
+            rgba(0,0,0,0.05);
+
+        margin-bottom: 15px;
+
+    }
+
+    .registro-topo {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+        margin-bottom: 10px;
+
+    }
+
+    .descricao {
+
+        font-size: 18px;
+
+        font-weight: bold;
+
+        color: #26352b;
+
+    }
+
+    .valor {
+
+        color: #c0392b;
+
+        font-weight: bold;
+
+        font-size: 17px;
+
+        white-space: nowrap;
+
+    }
+
+    .categoria {
+
+        display: inline-block;
+
+        background: #f0f5f1;
+
+        color: #287a4b;
+
+        padding: 6px 10px;
+
+        border-radius: 20px;
+
+        font-size: 13px;
+
+        margin-bottom: 10px;
+
+    }
+
+    .data {
+
+        color: #718078;
+
+        font-size: 14px;
+
+        margin-bottom: 15px;
+
+    }
+
+    .acoes {
+
+        display: flex;
+
+        gap: 10px;
+
+    }
+
+    .btn {
+
+        border: none;
+
+        padding: 10px 14px;
+
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        font-weight: bold;
+
+        font-size: 14px;
+
+    }
+
+    .editar {
+
+        background: #e8f3eb;
+
+        color: #287a4b;
+
+    }
+
+    .editar:hover {
+
+        background: #d7ebdc;
+
+    }
+
+    .excluir {
+
+        background: #fff0ee;
+
+        color: #c0392b;
+
+    }
+
+    .excluir:hover {
+
+        background: #ffe0dc;
+
+    }
+
+    .vazio {
+
+        background: white;
+
+        padding: 35px 25px;
+
+        border-radius: 20px;
+
+        text-align: center;
+
+        box-shadow:
+            0 5px 20px
+            rgba(0,0,0,0.05);
+
+    }
+
+    .vazio .icone {
+
+        font-size: 45px;
+
+        margin-bottom: 15px;
+
+    }
+
+    .vazio h2 {
+
+        margin-bottom: 8px;
+
+    }
+
+    .vazio p {
+
+        color: #718078;
+
+        line-height: 1.5;
+
+    }
+
+    .novo {
+
+        display: block;
+
+        width: 100%;
+
+        padding: 16px;
+
+        border: none;
+
+        border-radius: 14px;
+
+        background: #287a4b;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        margin-top: 20px;
+
+    }
+
+    .novo:hover {
+
+        background: #1f633c;
+
+    }
+
+    @media (max-width: 500px) {
+
+        .registro-topo {
+
+            flex-direction: column;
+
+        }
+
+        .valor {
+
+            font-size: 16px;
+
+        }
+
+        .acoes {
+
+            width: 100%;
+
+        }
+
+        .btn {
+
+            flex: 1;
+
+        }
+
+    }
+
+</style>
+
+</head> <body> <div class="container">
+<a
+    href="dashboard.html"
+    class="voltar"
+>
+    ← Voltar para o resumo
+</a>
+
+<div class="topo">
+
+    <h1>
+        Meus registros 📋
+    </h1>
+
+    <p>
+        Aqui você pode acompanhar
+        todos os gastos que já registrou.
+    </p>
+
+</div>
+
+<div class="resumo">
+
+    <small>
+        Total gasto no mês
+    </small>
+
+    <h2 id="totalMes">
+        R$ 0,00
+    </h2>
+
+</div>
+
+<div class="filtros">
+
+    <label for="filtroMes">
+        Ver registros de:
+    </label>
+
+    <select
+        id="filtroMes"
+        onchange="mostrarRegistros()"
+    ></select>
+
+</div>
+
+<div id="listaRegistros"></div>
+
+<button
+    class="novo"
+    onclick="window.location.href='registrar.html'"
+>
+    + Registrar novo gasto
+</button>
+
+</div> <script>
+/* =========================
+CATEGORIAS
+========================= */
+
+const nomesCategorias = {
+
+fixos: "🏠 Gastos fixos",
+
+alimentacao: "🍎 Alimentação",
+
+saude: "🏥 Saúde",
+
+higiene: "🧼 Higiene",
+
+lazer: "🎮 Lazer",
+
+transporte: "🚗 Transporte",
+
+educacao: "📚 Educação",
+
+investimentos: "💰 Investimentos"
+
+};
+
+/* =========================
+MOEDA
+========================= */
+
+function moeda(valor) {
+
+return Number(valor).toLocaleString(
+    "pt-BR",
+    {
+        style: "currency",
+        currency: "BRL"
+    }
+);
+
+}
+
+/* =========================
+PEGAR GASTOS
+========================= */
+
+function pegarGastos() {
+
+const salvo =
+    localStorage.getItem("gastos");
+
+if (!salvo) {
+
+    return [];
+
+}
+
+try {
+
+    const gastos =
+        JSON.parse(salvo);
+
+    if (Array.isArray(gastos)) {
+
+        return gastos;
+
+    }
+
+    return [];
+
+} catch {
+
+    return [];
+
+}
+
+}
+
+/* =========================
+FORMATAR MÊS
+========================= */
+
+function nomeMes(mes) {
+
+const partes =
+    mes.split("-");
+
+const ano =
+    Number(partes[0]);
+
+const numeroMes =
+    Number(partes[1]);
+
+const data =
+    new Date(
+        ano,
+        numeroMes - 1,
+        1
+    );
+
+return data.toLocaleDateString(
+    "pt-BR",
+    {
+        month: "long",
+        year: "numeric"
+    }
+);
+
+}
+
+/* =========================
+CRIAR FILTROS DE MÊS
+========================= */
+
+function criarFiltros() {
+
+const gastos =
+    pegarGastos();
+
+const select =
+    document.getElementById(
+        "filtroMes"
+    );
+
+select.innerHTML = "";
+
+const meses = [];
+
+gastos.forEach(
+    function(gasto) {
+
+        if (
+            gasto.mes &&
+            !meses.includes(gasto.mes)
+        ) {
+
+            meses.push(
+                gasto.mes
+            );
+
+        }
+
+    }
+);
+
+/*
+   Se não houver gastos,
+   usamos o mês atual.
+*/
+
+if (meses.length === 0) {
+
+    const agora =
+        new Date();
+
+    const mesAtual =
+
+        agora.getFullYear() +
+        "-" +
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0");
+
+    meses.push(
+        mesAtual
+    );
+
+}
+
+meses.sort().reverse();
+
+meses.forEach(
+    function(mes) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            mes;
+
+        option.textContent =
+            nomeMes(mes);
+
+        select.appendChild(
+            option
+        );
+
+    }
+);
+
+}
+
+/* =========================
+MOSTRAR REGISTROS
+========================= */
+
+function mostrarRegistros() {
+
+const gastos =
+    pegarGastos();
+
+const mesSelecionado =
+    document
+        .getElementById("filtroMes")
+        .value;
+
+const lista =
+    document.getElementById(
+        "listaRegistros"
+    );
+
+const totalElemento =
+    document.getElementById(
+        "totalMes"
+    );
+
+const gastosDoMes =
+    gastos.filter(
+        function(gasto) {
+
+            return (
+                gasto.mes ===
+                mesSelecionado
+            );
+
+        }
+    );
+
+/*
+   Calcula total do mês
+*/
+
+let total = 0;
+
+gastosDoMes.forEach(
+    function(gasto) {
+
+        total +=
+            Number(gasto.valor) || 0;
+
+    }
+);
+
+totalElemento.textContent =
+    moeda(total);
+
+/*
+   Se não houver gastos
+*/
+
+if (gastosDoMes.length === 0) {
+
+    lista.innerHTML = `
+
+        <div class="vazio">
+
+            <div class="icone">
+                📝
+            </div>
+
+            <h2>
+                Nenhum gasto registrado
+            </h2>
+
+            <p>
+                Você ainda não registrou
+                nenhum gasto neste mês.
+            </p>
+
+        </div>
+
+    `;
+
+    return;
+
+}
+
+/*
+   Ordena do mais recente
+   para o mais antigo
+*/
+
+gastosDoMes.sort(
+    function(a, b) {
+
+        return (
+            new Date(
+                b.criadoEm || 0
+            ) -
+
+            new Date(
+                a.criadoEm || 0
+            )
+        );
+
+    }
+);
+
+lista.innerHTML = "";
+
+gastosDoMes.forEach(
+    function(gasto) {
+
+        const categoria =
+            nomesCategorias[
+                gasto.categoria
+            ] ||
+            gasto.categoria;
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "registro";
+
+        div.innerHTML = `
+
+            <div class="registro-topo">
+
+                <div class="descricao">
+                    ${escaparHTML(
+                        gasto.descricao
+                    )}
+                </div>
+
+                <div class="valor">
+                    - ${moeda(
+                        gasto.valor
+                    )}
+                </div>
+
+            </div>
+
+            <div class="categoria">
+                ${categoria}
+            </div>
+
+            <div class="data">
+
+                📅 ${gasto.data || "Data não informada"}
+
+            </div>
+
+            <div class="acoes">
+
+                <button
+                    class="btn editar"
+                    onclick="editarGasto('${gasto.id}')"
+                >
+                    ✏️ Editar
+                </button>
+
+                <button
+                    class="btn excluir"
+                    onclick="excluirGasto('${gasto.id}')"
+                >
+                    🗑️ Excluir
+                </button>
+
+            </div>
+
+        `;
+
+        lista.appendChild(
+            div
+        );
+
+    }
+);
+
+}
+
+/* =========================
+ESCAPAR TEXTO
+========================= */
+
+function escaparHTML(texto) {
+
+return String(texto)
+
+    .replaceAll("&", "&amp;")
+
+    .replaceAll("<", "&lt;")
+
+    .replaceAll(">", "&gt;")
+
+    .replaceAll('"', "&quot;")
+
+    .replaceAll("'", "&#039;");
+
+}
+
+/* =========================
+EXCLUIR GASTO
+========================= */
+
+function excluirGasto(id) {
+
+const gastos =
+    pegarGastos();
+
+const gasto =
+    gastos.find(
+        function(item) {
+
+            return item.id === id;
+
+        }
+    );
+
+if (!gasto) {
+
+    alert(
+        "Não foi possível encontrar este gasto."
+    );
+
+    return;
+
+}
+
+const confirmar =
+    confirm(
+
+        "Tem certeza que deseja excluir " +
+
+        '"' +
+        gasto.descricao +
+        '"' +
+
+        " no valor de " +
+
+        moeda(gasto.valor) +
+
+        "?"
+
+    );
+
+if (!confirmar) {
+
+    return;
+
+}
+
+const novosGastos =
+    gastos.filter(
+        function(item) {
+
+            return item.id !== id;
+
+        }
+    );
+
+localStorage.setItem(
+
+    "gastos",
+
+    JSON.stringify(
+        novosGastos
+    )
+
+);
+
+alert(
+    "Gasto excluído com sucesso! 💚"
+);
+
+criarFiltros();
+
+mostrarRegistros();
+
+}
+
+/* =========================
+EDITAR GASTO
+========================= */
+
+function editarGasto(id) {
+
+const gastos =
+    pegarGastos();
+
+const gasto =
+    gastos.find(
+        function(item) {
+
+            return item.id === id;
+
+        }
+    );
+
+if (!gasto) {
+
+    alert(
+        "Não foi possível encontrar este gasto."
+    );
+
+    return;
+
+}
+
+const novaDescricao =
+    prompt(
+        "Digite a nova descrição:",
+        gasto.descricao
+    );
+
+if (
+    novaDescricao === null
+) {
+
+    return;
+
+}
+
+const descricao =
+    novaDescricao.trim();
+
+if (!descricao) {
+
+    alert(
+        "A descrição não pode ficar vazia."
+    );
+
+    return;
+
+}
+
+const novoValorTexto =
+    prompt(
+        "Digite o novo valor:",
+        Number(gasto.valor)
+            .toFixed(2)
+    );
+
+if (
+    novoValorTexto === null
+) {
+
+    return;
+
+}
+
+const novoValor =
+    Number(
+        novoValorTexto
+            .replace(",", ".")
+    );
+
+if (
+    !Number.isFinite(novoValor) ||
+    novoValor <= 0
+) {
+
+    alert(
+        "Digite um valor válido."
+    );
+
+    return;
+
+}
+
+const novaCategoria =
+    prompt(
+
+        "Digite a categoria:\n\n" +
+
+        "fixos\n" +
+        "alimentacao\n" +
+        "saude\n" +
+        "higiene\n" +
+        "lazer\n" +
+        "transporte\n" +
+        "educacao\n" +
+        "investimentos",
+
+        gasto.categoria
+
+    );
+
+if (
+    novaCategoria === null
+) {
+
+    return;
+
+}
+
+const categoria =
+    novaCategoria
+        .trim()
+        .toLowerCase();
+
+if (
+    !nomesCategorias[categoria]
+) {
+
+    alert(
+        "Categoria inválida."
+    );
+
+    return;
+
+}
+
+/*
+   Verifica se a nova edição
+   ultrapassa o orçamento.
+*/
+
+const orcamentos =
+    JSON.parse(
+        localStorage.getItem(
+            "orcamento"
+        )
+    ) || {};
+
+const orcamento =
+    Number(
+        orcamentos[categoria]
+    ) || 0;
+
+let totalCategoria = 0;
+
+gastos.forEach(
+    function(item) {
+
+        if (
+
+            item.id !== id &&
+
+            item.categoria ===
+                categoria &&
+
+            item.mes ===
+                gasto.mes
+
+        ) {
+
+            totalCategoria +=
+                Number(
+                    item.valor
+                ) || 0;
+
+        }
+
+    }
+);
+
+if (
+    totalCategoria +
+    novoValor >
+    orcamento
+) {
+
+    alert(
+
+        "Esse valor ultrapassa " +
+        "o orçamento da categoria.\n\n" +
+
+        "Orçamento: " +
+        moeda(orcamento) +
+
+        "\nJá utilizado: " +
+        moeda(totalCategoria) +
+
+        "\nNovo gasto: " +
+        moeda(novoValor)
+
+    );
+
+    return;
+
+}
+
+/*
+   Atualiza o gasto.
+*/
+
+gasto.descricao =
+    descricao;
+
+gasto.valor =
+    novoValor;
+
+gasto.categoria =
+    categoria;
+
+gastos[
+    gastos.indexOf(gasto)
+] = gasto;
+
+localStorage.setItem(
+
+    "gastos",
+
+    JSON.stringify(
+        gastos
+    )
+
+);
+
+alert(
+    "Gasto editado com sucesso! 💚"
+);
+
+criarFiltros();
+
+/*
+   Volta para o mês
+   do gasto editado.
+*/
+
+document
+    .getElementById(
+        "filtroMes"
+    )
+    .value = gasto.mes;
+
+mostrarRegistros();
+
+}
+
+/* =========================
+INICIAR PÁGINA
+========================= */
+
+criarFiltros();
+
+mostrarRegistros();
+
+</script> </body> </html>

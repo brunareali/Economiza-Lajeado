@@ -1392,6 +1392,86 @@ function novoMes() {
 
     /*
         Se ainda estiver no mesmo mês,
+        confirma se a pessoa realmente
+        recebeu o pagamento.
+    */
+
+    if (
+        periodoAtual === novoPeriodo
+    ) {
+
+        const resposta =
+            confirm(
+
+                "💰 Você recebeu seu pagamento?\n\n" +
+
+                "Isso vai iniciar um novo período " +
+                "de gastos.\n\n" +
+
+                "Seus gastos atuais NÃO serão apagados " +
+                "e continuarão disponíveis no histórico.\n\n" +
+
+                "Deseja continuar?"
+
+            );
+
+
+        if (!resposta) {
+
+            return;
+
+        }
+
+    }
+
+
+    /*
+        Apenas muda o período financeiro.
+        
+        Os gastos antigos continuam
+        salvos no localStorage.
+    */
+
+    localStorage.setItem(
+        "periodoFinanceiro",
+        novoPeriodo
+    );
+
+
+    /*
+        Atualiza o Dashboard.
+        
+        Como o Dashboard mostra somente
+        os gastos do novo período, ele
+        aparecerá zerado.
+    */
+
+    carregarDashboard();
+
+
+    alert(
+
+        "Pagamento recebido! 💚\n\n" +
+
+        "Seu novo período começou.\n\n" +
+
+        "Seus gastos anteriores continuam " +
+        "salvos no histórico."
+
+    );
+
+}
+
+
+    const periodoAtual =
+        obterPeriodo();
+
+    const novoPeriodo =
+        obterMesReal();
+
+
+    /*
+        Se ainda estiver no mesmo mês,
         pergunta antes de iniciar.
     */
 

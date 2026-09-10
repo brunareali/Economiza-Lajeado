@@ -1,1168 +1,962 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head>
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>Meus registros - Meu Dinheiro</title>
-
-<style>
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
-
-    body {
-
-        background: #f5f7f5;
-
-        color: #26352b;
-
-        min-height: 100vh;
-
-        padding: 20px;
-
-    }
-
-    .container {
-
-        max-width: 700px;
-
-        margin: 30px auto;
-
-    }
-
-    .voltar {
-
-        display: inline-block;
-
-        color: #287a4b;
-
-        text-decoration: none;
-
-        font-weight: bold;
-
-        margin-bottom: 20px;
-
-    }
-
-    .topo {
-
-        margin-bottom: 25px;
-
-    }
-
-    .topo h1 {
-
-        color: #287a4b;
-
-        margin-bottom: 8px;
-
-    }
-
-    .topo p {
-
-        color: #718078;
-
-        line-height: 1.5;
-
-    }
-
-    .resumo {
-
-        background: #287a4b;
-
-        color: white;
-
-        padding: 22px;
-
-        border-radius: 20px;
-
-        margin-bottom: 25px;
-
-    }
-
-    .resumo small {
-
-        display: block;
-
-        opacity: 0.8;
-
-        margin-bottom: 7px;
-
-    }
-
-    .resumo h2 {
-
-        font-size: 30px;
-
-    }
-
-    .filtros {
-
-        background: white;
-
-        padding: 20px;
-
-        border-radius: 18px;
-
-        box-shadow:
-            0 5px 20px
-            rgba(0,0,0,0.06);
-
-        margin-bottom: 20px;
-
-    }
-
-    .filtros label {
-
-        display: block;
-
-        font-weight: bold;
-
-        margin-bottom: 8px;
-
-    }
-
-    .filtros select {
-
-        width: 100%;
-
-        padding: 13px;
-
-        border: 1px solid #d8ded9;
-
-        border-radius: 12px;
-
-        font-size: 16px;
-
-        background: white;
-
-    }
-
-    .registro {
-
-        background: white;
-
-        padding: 20px;
-
-        border-radius: 18px;
-
-        box-shadow:
-            0 5px 20px
-            rgba(0,0,0,0.05);
-
-        margin-bottom: 15px;
-
-    }
-
-    .registro-topo {
-
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: flex-start;
-
-        gap: 15px;
-
-        margin-bottom: 10px;
-
-    }
-
-    .descricao {
-
-        font-size: 18px;
-
-        font-weight: bold;
-
-        color: #26352b;
-
-    }
-
-    .valor {
-
-        color: #c0392b;
-
-        font-weight: bold;
-
-        font-size: 17px;
-
-        white-space: nowrap;
-
-    }
-
-    .categoria {
-
-        display: inline-block;
-
-        background: #f0f5f1;
-
-        color: #287a4b;
-
-        padding: 6px 10px;
-
-        border-radius: 20px;
-
-        font-size: 13px;
-
-        margin-bottom: 10px;
-
-    }
-
-    .data {
-
-        color: #718078;
-
-        font-size: 14px;
-
-        margin-bottom: 15px;
-
-    }
-
-    .acoes {
-
-        display: flex;
-
-        gap: 10px;
-
-    }
-
-    .btn {
-
-        border: none;
-
-        padding: 10px 14px;
-
-        border-radius: 10px;
-
-        cursor: pointer;
-
-        font-weight: bold;
-
-        font-size: 14px;
-
-    }
-
-    .editar {
-
-        background: #e8f3eb;
-
-        color: #287a4b;
-
-    }
-
-    .editar:hover {
-
-        background: #d7ebdc;
-
-    }
-
-    .excluir {
-
-        background: #fff0ee;
-
-        color: #c0392b;
-
-    }
-
-    .excluir:hover {
-
-        background: #ffe0dc;
-
-    }
-
-    .vazio {
-
-        background: white;
-
-        padding: 35px 25px;
-
-        border-radius: 20px;
-
-        text-align: center;
-
-        box-shadow:
-            0 5px 20px
-            rgba(0,0,0,0.05);
-
-    }
-
-    .vazio .icone {
-
-        font-size: 45px;
-
-        margin-bottom: 15px;
-
-    }
-
-    .vazio h2 {
-
-        margin-bottom: 8px;
-
-    }
-
-    .vazio p {
-
-        color: #718078;
-
-        line-height: 1.5;
-
-    }
-
-    .novo {
-
-        display: block;
-
-        width: 100%;
-
-        padding: 16px;
-
-        border: none;
-
-        border-radius: 14px;
-
-        background: #287a4b;
-
-        color: white;
-
-        font-size: 16px;
-
-        font-weight: bold;
-
-        cursor: pointer;
-
-        margin-top: 20px;
-
-    }
-
-    .novo:hover {
-
-        background: #1f633c;
-
-    }
-
-    @media (max-width: 500px) {
-
-        .registro-topo {
-
-            flex-direction: column;
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Planejamento mensal - Meu Dinheiro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
 
-        .valor {
-
-            font-size: 16px;
-
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        .acoes {
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+        }
 
+        .voltar {
+            display: inline-block;
+            color: #287a4b;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .topo {
+            margin-bottom: 25px;
+        }
+
+        .topo h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+        }
+
+        .topo p {
+            color: #718078;
+            line-height: 1.5;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 18px;
+            color: #26352b;
+        }
+
+        .renda {
             width: 100%;
-
+            padding: 14px;
+            border: 1px solid #d8ded9;
+            border-radius: 12px;
+            font-size: 17px;
         }
 
-        .btn {
-
-            flex: 1;
-
+        .renda:focus,
+        .campo-categoria:focus {
+            outline: none;
+            border-color: #287a4b;
+            box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
         }
 
-    }
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-</style>
+        .resumo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
 
-</head> <body> <div class="container">
-<a
-    href="dashboard.html"
-    class="voltar"
->
-    ← Voltar para o resumo
-</a>
+        .resumo-card small {
+            display: block;
+            color: #718078;
+            margin-bottom: 8px;
+        }
 
-<div class="topo">
+        .resumo-card strong {
+            font-size: 21px;
+            color: #287a4b;
+        }
 
-    <h1>
-        Meus registros 📋
-    </h1>
+        .categoria {
+            padding: 18px 0;
+            border-bottom: 1px solid #e7ebe8;
+        }
 
-    <p>
-        Aqui você pode acompanhar
-        todos os gastos que já registrou.
-    </p>
+        .categoria:last-of-type {
+            border-bottom: none;
+        }
+
+        .categoria-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .categoria-nome {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .categoria-descricao {
+            color: #718078;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .campo-categoria {
+            width: 170px;
+            padding: 12px;
+            border: 1px solid #d8ded9;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid #e7ebe8;
+            font-size: 18px;
+        }
+
+        .total strong {
+            color: #287a4b;
+        }
+
+        .alerta {
+            display: none;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+
+        .alerta.ok {
+            display: block;
+            background: #e8f5eb;
+            color: #287a4b;
+        }
+
+        .alerta.erro {
+            display: block;
+            background: #fff0ee;
+            color: #c0392b;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #1f633c;
+        }
+
+        .btn-dashboard {
+            background: white;
+            color: #287a4b;
+            border: 1px solid #287a4b;
+        }
+
+        .btn-dashboard:hover {
+            background: #eef5f0;
+        }
+
+        @media (max-width: 600px) {
+
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .categoria-topo {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .campo-categoria {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="dashboard.html" class="voltar">
+        ← Voltar para o resumo
+    </a>
+
+    <div class="topo">
+
+        <h1>
+            Planejamento mensal 💰
+        </h1>
+
+        <p>
+            Defina quanto você quer gastar em cada categoria.
+            Esses valores serão usados para acompanhar seus gastos.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            Sua renda mensal
+        </h2>
+
+        <input
+            type="number"
+            id="renda"
+            class="renda"
+            min="0"
+            step="0.01"
+            placeholder="Ex: 2500"
+        >
+
+    </div>
+
+    <div class="resumo">
+
+        <div class="resumo-card">
+
+            <small>
+                Renda
+            </small>
+
+            <strong id="rendaResumo">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+        <div class="resumo-card">
+
+            <small>
+                Total planejado
+            </small>
+
+            <strong id="totalPlanejado">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+        <div class="resumo-card">
+
+            <small>
+                Disponível
+            </small>
+
+            <strong id="disponivel">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            Quanto você quer gastar?
+        </h2>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        🏠 Gastos fixos
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Moradia, contas e despesas fixas
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="fixos"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        🍎 Alimentação
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Mercado, restaurantes e alimentação
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="alimentacao"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        🏥 Saúde
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Consultas, medicamentos e tratamentos
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="saude"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        🧼 Higiene
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Produtos de higiene e cuidados pessoais
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="higiene"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        🎮 Lazer
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Entretenimento, passeios e diversão
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="lazer"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        🚗 Transporte
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Combustível, ônibus e aplicativos
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="transporte"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        📚 Educação
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Cursos, livros e estudos
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="educacao"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="categoria">
+
+            <div class="categoria-topo">
+
+                <div>
+                    <div class="categoria-nome">
+                        💰 Investimentos
+                    </div>
+
+                    <div class="categoria-descricao">
+                        Valores destinados a investimentos
+                    </div>
+                </div>
+
+                <input
+                    type="number"
+                    class="campo-categoria"
+                    data-categoria="investimentos"
+                    min="0"
+                    step="0.01"
+                    placeholder="R$ 0,00"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="total">
+
+            <span>
+                Total planejado
+            </span>
+
+            <strong id="totalFinal">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+        <div id="alerta" class="alerta"></div>
+
+        <button onclick="salvarPlanejamento()">
+            💾 Salvar planejamento
+        </button>
+
+        <button
+            class="btn-dashboard"
+            onclick="window.location.href='dashboard.html'"
+        >
+            ← Voltar para o dashboard
+        </button>
+
+    </div>
 
 </div>
 
-<div class="resumo">
+<script>
 
-    <small>
-        Total gasto no mês
-    </small>
+const rendaInput =
+    document.getElementById("renda");
 
-    <h2 id="totalMes">
-        R$ 0,00
-    </h2>
+const campos =
+    document.querySelectorAll(".campo-categoria");
 
-</div>
 
-<div class="filtros">
-
-    <label for="filtroMes">
-        Ver registros de:
-    </label>
-
-    <select
-        id="filtroMes"
-        onchange="mostrarRegistros()"
-    ></select>
-
-</div>
-
-<div id="listaRegistros"></div>
-
-<button
-    class="novo"
-    onclick="window.location.href='registrar.html'"
->
-    + Registrar novo gasto
-</button>
-
-</div> <script>
 /* =========================
-CATEGORIAS
-========================= */
-
-const nomesCategorias = {
-
-fixos: "🏠 Gastos fixos",
-
-alimentacao: "🍎 Alimentação",
-
-saude: "🏥 Saúde",
-
-higiene: "🧼 Higiene",
-
-lazer: "🎮 Lazer",
-
-transporte: "🚗 Transporte",
-
-educacao: "📚 Educação",
-
-investimentos: "💰 Investimentos"
-
-};
-
-/* =========================
-MOEDA
+   MOEDA
 ========================= */
 
 function moeda(valor) {
 
-return Number(valor).toLocaleString(
-    "pt-BR",
-    {
-        style: "currency",
-        currency: "BRL"
-    }
-);
-
-}
-
-/* =========================
-PEGAR GASTOS
-========================= */
-
-function pegarGastos() {
-
-const salvo =
-    localStorage.getItem("gastos");
-
-if (!salvo) {
-
-    return [];
-
-}
-
-try {
-
-    const gastos =
-        JSON.parse(salvo);
-
-    if (Array.isArray(gastos)) {
-
-        return gastos;
-
-    }
-
-    return [];
-
-} catch {
-
-    return [];
-
-}
-
-}
-
-/* =========================
-FORMATAR MÊS
-========================= */
-
-function nomeMes(mes) {
-
-const partes =
-    mes.split("-");
-
-const ano =
-    Number(partes[0]);
-
-const numeroMes =
-    Number(partes[1]);
-
-const data =
-    new Date(
-        ano,
-        numeroMes - 1,
-        1
-    );
-
-return data.toLocaleDateString(
-    "pt-BR",
-    {
-        month: "long",
-        year: "numeric"
-    }
-);
-
-}
-
-/* =========================
-CRIAR FILTROS DE MÊS
-========================= */
-
-function criarFiltros() {
-
-const gastos =
-    pegarGastos();
-
-const select =
-    document.getElementById(
-        "filtroMes"
-    );
-
-select.innerHTML = "";
-
-const meses = [];
-
-gastos.forEach(
-    function(gasto) {
-
-        if (
-            gasto.mes &&
-            !meses.includes(gasto.mes)
-        ) {
-
-            meses.push(
-                gasto.mes
-            );
-
-        }
-
-    }
-);
-
-/*
-   Se não houver gastos,
-   usamos o mês atual.
-*/
-
-if (meses.length === 0) {
-
-    const agora =
-        new Date();
-
-    const mesAtual =
-
-        agora.getFullYear() +
-        "-" +
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0");
-
-    meses.push(
-        mesAtual
-    );
-
-}
-
-meses.sort().reverse();
-
-meses.forEach(
-    function(mes) {
-
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value =
-            mes;
-
-        option.textContent =
-            nomeMes(mes);
-
-        select.appendChild(
-            option
-        );
-
-    }
-);
-
-}
-
-/* =========================
-MOSTRAR REGISTROS
-========================= */
-
-function mostrarRegistros() {
-
-const gastos =
-    pegarGastos();
-
-const mesSelecionado =
-    document
-        .getElementById("filtroMes")
-        .value;
-
-const lista =
-    document.getElementById(
-        "listaRegistros"
-    );
-
-const totalElemento =
-    document.getElementById(
-        "totalMes"
-    );
-
-const gastosDoMes =
-    gastos.filter(
-        function(gasto) {
-
-            return (
-                gasto.mes ===
-                mesSelecionado
-            );
-
+    return Number(valor).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
         }
     );
 
-/*
-   Calcula total do mês
-*/
+}
 
-let total = 0;
 
-gastosDoMes.forEach(
-    function(gasto) {
+/* =========================
+   CALCULAR
+========================= */
+
+function calcularPlanejamento() {
+
+    const renda =
+        Number(rendaInput.value) || 0;
+
+    let total =
+        0;
+
+    campos.forEach(function(campo) {
 
         total +=
-            Number(gasto.valor) || 0;
+            Number(campo.value) || 0;
+
+    });
+
+    const disponivel =
+        renda - total;
+
+    document
+        .getElementById("rendaResumo")
+        .textContent =
+            moeda(renda);
+
+    document
+        .getElementById("totalPlanejado")
+        .textContent =
+            moeda(total);
+
+    document
+        .getElementById("totalFinal")
+        .textContent =
+            moeda(total);
+
+    document
+        .getElementById("disponivel")
+        .textContent =
+            moeda(disponivel);
+
+    const alerta =
+        document.getElementById("alerta");
+
+    if (disponivel < 0) {
+
+        alerta.className =
+            "alerta erro";
+
+        alerta.textContent =
+            "⚠️ O planejamento ultrapassa sua renda em " +
+            moeda(Math.abs(disponivel)) +
+            ".";
+
+    } else {
+
+        alerta.className =
+            "alerta ok";
+
+        alerta.textContent =
+            "✅ Planejamento dentro da renda. " +
+            "Você ainda tem " +
+            moeda(disponivel) +
+            " disponíveis.";
 
     }
-);
-
-totalElemento.textContent =
-    moeda(total);
-
-/*
-   Se não houver gastos
-*/
-
-if (gastosDoMes.length === 0) {
-
-    lista.innerHTML = `
-
-        <div class="vazio">
-
-            <div class="icone">
-                📝
-            </div>
-
-            <h2>
-                Nenhum gasto registrado
-            </h2>
-
-            <p>
-                Você ainda não registrou
-                nenhum gasto neste mês.
-            </p>
-
-        </div>
-
-    `;
-
-    return;
 
 }
 
-/*
-   Ordena do mais recente
-   para o mais antigo
-*/
 
-gastosDoMes.sort(
-    function(a, b) {
+/* =========================
+   SALVAR
+========================= */
 
-        return (
-            new Date(
-                b.criadoEm || 0
-            ) -
+function salvarPlanejamento() {
 
-            new Date(
-                a.criadoEm || 0
-            )
-        );
+    const renda =
+        Number(rendaInput.value) || 0;
 
-    }
-);
+    const categorias =
+        {};
 
-lista.innerHTML = "";
+    let total =
+        0;
 
-gastosDoMes.forEach(
-    function(gasto) {
+    campos.forEach(function(campo) {
 
         const categoria =
-            nomesCategorias[
-                gasto.categoria
-            ] ||
-            gasto.categoria;
+            campo.dataset.categoria;
 
-        const div =
-            document.createElement(
-                "div"
-            );
+        const valor =
+            Number(campo.value) || 0;
 
-        div.className =
-            "registro";
+        categorias[categoria] =
+            valor;
 
-        div.innerHTML = `
+        total +=
+            valor;
 
-            <div class="registro-topo">
+    });
 
-                <div class="descricao">
-                    ${escaparHTML(
-                        gasto.descricao
-                    )}
-                </div>
 
-                <div class="valor">
-                    - ${moeda(
-                        gasto.valor
-                    )}
-                </div>
+    if (renda < 0) {
 
-            </div>
-
-            <div class="categoria">
-                ${categoria}
-            </div>
-
-            <div class="data">
-
-                📅 ${gasto.data || "Data não informada"}
-
-            </div>
-
-            <div class="acoes">
-
-                <button
-                    class="btn editar"
-                    onclick="editarGasto('${gasto.id}')"
-                >
-                    ✏️ Editar
-                </button>
-
-                <button
-                    class="btn excluir"
-                    onclick="excluirGasto('${gasto.id}')"
-                >
-                    🗑️ Excluir
-                </button>
-
-            </div>
-
-        `;
-
-        lista.appendChild(
-            div
+        alert(
+            "Digite uma renda válida."
         );
 
+        return;
+
     }
-);
 
-}
 
-/* =========================
-ESCAPAR TEXTO
-========================= */
+    if (total > renda) {
 
-function escaparHTML(texto) {
+        alert(
+            "O total planejado não pode ser maior que sua renda."
+        );
 
-return String(texto)
+        return;
 
-    .replaceAll("&", "&amp;")
+    }
 
-    .replaceAll("<", "&lt;")
 
-    .replaceAll(">", "&gt;")
+    /*
+        ESTE É O PONTO IMPORTANTE.
 
-    .replaceAll('"', "&quot;")
+        O Dashboard procura os valores
+        dentro de localStorage chamado
+        "orcamento".
 
-    .replaceAll("'", "&#039;");
+        Então vamos salvar exatamente
+        nesse formato.
+    */
 
-}
+    localStorage.setItem(
+        "orcamento",
+        JSON.stringify(categorias)
+    );
 
-/* =========================
-EXCLUIR GASTO
-========================= */
 
-function excluirGasto(id) {
+    /*
+        Também atualiza a renda.
+    */
 
-const gastos =
-    pegarGastos();
+    localStorage.setItem(
+        "rendaMensal",
+        renda.toString()
+    );
 
-const gasto =
-    gastos.find(
-        function(item) {
 
-            return item.id === id;
+    /*
+        Atualiza também a renda dentro
+        do usuário.
+    */
+
+    const usuarioSalvo =
+        localStorage.getItem("usuario");
+
+    if (usuarioSalvo) {
+
+        try {
+
+            const usuario =
+                JSON.parse(usuarioSalvo);
+
+            usuario.renda =
+                renda;
+
+            localStorage.setItem(
+                "usuario",
+                JSON.stringify(usuario)
+            );
+
+        } catch {
+
+            console.log(
+                "Não foi possível atualizar o usuário."
+            );
 
         }
+
+    }
+
+
+    /*
+        Mantém também o planejamento
+        salvo para esta página.
+    */
+
+    const planejamento = {
+
+        renda: renda,
+
+        categorias: categorias
+
+    };
+
+    localStorage.setItem(
+        "planejamentoFinanceiro",
+        JSON.stringify(planejamento)
     );
 
-if (!gasto) {
 
     alert(
-        "Não foi possível encontrar este gasto."
+        "Planejamento salvo com sucesso! 💚"
     );
 
-    return;
+
+    calcularPlanejamento();
 
 }
 
-const confirmar =
-    confirm(
-
-        "Tem certeza que deseja excluir " +
-
-        '"' +
-        gasto.descricao +
-        '"' +
-
-        " no valor de " +
-
-        moeda(gasto.valor) +
-
-        "?"
-
-    );
-
-if (!confirmar) {
-
-    return;
-
-}
-
-const novosGastos =
-    gastos.filter(
-        function(item) {
-
-            return item.id !== id;
-
-        }
-    );
-
-localStorage.setItem(
-
-    "gastos",
-
-    JSON.stringify(
-        novosGastos
-    )
-
-);
-
-alert(
-    "Gasto excluído com sucesso! 💚"
-);
-
-criarFiltros();
-
-mostrarRegistros();
-
-}
 
 /* =========================
-EDITAR GASTO
+   CARREGAR
 ========================= */
 
-function editarGasto(id) {
+function carregarPlanejamento() {
 
-const gastos =
-    pegarGastos();
+    /*
+        Primeiro tenta carregar
+        o planejamento completo.
+    */
 
-const gasto =
-    gastos.find(
-        function(item) {
+    const planejamentoSalvo =
+        localStorage.getItem(
+            "planejamentoFinanceiro"
+        );
 
-            return item.id === id;
+
+    if (planejamentoSalvo) {
+
+        try {
+
+            const planejamento =
+                JSON.parse(
+                    planejamentoSalvo
+                );
+
+
+            if (
+                planejamento &&
+                typeof planejamento === "object"
+            ) {
+
+                if (
+                    planejamento.renda !== undefined
+                ) {
+
+                    rendaInput.value =
+                        planejamento.renda;
+
+                }
+
+
+                if (
+                    planejamento.categorias
+                ) {
+
+                    campos.forEach(
+                        function(campo) {
+
+                            const categoria =
+                                campo.dataset.categoria;
+
+                            campo.value =
+                                planejamento
+                                    .categorias[categoria] || 0;
+
+                        }
+                    );
+
+                }
+
+                calcularPlanejamento();
+
+                return;
+
+            }
+
+        } catch {
+
+            console.log(
+                "Planejamento inválido."
+            );
 
         }
-    );
 
-if (!gasto) {
+    }
 
-    alert(
-        "Não foi possível encontrar este gasto."
-    );
 
-    return;
+    /*
+        Se não existir planejamento,
+        tenta carregar o orçamento
+        usado pelo Dashboard.
+    */
 
-}
-
-const novaDescricao =
-    prompt(
-        "Digite a nova descrição:",
-        gasto.descricao
-    );
-
-if (
-    novaDescricao === null
-) {
-
-    return;
-
-}
-
-const descricao =
-    novaDescricao.trim();
-
-if (!descricao) {
-
-    alert(
-        "A descrição não pode ficar vazia."
-    );
-
-    return;
-
-}
-
-const novoValorTexto =
-    prompt(
-        "Digite o novo valor:",
-        Number(gasto.valor)
-            .toFixed(2)
-    );
-
-if (
-    novoValorTexto === null
-) {
-
-    return;
-
-}
-
-const novoValor =
-    Number(
-        novoValorTexto
-            .replace(",", ".")
-    );
-
-if (
-    !Number.isFinite(novoValor) ||
-    novoValor <= 0
-) {
-
-    alert(
-        "Digite um valor válido."
-    );
-
-    return;
-
-}
-
-const novaCategoria =
-    prompt(
-
-        "Digite a categoria:\n\n" +
-
-        "fixos\n" +
-        "alimentacao\n" +
-        "saude\n" +
-        "higiene\n" +
-        "lazer\n" +
-        "transporte\n" +
-        "educacao\n" +
-        "investimentos",
-
-        gasto.categoria
-
-    );
-
-if (
-    novaCategoria === null
-) {
-
-    return;
-
-}
-
-const categoria =
-    novaCategoria
-        .trim()
-        .toLowerCase();
-
-if (
-    !nomesCategorias[categoria]
-) {
-
-    alert(
-        "Categoria inválida."
-    );
-
-    return;
-
-}
-
-/*
-   Verifica se a nova edição
-   ultrapassa o orçamento.
-*/
-
-const orcamentos =
-    JSON.parse(
+    const orcamentoSalvo =
         localStorage.getItem(
             "orcamento"
-        )
-    ) || {};
+        );
 
-const orcamento =
-    Number(
-        orcamentos[categoria]
-    ) || 0;
+    if (orcamentoSalvo) {
 
-let totalCategoria = 0;
+        try {
 
-gastos.forEach(
-    function(item) {
+            const orcamento =
+                JSON.parse(
+                    orcamentoSalvo
+                );
 
-        if (
+            campos.forEach(
+                function(campo) {
 
-            item.id !== id &&
+                    const categoria =
+                        campo.dataset.categoria;
 
-            item.categoria ===
-                categoria &&
+                    campo.value =
+                        orcamento[categoria] || 0;
 
-            item.mes ===
-                gasto.mes
+                }
+            );
 
-        ) {
+        } catch {
 
-            totalCategoria +=
-                Number(
-                    item.valor
-                ) || 0;
+            console.log(
+                "Orçamento inválido."
+            );
 
         }
 
     }
-);
 
-if (
-    totalCategoria +
-    novoValor >
-    orcamento
-) {
 
-    alert(
+    /*
+        Carrega a renda cadastrada.
+    */
 
-        "Esse valor ultrapassa " +
-        "o orçamento da categoria.\n\n" +
+    const rendaSalva =
+        localStorage.getItem(
+            "rendaMensal"
+        );
 
-        "Orçamento: " +
-        moeda(orcamento) +
+    if (rendaSalva !== null) {
 
-        "\nJá utilizado: " +
-        moeda(totalCategoria) +
+        rendaInput.value =
+            rendaSalva;
 
-        "\nNovo gasto: " +
-        moeda(novoValor)
+    }
 
-    );
 
-    return;
+    calcularPlanejamento();
 
 }
 
-/*
-   Atualiza o gasto.
-*/
-
-gasto.descricao =
-    descricao;
-
-gasto.valor =
-    novoValor;
-
-gasto.categoria =
-    categoria;
-
-gastos[
-    gastos.indexOf(gasto)
-] = gasto;
-
-localStorage.setItem(
-
-    "gastos",
-
-    JSON.stringify(
-        gastos
-    )
-
-);
-
-alert(
-    "Gasto editado com sucesso! 💚"
-);
-
-criarFiltros();
-
-/*
-   Volta para o mês
-   do gasto editado.
-*/
-
-document
-    .getElementById(
-        "filtroMes"
-    )
-    .value = gasto.mes;
-
-mostrarRegistros();
-
-}
 
 /* =========================
-INICIAR PÁGINA
+   EVENTOS
 ========================= */
 
-criarFiltros();
+rendaInput.addEventListener(
+    "input",
+    calcularPlanejamento
+);
 
-mostrarRegistros();
 
-</script> </body> </html>
+campos.forEach(function(campo) {
+
+    campo.addEventListener(
+        "input",
+        calcularPlanejamento
+    );
+
+});
+
+
+/* =========================
+   INICIAR
+========================= */
+
+carregarPlanejamento();
+
+</script>
+
+</body>
+</html>

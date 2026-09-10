@@ -55,7 +55,7 @@ body {
     color: white;
     padding: 22px;
     border-radius: 20px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .resumo small {
@@ -66,6 +66,12 @@ body {
 
 .resumo h2 {
     font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.resumo p {
+    font-size: 14px;
+    opacity: 0.85;
 }
 
 .filtros {
@@ -89,6 +95,23 @@ body {
     border-radius: 12px;
     font-size: 16px;
     background: white;
+    color: #26352b;
+}
+
+.filtros select:focus {
+    outline: none;
+    border-color: #287a4b;
+    box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
+}
+
+.periodo-atual {
+    background: #e8f5eb;
+    color: #287a4b;
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-size: 14px;
 }
 
 .registro {
@@ -196,6 +219,10 @@ body {
     margin-top: 20px;
 }
 
+.novo:hover {
+    background: #1f633c;
+}
+
 @media (max-width: 500px) {
 
     .registro-topo {
@@ -232,6 +259,7 @@ Meus registros 📋
 
 <p>
 Aqui você pode acompanhar todos os gastos que já registrou.
+Os gastos antigos continuam salvos mesmo depois de receber um novo pagamento.
 </p>
 
 </div>
@@ -239,13 +267,20 @@ Aqui você pode acompanhar todos os gastos que já registrou.
 <div class="resumo">
 
 <small>
-Total gasto no período
+Total gasto no período selecionado
 </small>
 
 <h2 id="totalMes">
 R$ 0,00
 </h2>
 
+<p id="textoResumo">
+-
+</p>
+
+</div>
+
+<div id="avisoPeriodo" class="periodo-atual">
 </div>
 
 <div class="filtros">
@@ -271,446 +306,744 @@ onclick="window.location.href='registrar.html'"
 
 <script>
 
+/* =========================
+CATEGORIAS
+========================= */
+
 const nomesCategorias = {
 
-fixos: "🏠 Gastos fixos",
+    fixos: "🏠 Gastos fixos",
 
-alimentacao: "🍎 Alimentação",
+    alimentacao: "🍎 Alimentação",
 
-saude: "🏥 Saúde",
+    saude: "🏥 Saúde",
 
-higiene: "🧼 Higiene",
+    higiene: "🧼 Higiene",
 
-lazer: "🎮 Lazer",
+    lazer: "🎮 Lazer",
 
-transporte: "🚗 Transporte",
+    transporte: "🚗 Transporte",
 
-educacao: "📚 Educação",
+    educacao: "📚 Educação",
 
-investimentos: "💰 Investimentos"
+    investimentos: "💰 Investimentos"
 
 };
 
 
+/* =========================
+MOEDA
+========================= */
+
 function moeda(valor) {
 
-return Number(valor).toLocaleString(
-"pt-BR",
-{
-style: "currency",
-currency: "BRL"
-}
-);
+    return Number(valor).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
 }
 
+
+/* =========================
+PEGAR GASTOS
+========================= */
 
 function pegarGastos() {
 
-const salvo =
-localStorage.getItem("gastos");
+    const salvo =
+        localStorage.getItem("gastos");
 
-if (!salvo) {
-return [];
+    if (!salvo) {
+
+        return [];
+
+    }
+
+    try {
+
+        const gastos =
+            JSON.parse(salvo);
+
+        return Array.isArray(gastos)
+            ? gastos
+            : [];
+
+    } catch {
+
+        return [];
+
+    }
+
 }
 
-try {
 
-const gastos =
-JSON.parse(salvo);
+/* =========================
+PERÍODO ATUAL
+========================= */
 
-return Array.isArray(gastos)
-? gastos
-: [];
+function obterPeriodoAtual() {
 
-} catch {
+    const salvo =
+        localStorage.getItem(
+            "periodoFinanceiro"
+        );
 
-return [];
+    if (salvo) {
+
+        return salvo;
+
+    }
+
+    return obterMesAtual();
 
 }
 
-}
 
+/* =========================
+MÊS ATUAL
+========================= */
 
 function obterMesAtual() {
 
-const agora =
-new Date();
+    const agora =
+        new Date();
 
-return (
-agora.getFullYear() +
-"-" +
-String(
-agora.getMonth() + 1
-).padStart(2, "0")
-);
+    return (
+        agora.getFullYear() +
+        "-" +
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0")
+    );
 
 }
 
+
+/* =========================
+NOME DO MÊS
+========================= */
 
 function nomeMes(mes) {
 
-if (!mes || !mes.includes("-")) {
-return "Período desconhecido";
+    if (
+        !mes ||
+        !mes.includes("-")
+    ) {
+
+        return "Período desconhecido";
+
+    }
+
+    const partes =
+        mes.split("-");
+
+    const ano =
+        Number(partes[0]);
+
+    const numero =
+        Number(partes[1]);
+
+    const meses = [
+
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+
+    ];
+
+    if (
+        numero < 1 ||
+        numero > 12
+    ) {
+
+        return "Período desconhecido";
+
+    }
+
+    return (
+        meses[numero - 1] +
+        " " +
+        ano
+    );
+
 }
 
-const partes =
-mes.split("-");
 
-const data =
-new Date(
-Number(partes[0]),
-Number(partes[1]) - 1,
-1
-);
-
-return data.toLocaleDateString(
-"pt-BR",
-{
-month: "long",
-year: "numeric"
-}
-);
-
-}
-
+/* =========================
+ESCAPAR HTML
+========================= */
 
 function escaparHTML(texto) {
 
-return String(texto)
+    return String(texto)
 
-.replaceAll("&", "&amp;")
+        .replaceAll("&", "&amp;")
 
-.replaceAll("<", "&lt;")
+        .replaceAll("<", "&lt;")
 
-.replaceAll(">", "&gt;")
+        .replaceAll(">", "&gt;")
 
-.replaceAll('"', "&quot;")
+        .replaceAll('"', "&quot;")
 
-.replaceAll("'", "&#039;");
+        .replaceAll("'", "&#039;");
 
 }
 
+
+/* =========================
+CRIAR FILTROS
+========================= */
 
 function criarFiltros() {
 
-const gastos =
-pegarGastos();
+    const gastos =
+        pegarGastos();
 
-const select =
-document.getElementById("filtroMes");
+    const select =
+        document.getElementById(
+            "filtroMes"
+        );
 
-select.innerHTML = "";
+    select.innerHTML = "";
 
-const meses = [];
+    const meses = [];
 
-gastos.forEach(function(gasto) {
 
-if (
-gasto.mes &&
-!meses.includes(gasto.mes)
-) {
+    gastos.forEach(function(gasto) {
 
-meses.push(gasto.mes);
+        if (
+            gasto.mes &&
+            !meses.includes(gasto.mes)
+        ) {
+
+            meses.push(
+                gasto.mes
+            );
+
+        }
+
+    });
+
+
+    const periodoAtual =
+        obterPeriodoAtual();
+
+
+    if (
+        !meses.includes(
+            periodoAtual
+        )
+    ) {
+
+        meses.push(
+            periodoAtual
+        );
+
+    }
+
+
+    meses.sort().reverse();
+
+
+    meses.forEach(function(mes) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            mes;
+
+        option.textContent =
+            nomeMes(mes);
+
+
+        if (
+            mes === periodoAtual
+        ) {
+
+            option.selected =
+                true;
+
+        }
+
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+
+    select.onchange =
+        mostrarRegistros;
 
 }
 
-});
 
-if (meses.length === 0) {
-
-meses.push(
-obterMesAtual()
-);
-
-}
-
-meses.sort().reverse();
-
-meses.forEach(function(mes) {
-
-const option =
-document.createElement("option");
-
-option.value =
-mes;
-
-option.textContent =
-nomeMes(mes);
-
-select.appendChild(option);
-
-});
-
-select.onchange =
-mostrarRegistros;
-
-}
-
+/* =========================
+MOSTRAR REGISTROS
+========================= */
 
 function mostrarRegistros() {
 
-const gastos =
-pegarGastos();
+    const gastos =
+        pegarGastos();
 
-const select =
-document.getElementById("filtroMes");
+    const select =
+        document.getElementById(
+            "filtroMes"
+        );
 
-const lista =
-document.getElementById("listaRegistros");
+    const lista =
+        document.getElementById(
+            "listaRegistros"
+        );
 
-const totalElemento =
-document.getElementById("totalMes");
+    const totalElemento =
+        document.getElementById(
+            "totalMes"
+        );
 
-const mesSelecionado =
-select.value;
+    const textoResumo =
+        document.getElementById(
+            "textoResumo"
+        );
 
-const gastosDoMes =
-gastos.filter(function(gasto) {
+    const avisoPeriodo =
+        document.getElementById(
+            "avisoPeriodo"
+        );
 
-return gasto.mes === mesSelecionado;
 
-});
+    const mesSelecionado =
+        select.value;
 
-let total = 0;
+    const periodoAtual =
+        obterPeriodoAtual();
 
-gastosDoMes.forEach(function(gasto) {
 
-total +=
-Number(gasto.valor) || 0;
+    const gastosDoMes =
+        gastos.filter(function(gasto) {
 
-});
+            return (
+                gasto.mes ===
+                mesSelecionado
+            );
 
-totalElemento.textContent =
-moeda(total);
+        });
 
-if (gastosDoMes.length === 0) {
 
-lista.innerHTML = `
+    let total =
+        0;
 
-<div class="vazio">
 
-<div class="icone">
-📝
-</div>
+    gastosDoMes.forEach(function(gasto) {
 
-<h2>
-Nenhum gasto registrado
-</h2>
+        total +=
+            Number(gasto.valor) || 0;
 
-<p>
-Você ainda não registrou nenhum gasto neste período.
-</p>
+    });
 
-</div>
 
-`;
+    totalElemento.textContent =
+        moeda(total);
 
-return;
+
+    textoResumo.textContent =
+        gastosDoMes.length +
+        (
+            gastosDoMes.length === 1
+                ? " gasto registrado"
+                : " gastos registrados"
+        );
+
+
+    if (
+        mesSelecionado ===
+        periodoAtual
+    ) {
+
+        avisoPeriodo.innerHTML =
+
+            "📅 <strong>Período atual:</strong> " +
+            escaparHTML(
+                nomeMes(mesSelecionado)
+            ) +
+            "<br><br>" +
+            "Este é o período que aparece no seu dashboard.";
+
+    } else {
+
+        avisoPeriodo.innerHTML =
+
+            "📚 <strong>Histórico:</strong> " +
+            escaparHTML(
+                nomeMes(mesSelecionado)
+            ) +
+            "<br><br>" +
+            "Estes gastos continuam salvos como histórico e não afetam o seu dashboard atual.";
+
+    }
+
+
+    if (
+        gastosDoMes.length === 0
+    ) {
+
+        lista.innerHTML = `
+
+            <div class="vazio">
+
+                <div class="icone">
+                    📝
+                </div>
+
+                <h2>
+                    Nenhum gasto registrado
+                </h2>
+
+                <p>
+                    Você ainda não registrou nenhum gasto neste período.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    gastosDoMes.sort(function(a, b) {
+
+        return (
+            new Date(
+                b.criadoEm || 0
+            ) -
+            new Date(
+                a.criadoEm || 0
+            )
+        );
+
+    });
+
+
+    lista.innerHTML = "";
+
+
+    gastosDoMes.forEach(function(gasto) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "registro";
+
+
+        const categoria =
+            nomesCategorias[
+                gasto.categoria
+            ] ||
+            gasto.categoria ||
+            "Categoria não informada";
+
+
+        div.innerHTML = `
+
+            <div class="registro-topo">
+
+                <div class="descricao">
+
+                    ${escaparHTML(
+                        gasto.descricao ||
+                        "Sem descrição"
+                    )}
+
+                </div>
+
+                <div class="valor">
+
+                    - ${moeda(
+                        gasto.valor
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="categoria">
+
+                ${escaparHTML(
+                    categoria
+                )}
+
+            </div>
+
+
+            <div class="data">
+
+                📅 ${escaparHTML(
+                    gasto.data ||
+                    "Data não informada"
+                )}
+
+            </div>
+
+
+            <div class="acoes">
+
+                <button
+                    class="btn editar"
+                    onclick="editarGasto('${escaparHTML(gasto.id)}')"
+                >
+                    ✏️ Editar
+                </button>
+
+                <button
+                    class="btn excluir"
+                    onclick="excluirGasto('${escaparHTML(gasto.id)}')"
+                >
+                    🗑️ Excluir
+                </button>
+
+            </div>
+
+        `;
+
+
+        lista.appendChild(
+            div
+        );
+
+    });
 
 }
 
-gastosDoMes.sort(function(a, b) {
 
-return (
-new Date(b.criadoEm || 0) -
-new Date(a.criadoEm || 0)
-);
-
-});
-
-lista.innerHTML = "";
-
-gastosDoMes.forEach(function(gasto) {
-
-const div =
-document.createElement("div");
-
-div.className =
-"registro";
-
-const categoria =
-nomesCategorias[gasto.categoria] ||
-gasto.categoria ||
-"Categoria não informada";
-
-div.innerHTML = `
-
-<div class="registro-topo">
-
-<div class="descricao">
-${escaparHTML(gasto.descricao || "Sem descrição")}
-</div>
-
-<div class="valor">
-- ${moeda(gasto.valor)}
-</div>
-
-</div>
-
-<div class="categoria">
-${escaparHTML(categoria)}
-</div>
-
-<div class="data">
-📅 ${escaparHTML(gasto.data || "Data não informada")}
-</div>
-
-<div class="acoes">
-
-<button
-class="btn editar"
-onclick="editarGasto('${gasto.id}')"
->
-✏️ Editar
-</button>
-
-<button
-class="btn excluir"
-onclick="excluirGasto('${gasto.id}')"
->
-🗑️ Excluir
-</button>
-
-</div>
-
-`;
-
-lista.appendChild(div);
-
-});
-
-}
-
+/* =========================
+EXCLUIR GASTO
+========================= */
 
 function excluirGasto(id) {
 
-const gastos =
-pegarGastos();
+    const gastos =
+        pegarGastos();
 
-const confirmar =
-confirm(
-"Deseja excluir este gasto?"
-);
 
-if (!confirmar) {
-return;
+    const confirmar =
+        confirm(
+            "Deseja excluir este gasto?\n\n" +
+            "Essa ação não poderá ser desfeita."
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    const novosGastos =
+        gastos.filter(function(gasto) {
+
+            return (
+                String(gasto.id) !==
+                String(id)
+            );
+
+        });
+
+
+    localStorage.setItem(
+        "gastos",
+        JSON.stringify(
+            novosGastos
+        )
+    );
+
+
+    criarFiltros();
+
+
+    const periodoAtual =
+        obterPeriodoAtual();
+
+
+    document
+        .getElementById(
+            "filtroMes"
+        )
+        .value =
+            periodoAtual;
+
+
+    mostrarRegistros();
+
 }
 
-const novosGastos =
-gastos.filter(function(gasto) {
 
-return gasto.id !== id;
-
-});
-
-localStorage.setItem(
-"gastos",
-JSON.stringify(novosGastos)
-);
-
-criarFiltros();
-
-mostrarRegistros();
-
-}
-
+/* =========================
+EDITAR GASTO
+========================= */
 
 function editarGasto(id) {
 
-const gastos =
-pegarGastos();
+    const gastos =
+        pegarGastos();
 
-const gasto =
-gastos.find(function(item) {
 
-return item.id === id;
+    const gasto =
+        gastos.find(function(item) {
 
-});
+            return (
+                String(item.id) ===
+                String(id)
+            );
 
-if (!gasto) {
+        });
 
-alert(
-"Gasto não encontrado."
-);
 
-return;
+    if (!gasto) {
+
+        alert(
+            "Gasto não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    const novaDescricao =
+        prompt(
+            "Nova descrição:",
+            gasto.descricao
+        );
+
+
+    if (
+        novaDescricao ===
+        null
+    ) {
+
+        return;
+
+    }
+
+
+    const descricao =
+        novaDescricao.trim();
+
+
+    if (!descricao) {
+
+        alert(
+            "A descrição não pode ficar vazia."
+        );
+
+        return;
+
+    }
+
+
+    const novoValorTexto =
+        prompt(
+            "Novo valor:",
+            Number(
+                gasto.valor
+            ).toFixed(2)
+        );
+
+
+    if (
+        novoValorTexto ===
+        null
+    ) {
+
+        return;
+
+    }
+
+
+    const novoValor =
+        Number(
+            novoValorTexto.replace(
+                ",",
+                "."
+            )
+        );
+
+
+    if (
+        !Number.isFinite(
+            novoValor
+        ) ||
+        novoValor <= 0
+    ) {
+
+        alert(
+            "Digite um valor válido."
+        );
+
+        return;
+
+    }
+
+
+    gasto.descricao =
+        descricao;
+
+    gasto.valor =
+        novoValor;
+
+
+    localStorage.setItem(
+        "gastos",
+        JSON.stringify(
+            gastos
+        )
+    );
+
+
+    criarFiltros();
+
+
+    document
+        .getElementById(
+            "filtroMes"
+        )
+        .value =
+            gasto.mes;
+
+
+    mostrarRegistros();
 
 }
 
-const novaDescricao =
-prompt(
-"Nova descrição:",
-gasto.descricao
-);
 
-if (novaDescricao === null) {
-return;
-}
-
-const descricao =
-novaDescricao.trim();
-
-if (!descricao) {
-
-alert(
-"A descrição não pode ficar vazia."
-);
-
-return;
-
-}
-
-const novoValorTexto =
-prompt(
-"Novo valor:",
-Number(gasto.valor).toFixed(2)
-);
-
-if (novoValorTexto === null) {
-return;
-}
-
-const novoValor =
-Number(
-novoValorTexto.replace(",", ".")
-);
-
-if (
-!Number.isFinite(novoValor) ||
-novoValor <= 0
-) {
-
-alert(
-"Digite um valor válido."
-);
-
-return;
-
-}
-
-gasto.descricao =
-descricao;
-
-gasto.valor =
-novoValor;
-
-localStorage.setItem(
-"gastos",
-JSON.stringify(gastos)
-);
-
-criarFiltros();
-
-document
-.getElementById("filtroMes")
-.value =
-gasto.mes;
-
-mostrarRegistros();
-
-}
-
+/* =========================
+INICIAR
+========================= */
 
 criarFiltros();
 

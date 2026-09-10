@@ -65,6 +65,13 @@
         background: white;
     }
 
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #287a4b;
+        box-shadow: 0 0 0 3px rgba(40, 122, 75, 0.1);
+    }
+
     button {
         width: 100%;
         padding: 16px;
@@ -91,12 +98,26 @@
         font-weight: bold;
     }
 
+    .disponivel.negativo {
+        color: #c0392b;
+        background: #fff0ee;
+    }
+
+    .aviso {
+        font-size: 13px;
+        color: #718078;
+        margin-top: -10px;
+        margin-bottom: 20px;
+        line-height: 1.4;
+    }
+
 </style>
 
 </head> <body> <div class="container">
 <a href="dashboard.html" class="voltar">
     ← Voltar para o resumo
 </a>
+
 
 <div class="card">
 
@@ -107,6 +128,7 @@
         quanto você já gastou em cada área.
     </p>
 
+
     <label for="descricao">
         O que você comprou?
     </label>
@@ -115,7 +137,9 @@
         id="descricao"
         type="text"
         placeholder="Ex: Sabonete"
+        maxlength="100"
     >
+
 
     <label for="valor">
         Quanto custou?
@@ -124,16 +148,21 @@
     <input
         id="valor"
         type="number"
-        min="0"
+        min="0.01"
         step="0.01"
         placeholder="Ex: 15"
+        oninput="mostrarDisponivel()"
     >
+
 
     <label for="categoria">
         Qual categoria?
     </label>
 
-    <select id="categoria" onchange="mostrarDisponivel()">
+    <select
+        id="categoria"
+        onchange="mostrarDisponivel()"
+    >
 
         <option value="">
             Escolha uma categoria
@@ -173,6 +202,7 @@
 
     </select>
 
+
     <div
         id="disponivel"
         class="disponivel"
@@ -182,10 +212,17 @@
         R$ 0,00
     </div>
 
+
+    <p class="aviso">
+        O valor será descontado automaticamente
+        do orçamento da categoria escolhida.
+    </p>
+
+
     <button onclick="registrarGasto()">
         Registrar gasto →
     </button>
 
 </div>
 
-</div> <script> function moeda(valor) { return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); } /* ========================= IDENTIFICA O MÊS ATUAL ========================= */ function mesAtual() { const agora = new Date(); return agora.getFullYear() + "-" + String(agora.getMonth() + 1).padStart(2, "0"); } /* ========================= PEGA O ORÇAMENTO ========================= */ function pegarOrcamento(categoria) { const nomeCategoria = categoria.charAt(0).toUpperCase() + categoria.slice(1); return Number( localStorage.getItem( "orcamento" + nomeCategoria ) ) || 0; } /* ========================= MOSTRAR DISPONÍVEL ========================= */ function mostrarDisponivel() { const categoria = document.getElementById("categoria").value; const elemento = document.getElementById("disponivel"); if (!categoria) { elemento.style.display = "none"; return; } const orcamento = pegarOrcamento(categoria); const gastos = JSON.parse( localStorage.getItem("gastos") ) || []; let totalGasto = 0; gastos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { totalGasto += Number(gasto.valor); } }); const disponivel = orcamento - totalGasto; elemento.textContent = "Disponível nesta categoria: " + moeda(disponivel); elemento.style.display = "block"; } /* ========================= REGISTRAR GASTO ========================= */ function registrarGasto() { const descricao = document.getElementById("descricao").value.trim(); const valor = Number( document.getElementById("valor").value ); const categoria = document.getElementById("categoria").value; if (!descricao) { alert("Digite o que você comprou."); return; } if (!valor || valor <= 0) { alert("Digite um valor válido."); return; } if (!categoria) { alert("Escolha uma categoria."); return; } const orcamento = pegarOrcamento(categoria); const gastosSalvos = JSON.parse( localStorage.getItem("gastos") ) || []; let totalGastoCategoria = 0; gastosSalvos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { totalGastoCategoria += Number(gasto.valor); } }); const disponivel = orcamento - totalGastoCategoria; if (valor > disponivel) { alert( "Você não tem dinheiro suficiente nessa categoria.\n\n" + "Disponível: " + moeda(disponivel) ); return; } /* ========================= SALVA O GASTO COM O MÊS ========================= */ const novoGasto = { descricao: descricao, valor: valor, categoria: categoria, data: new Date() .toLocaleDateString("pt-BR"), mes: mesAtual() }; gastosSalvos.push(novoGasto); localStorage.setItem( "gastos", JSON.stringify(gastosSalvos) ); alert( "Gasto registrado com sucesso! 💚" ); window.location.href = "dashboard.html"; } </script> </body> </html>
+</div> <script> /* ========================= FORMATAÇÃO DE MOEDA ========================= */ function moeda(valor) { return Number(valor).toLocaleString( "pt-BR", { style: "currency", currency: "BRL" } ); } /* ========================= IDENTIFICA O MÊS ATUAL ========================= */ function mesAtual() { const agora = new Date(); return ( agora.getFullYear() + "-" + String(agora.getMonth() + 1).padStart(2, "0") ); } /* ========================= PEGA O ORÇAMENTO COMPLETO ========================= */ function pegarOrcamento() { const salvo = localStorage.getItem("orcamento"); if (!salvo) { return {}; } try { return JSON.parse(salvo); } catch (erro) { console.error( "Erro ao ler o orçamento:", erro ); return {}; } } /* ========================= PEGA O VALOR DA CATEGORIA ========================= */ function pegarValorCategoria(categoria) { const orcamento = pegarOrcamento(); return Number( orcamento[categoria] ) || 0; } /* ========================= PEGA OS GASTOS SALVOS ========================= */ function pegarGastos() { const salvo = localStorage.getItem("gastos"); if (!salvo) { return []; } try { const gastos = JSON.parse(salvo); return Array.isArray(gastos) ? gastos : []; } catch (erro) { console.error( "Erro ao ler os gastos:", erro ); return []; } } /* ========================= CALCULA QUANTO JÁ FOI GASTO ========================= */ function totalGastoCategoria(categoria) { const gastos = pegarGastos(); let total = 0; gastos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { total += Number(gasto.valor) || 0; } }); return total; } /* ========================= MOSTRA O VALOR DISPONÍVEL ========================= */ function mostrarDisponivel() { const categoria = document.getElementById("categoria").value; const elemento = document.getElementById("disponivel"); const valorDigitado = Number( document.getElementById("valor").value ) || 0; if (!categoria) { elemento.style.display = "none"; return; } const orcamento = pegarValorCategoria(categoria); const jaGasto = totalGastoCategoria(categoria); const disponivel = orcamento - jaGasto; elemento.textContent = "Disponível nesta categoria: " + moeda(disponivel); elemento.style.display = "block"; /* Mostra vermelho se a categoria já estiver sem dinheiro. */ if (disponivel <= 0 || valorDigitado > disponivel) { elemento.classList.add("negativo"); } else { elemento.classList.remove("negativo"); } } /* ========================= REGISTRAR GASTO ========================= */ function registrarGasto() { const descricao = document .getElementById("descricao") .value .trim(); const valor = Number( document .getElementById("valor") .value ); const categoria = document .getElementById("categoria") .value; /* Validação da descrição. */ if (!descricao) { alert( "Digite o que você comprou." ); return; } /* Validação do valor. */ if ( !Number.isFinite(valor) || valor <= 0 ) { alert( "Digite um valor válido." ); return; } /* Validação da categoria. */ if (!categoria) { alert( "Escolha uma categoria." ); return; } /* Verifica o orçamento da categoria. */ const orcamento = pegarValorCategoria(categoria); /* Calcula quanto já foi gasto. */ const jaGasto = totalGastoCategoria(categoria); /* Calcula quanto ainda pode gastar. */ const disponivel = orcamento - jaGasto; /* Impede gastar mais que o orçamento da categoria. */ if (valor > disponivel) { alert( "Você não tem dinheiro suficiente " + "nessa categoria.\n\n" + "Disponível: " + moeda(disponivel) ); return; } /* Recupera os gastos existentes. */ const gastos = pegarGastos(); /* Cria um identificador único. Isso será usado futuramente para editar ou excluir o gasto. */ const novoGasto = { id: Date.now().toString() + Math.random() .toString(36) .substring(2, 9), descricao: descricao, valor: valor, categoria: categoria, data: new Date() .toLocaleDateString("pt-BR"), mes: mesAtual() }; /* Adiciona o novo gasto. */ gastos.push(novoGasto); /* Salva novamente. */ localStorage.setItem( "gastos", JSON.stringify(gastos) ); alert( "Gasto registrado com sucesso! 💚" ); /* Volta para o dashboard. */ window.location.href = "dashboard.html"; } </script> </body> </html>

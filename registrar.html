@@ -13,6 +13,7 @@
 
 <title>Registrar gasto - Meu Dinheiro</title>
 
+
 <style>
 
 * {
@@ -21,6 +22,7 @@
     padding: 0;
     font-family: Arial, sans-serif;
 }
+
 
 body {
 
@@ -34,6 +36,7 @@ body {
 
 }
 
+
 .container {
 
     max-width: 500px;
@@ -41,6 +44,7 @@ body {
     margin: 40px auto;
 
 }
+
 
 .voltar {
 
@@ -56,6 +60,7 @@ body {
 
 }
 
+
 .card {
 
     background: white;
@@ -70,6 +75,7 @@ body {
 
 }
 
+
 h1 {
 
     color: #287a4b;
@@ -77,6 +83,7 @@ h1 {
     margin-bottom: 8px;
 
 }
+
 
 .subtitulo {
 
@@ -88,6 +95,7 @@ h1 {
 
 }
 
+
 label {
 
     display: block;
@@ -97,6 +105,7 @@ label {
     margin-bottom: 7px;
 
 }
+
 
 input,
 select {
@@ -117,6 +126,7 @@ select {
 
 }
 
+
 input:focus,
 select:focus {
 
@@ -129,6 +139,7 @@ select:focus {
         rgba(40,122,75,0.10);
 
 }
+
 
 button {
 
@@ -152,17 +163,19 @@ button {
 
 }
 
+
 button:hover {
 
     background: #1f633c;
 
 }
 
+
 .disponivel {
 
     background: #f0f5f1;
 
-    padding: 14px;
+    padding: 15px;
 
     border-radius: 12px;
 
@@ -172,11 +185,10 @@ button:hover {
 
     color: #287a4b;
 
-    font-weight: bold;
-
     line-height: 1.5;
 
 }
+
 
 .disponivel.negativo {
 
@@ -185,6 +197,7 @@ button:hover {
     color: #c0392b;
 
 }
+
 
 .erro {
 
@@ -200,9 +213,10 @@ button:hover {
 
     margin-bottom: 20px;
 
-    line-height: 1.4;
+    line-height: 1.5;
 
 }
+
 
 .info {
 
@@ -217,6 +231,23 @@ button:hover {
     margin-bottom: 20px;
 
     font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+.sem-planejamento {
+
+    background: #fff3cd;
+
+    color: #856404;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
 
     line-height: 1.5;
 
@@ -251,24 +282,40 @@ button:hover {
 
 <p class="subtitulo">
 
-    Anote uma compra para acompanhar
-    quanto você já gastou em cada área.
+    Registre seus gastos e acompanhe
+    o saldo de cada categoria.
 
 </p>
 
 
 <div class="info">
 
-    💡 O valor será descontado
-    automaticamente do orçamento
-    da categoria escolhida.
+    💡 Os valores das categorias são
+    carregados automaticamente do seu
+    planejamento mensal.
 
     <br><br>
 
-    ⚠️ Se você ultrapassar o valor
-    planejado, o gasto será registrado
-    normalmente e o saldo da categoria
-    ficará negativo.
+    ⚠️ Se você gastar mais do que planejou,
+    o gasto será registrado normalmente.
+    O saldo da categoria ficará negativo.
+
+</div>
+
+
+<div
+    id="semPlanejamento"
+    class="sem-planejamento"
+    style="display: none;"
+>
+
+    ⚠️ Você ainda não criou um planejamento
+    mensal.
+
+    <br><br>
+
+    Crie seu planejamento antes de
+    registrar seus gastos.
 
 </div>
 
@@ -280,20 +327,24 @@ button:hover {
 
 
 <label for="descricao">
+
     O que você comprou?
+
 </label>
 
 
 <input
     id="descricao"
     type="text"
-    placeholder="Ex: Sabonete"
+    placeholder="Ex: Mercado"
     maxlength="100"
 >
 
 
 <label for="valor">
+
     Quanto custou?
+
 </label>
 
 
@@ -302,13 +353,15 @@ button:hover {
     type="number"
     min="0.01"
     step="0.01"
-    placeholder="Ex: 15"
+    placeholder="Ex: 50,00"
     oninput="mostrarDisponivel()"
 >
 
 
 <label for="categoria">
+
     Qual categoria?
+
 </label>
 
 
@@ -321,38 +374,6 @@ button:hover {
         Escolha uma categoria
     </option>
 
-    <option value="fixos">
-        🏠 Gastos fixos
-    </option>
-
-    <option value="alimentacao">
-        🍎 Alimentação
-    </option>
-
-    <option value="saude">
-        🏥 Saúde
-    </option>
-
-    <option value="higiene">
-        🧼 Higiene
-    </option>
-
-    <option value="lazer">
-        🎮 Lazer
-    </option>
-
-    <option value="transporte">
-        🚗 Transporte
-    </option>
-
-    <option value="educacao">
-        📚 Educação
-    </option>
-
-    <option value="investimentos">
-        💰 Investimentos
-    </option>
-
 </select>
 
 
@@ -362,9 +383,6 @@ button:hover {
     style="display: none;"
 >
 
-    Disponível nesta categoria:
-    R$ 0,00
-
 </div>
 
 
@@ -372,7 +390,9 @@ button:hover {
     type="button"
     onclick="registrarGasto()"
 >
+
     Registrar gasto →
+
 </button>
 
 
@@ -383,27 +403,28 @@ button:hover {
 
 <script>
 
+
 /* =====================================================
    CATEGORIAS
 ===================================================== */
 
 const nomesCategorias = {
 
-    fixos: "Gastos fixos",
+    fixos: "🏠 Gastos fixos",
 
-    alimentacao: "Alimentação",
+    alimentacao: "🍎 Alimentação",
 
-    saude: "Saúde",
+    saude: "🏥 Saúde",
 
-    higiene: "Higiene",
+    higiene: "🧼 Higiene",
 
-    lazer: "Lazer",
+    lazer: "🎮 Lazer",
 
-    transporte: "Transporte",
+    transporte: "🚗 Transporte",
 
-    educacao: "Educação",
+    educacao: "📚 Educação",
 
-    investimentos: "Investimentos"
+    investimentos: "💰 Investimentos"
 
 };
 
@@ -426,22 +447,35 @@ function moeda(valor) {
 
 
 /* =====================================================
-   MÊS ATUAL
+   PEGAR PLANEJAMENTO
 ===================================================== */
 
-function mesAtual() {
+function pegarPlanejamento() {
 
-    const agora = new Date();
+    const salvo =
+        localStorage.getItem(
+            "planejamentoFinanceiro"
+        );
 
-    return (
-        agora.getFullYear()
-        +
-        "-"
-        +
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0")
-    );
+
+    if (!salvo) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        return JSON.parse(salvo);
+
+    }
+
+    catch {
+
+        return null;
+
+    }
 
 }
 
@@ -453,24 +487,31 @@ function mesAtual() {
 function pegarGastos() {
 
     const salvo =
-        localStorage.getItem("gastos");
+        localStorage.getItem(
+            "gastos"
+        );
+
 
     if (!salvo) {
 
         return [];
 
     }
+
 
     try {
 
         const gastos =
             JSON.parse(salvo);
 
+
         return Array.isArray(gastos)
             ? gastos
             : [];
 
-    } catch {
+    }
+
+    catch {
 
         return [];
 
@@ -480,65 +521,258 @@ function pegarGastos() {
 
 
 /* =====================================================
-   PEGAR ORÇAMENTO ANTIGO
+   MÊS ATUAL
 ===================================================== */
 
-function pegarOrcamento() {
+function mesAtual() {
 
-    const salvo =
-        localStorage.getItem("orcamento");
+    const agora =
+        new Date();
 
-    if (!salvo) {
 
-        return {};
+    return (
 
-    }
+        agora.getFullYear()
 
-    try {
+        +
 
-        return JSON.parse(salvo);
+        "-"
 
-    } catch {
+        +
 
-        return {};
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0")
 
-    }
+    );
 
 }
 
 
 /* =====================================================
-   PEGAR PLANEJAMENTO NOVO
+   CARREGAR CATEGORIAS DO PLANEJAMENTO
 ===================================================== */
 
-function pegarPlanejamento() {
+function carregarCategorias() {
 
-    const salvo =
-        localStorage.getItem(
-            "planejamentoFinanceiro"
+    const planejamento =
+        pegarPlanejamento();
+
+
+    const select =
+        document.getElementById(
+            "categoria"
         );
 
-    if (!salvo) {
 
-        return null;
+    const aviso =
+        document.getElementById(
+            "semPlanejamento"
+        );
+
+
+    /*
+       Remove as opções antigas,
+       mantendo apenas a primeira.
+    */
+
+    select.innerHTML = `
+
+        <option value="">
+            Escolha uma categoria
+        </option>
+
+    `;
+
+
+    if (
+        !planejamento
+        ||
+        !planejamento.categorias
+    ) {
+
+        aviso.style.display =
+            "block";
+
+        return;
 
     }
 
-    try {
 
-        return JSON.parse(salvo);
+    aviso.style.display =
+        "none";
 
-    } catch {
 
-        return null;
+    /*
+       Carrega as categorias
+       diretamente do planejamento.
+    */
 
-    }
+    Object.keys(
+        nomesCategorias
+    ).forEach(
+        function(categoria) {
+
+
+            /*
+               Se a categoria existe no
+               planejamento, ela aparece.
+            */
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    planejamento.categorias,
+                    categoria
+                )
+            ) {
+
+
+                const valor =
+                    Number(
+                        planejamento
+                            .categorias[categoria]
+                    ) || 0;
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    categoria;
+
+
+                option.textContent =
+
+                    nomesCategorias[categoria]
+
+                    +
+
+                    " — "
+
+                    +
+
+                    moeda(valor);
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+
+        }
+    );
 
 }
 
 
 /* =====================================================
-   PEGAR RENDA
+   TOTAL GASTO DA CATEGORIA
+===================================================== */
+
+function totalGastoCategoria(
+    categoria
+) {
+
+    const gastos =
+        pegarGastos();
+
+
+    let total = 0;
+
+
+    gastos.forEach(
+        function(gasto) {
+
+            if (
+
+                gasto.categoria ===
+                    categoria
+
+                &&
+
+                gasto.mes ===
+                    mesAtual()
+
+            ) {
+
+                total +=
+                    Number(
+                        gasto.valor
+                    ) || 0;
+
+            }
+
+        }
+    );
+
+
+    return total;
+
+}
+
+
+/* =====================================================
+   VALOR PLANEJADO DA CATEGORIA
+===================================================== */
+
+function valorPlanejado(
+    categoria
+) {
+
+    const planejamento =
+        pegarPlanejamento();
+
+
+    if (
+        !planejamento
+        ||
+        !planejamento.categorias
+    ) {
+
+        return 0;
+
+    }
+
+
+    return Number(
+        planejamento
+            .categorias[categoria]
+    ) || 0;
+
+}
+
+
+/* =====================================================
+   SALDO DA CATEGORIA
+===================================================== */
+
+function saldoCategoria(
+    categoria
+) {
+
+    const planejado =
+        valorPlanejado(
+            categoria
+        );
+
+
+    const gasto =
+        totalGastoCategoria(
+            categoria
+        );
+
+
+    return planejado - gasto;
+
+}
+
+
+/* =====================================================
+   RENDA
 ===================================================== */
 
 function pegarRenda() {
@@ -564,101 +798,6 @@ function pegarRenda() {
     }
 
 
-    const rendaSalva =
-        localStorage.getItem("renda");
-
-
-    if (rendaSalva !== null) {
-
-        return Number(
-            rendaSalva
-        ) || 0;
-
-    }
-
-
-    return 0;
-
-}
-
-
-/* =====================================================
-   PEGAR VALOR PLANEJADO
-===================================================== */
-
-function pegarValorCategoria(
-    categoria
-) {
-
-    /*
-       Primeiro procura no planejamento
-       novo.
-    */
-
-    const planejamento =
-        pegarPlanejamento();
-
-
-    if (
-        planejamento
-        &&
-        planejamento.categorias
-        &&
-        Object.prototype.hasOwnProperty.call(
-            planejamento.categorias,
-            categoria
-        )
-    ) {
-
-        return Number(
-            planejamento.categorias[categoria]
-        ) || 0;
-
-    }
-
-
-    /*
-       Depois procura no orçamento antigo.
-    */
-
-    const orcamento =
-        pegarOrcamento();
-
-
-    if (
-        Object.prototype.hasOwnProperty.call(
-            orcamento,
-            categoria
-        )
-    ) {
-
-        return Number(
-            orcamento[categoria]
-        ) || 0;
-
-    }
-
-
-    /*
-       Formato antigo alternativo.
-    */
-
-    if (
-        orcamento.categorias
-        &&
-        Object.prototype.hasOwnProperty.call(
-            orcamento.categorias,
-            categoria
-        )
-    ) {
-
-        return Number(
-            orcamento.categorias[categoria]
-        ) || 0;
-
-    }
-
-
     return 0;
 
 }
@@ -670,18 +809,34 @@ function pegarValorCategoria(
 
 function totalPlanejado() {
 
+    const planejamento =
+        pegarPlanejamento();
+
+
+    if (
+        !planejamento
+        ||
+        !planejamento.categorias
+    ) {
+
+        return 0;
+
+    }
+
+
     let total = 0;
 
 
     Object.keys(
-        nomesCategorias
+        planejamento.categorias
     ).forEach(
         function(categoria) {
 
             total +=
-                pegarValorCategoria(
-                    categoria
-                );
+                Number(
+                    planejamento
+                        .categorias[categoria]
+                ) || 0;
 
         }
     );
@@ -693,66 +848,20 @@ function totalPlanejado() {
 
 
 /* =====================================================
-   TOTAL GASTO DA CATEGORIA
+   DINHEIRO NÃO PLANEJADO INICIAL
 ===================================================== */
 
-function totalGastoCategoria(
-    categoria
-) {
+function dinheiroNaoPlanejadoInicial() {
 
-    const gastos =
-        pegarGastos();
+    const renda =
+        pegarRenda();
 
-
-    let total = 0;
-
-
-    gastos.forEach(
-        function(gasto) {
-
-            if (
-                gasto.categoria === categoria
-                &&
-                gasto.mes === mesAtual()
-            ) {
-
-                total +=
-                    Number(
-                        gasto.valor
-                    ) || 0;
-
-            }
-
-        }
-    );
-
-
-    return total;
-
-}
-
-
-/* =====================================================
-   SALDO DA CATEGORIA
-===================================================== */
-
-function saldoCategoria(
-    categoria
-) {
 
     const planejado =
-        pegarValorCategoria(
-            categoria
-        );
+        totalPlanejado();
 
 
-    const gasto =
-        totalGastoCategoria(
-            categoria
-        );
-
-
-    return planejado - gasto;
+    return renda - planejado;
 
 }
 
@@ -809,25 +918,6 @@ function totalExcessos() {
 
 
     return total;
-
-}
-
-
-/* =====================================================
-   DINHEIRO NÃO PLANEJADO INICIAL
-===================================================== */
-
-function dinheiroNaoPlanejadoInicial() {
-
-    const renda =
-        pegarRenda();
-
-
-    const planejado =
-        totalPlanejado();
-
-
-    return renda - planejado;
 
 }
 
@@ -909,6 +999,7 @@ function mostrarDisponivel() {
 
     if (saldoDepois < 0) {
 
+
         elemento.classList.add(
             "negativo"
         );
@@ -916,29 +1007,52 @@ function mostrarDisponivel() {
 
         elemento.innerHTML =
 
-            "⚠️ Depois deste gasto, " +
+            "⚠️ <strong>" +
 
             nomesCategorias[categoria] +
 
-            " ficará em " +
+            "</strong> ficará negativa."
+
+            +
+
+            "<br><br>"
+
+            +
+
+            "Saldo depois deste gasto: "
+
+            +
 
             "<strong>" +
 
             moeda(
                 saldoDepois
-            ) +
+            )
 
-            "</strong>." +
+            +
 
-            "<br><br>" +
+            "</strong>"
 
-            "O gasto será registrado " +
+            +
 
-            "normalmente.";
+            "<br><br>"
+
+            +
+
+            "O gasto será registrado normalmente "
+
+            +
+
+            "e o excesso será descontado "
+
+            +
+
+            "do dinheiro não planejado.";
 
     }
 
     else {
+
 
         elemento.classList.remove(
             "negativo"
@@ -947,13 +1061,19 @@ function mostrarDisponivel() {
 
         elemento.innerHTML =
 
-            "Disponível nesta categoria: " +
+            "Disponível nesta categoria: "
 
-            "<strong>" +
+            +
+
+            "<strong>"
+
+            +
 
             moeda(
                 saldoDepois
-            ) +
+            )
+
+            +
 
             "</strong>";
 
@@ -963,7 +1083,7 @@ function mostrarDisponivel() {
 
 
 /* =====================================================
-   MOSTRAR ERRO
+   ERRO
 ===================================================== */
 
 function mostrarErro(
@@ -1039,7 +1159,7 @@ function registrarGasto() {
 
 
     /* ================================================
-       VALIDAÇÃO DA DESCRIÇÃO
+       VALIDAÇÃO
     ================================================ */
 
     if (!descricao) {
@@ -1052,10 +1172,6 @@ function registrarGasto() {
 
     }
 
-
-    /* ================================================
-       VALIDAÇÃO DO VALOR
-    ================================================ */
 
     if (
         !Number.isFinite(valor)
@@ -1072,10 +1188,6 @@ function registrarGasto() {
     }
 
 
-    /* ================================================
-       VALIDAÇÃO DA CATEGORIA
-    ================================================ */
-
     if (!categoria) {
 
         mostrarErro(
@@ -1087,19 +1199,9 @@ function registrarGasto() {
     }
 
 
-    /*
-       =================================================
-       IMPORTANTE
-
-       NÃO bloqueamos o gasto se ele ultrapassar
-       o planejamento.
-
-       O usuário pode gastar mais que o planejado.
-
-       A categoria ficará negativa.
-       =================================================
-    */
-
+    /* ================================================
+       PEGAR GASTOS
+    ================================================ */
 
     const gastos =
         pegarGastos();
@@ -1157,7 +1259,7 @@ function registrarGasto() {
 
 
     /* ================================================
-       SALVAR GASTO
+       SALVAR
     ================================================ */
 
     gastos.push(
@@ -1166,24 +1268,27 @@ function registrarGasto() {
 
 
     localStorage.setItem(
+
         "gastos",
+
         JSON.stringify(
             gastos
         )
+
     );
 
 
     /* ================================================
-       CALCULAR SALDO
+       CALCULAR RESULTADO
     ================================================ */
 
     const planejado =
-        pegarValorCategoria(
+        valorPlanejado(
             categoria
         );
 
 
-    const gastoCategoria =
+    const totalGasto =
         totalGastoCategoria(
             categoria
         );
@@ -1191,7 +1296,7 @@ function registrarGasto() {
 
     const saldo =
         planejado -
-        gastoCategoria;
+        totalGasto;
 
 
     const naoPlanejado =
@@ -1199,10 +1304,11 @@ function registrarGasto() {
 
 
     /* ================================================
-       MOSTRAR RESULTADO
+       AVISO
     ================================================ */
 
     if (saldo < 0) {
+
 
         alert(
 
@@ -1214,13 +1320,7 @@ function registrarGasto() {
 
             +
 
-            "⚠️ Você ultrapassou o " +
-
-            "planejamento de " +
-
-            nomesCategorias[categoria] +
-
-            "."
+            "⚠️ Você ultrapassou o planejamento."
 
             +
 
@@ -1228,7 +1328,23 @@ function registrarGasto() {
 
             +
 
-            "Planejado: " +
+            "Categoria: "
+
+            +
+
+            nomesCategorias[
+                categoria
+            ]
+
+            +
+
+            "\n"
+
+            +
+
+            "Planejado: "
+
+            +
 
             moeda(
                 planejado
@@ -1240,10 +1356,12 @@ function registrarGasto() {
 
             +
 
-            "Gasto total: " +
+            "Gasto total: "
+
+            +
 
             moeda(
-                gastoCategoria
+                totalGasto
             )
 
             +
@@ -1252,7 +1370,9 @@ function registrarGasto() {
 
             +
 
-            "Saldo da categoria: " +
+            "Saldo da categoria: "
+
+            +
 
             moeda(
                 saldo
@@ -1264,9 +1384,9 @@ function registrarGasto() {
 
             +
 
-            "💰 Dinheiro não planejado " +
+            "💰 Dinheiro não planejado restante: "
 
-            "restante: " +
+            +
 
             moeda(
                 naoPlanejado
@@ -1278,6 +1398,7 @@ function registrarGasto() {
 
     else {
 
+
         alert(
 
             "Gasto registrado com sucesso! 💚"
@@ -1288,9 +1409,13 @@ function registrarGasto() {
 
             +
 
-            "Categoria: " +
+            "Categoria: "
 
-            nomesCategorias[categoria]
+            +
+
+            nomesCategorias[
+                categoria
+            ]
 
             +
 
@@ -1298,7 +1423,9 @@ function registrarGasto() {
 
             +
 
-            "Saldo restante: " +
+            "Saldo restante: "
+
+            +
 
             moeda(
                 saldo
@@ -1310,7 +1437,7 @@ function registrarGasto() {
 
 
     /* ================================================
-       VOLTAR
+       VOLTAR PARA DASHBOARD
     ================================================ */
 
     window.location.href =
@@ -1320,7 +1447,7 @@ function registrarGasto() {
 
 
 /* =====================================================
-   INICIALIZAÇÃO
+   INICIAR
 ===================================================== */
 
 document.addEventListener(
@@ -1328,6 +1455,8 @@ document.addEventListener(
     "DOMContentLoaded",
 
     function() {
+
+        carregarCategorias();
 
         mostrarDisponivel();
 
@@ -1341,5 +1470,3 @@ document.addEventListener(
 </body>
 
 </html>
-
-</script>

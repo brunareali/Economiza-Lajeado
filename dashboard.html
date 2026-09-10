@@ -540,17 +540,59 @@
 
     <div class="card gastos-card">
 
-        <div class="gastos-header">
+    <div class="gastos-header">
 
-            <h2>
-                Gastos por categoria
-            </h2>
+        <h2>
+            Gastos por categoria
+        </h2>
 
-            <span>
-                Período atual
-            </span>
+        <span>
+            Período atual
+        </span>
 
-        </div>
+    </div>
+
+
+    <div id="avisoPlanejamento"></div>
+
+
+    <div id="categorias"></div>
+
+</div>
+
+
+<!-- GRÁFICO DOS GASTOS -->
+
+<div class="card grafico-card">
+
+    <div class="gastos-header">
+
+        <h2>
+            📊 Para onde está indo seu dinheiro?
+        </h2>
+
+        <span>
+            Período atual
+        </span>
+
+    </div>
+
+    <div class="grafico-container">
+
+        <canvas id="graficoGastos"></canvas>
+
+    </div>
+
+    <div
+        id="semGastosGrafico"
+        class="sem-gastos-grafico"
+    >
+        Ainda não há gastos registrados
+        neste período.
+    </div>
+
+</div>
+
 
 
         <div id="avisoPlanejamento"></div>

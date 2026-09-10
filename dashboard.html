@@ -505,7 +505,7 @@
 <script>
 
 /* =========================
-CATEGORIAS
+   CATEGORIAS
 ========================= */
 
 const categorias = {
@@ -554,7 +554,7 @@ const categorias = {
 
 
 /* =========================
-MOEDA
+   MOEDA
 ========================= */
 
 function moeda(valor) {
@@ -571,7 +571,7 @@ function moeda(valor) {
 
 
 /* =========================
-MÊS REAL
+   MÊS REAL
 ========================= */
 
 function obterMesReal() {
@@ -590,7 +590,7 @@ function obterMesReal() {
 
 
 /* =========================
-PERÍODO FINANCEIRO
+   PERÍODO FINANCEIRO
 ========================= */
 
 function obterPeriodo() {
@@ -620,7 +620,7 @@ function obterPeriodo() {
 
 
 /* =========================
-NOME DO MÊS
+   NOME DO MÊS
 ========================= */
 
 function nomeDoMes(mes) {
@@ -667,7 +667,7 @@ function nomeDoMes(mes) {
 
 
 /* =========================
-USUÁRIO
+   USUÁRIO
 ========================= */
 
 function pegarUsuario() {
@@ -695,7 +695,7 @@ function pegarUsuario() {
 
 
 /* =========================
-GASTOS
+   GASTOS
 ========================= */
 
 function pegarGastos() {
@@ -728,7 +728,7 @@ function pegarGastos() {
 
 
 /* =========================
-PLANEJAMENTO
+   PLANEJAMENTO
 ========================= */
 
 function pegarPlanejamento() {
@@ -770,18 +770,13 @@ function pegarPlanejamento() {
 
 
 /* =========================
-ORÇAMENTO
+   ORÇAMENTO
 ========================= */
 
 function pegarOrcamento() {
 
     const planejamento =
         pegarPlanejamento();
-
-    /*
-        O novo sistema usa
-        planejamentoFinanceiro.
-    */
 
     if (
         planejamento &&
@@ -791,12 +786,6 @@ function pegarOrcamento() {
         return planejamento.categorias;
 
     }
-
-
-    /*
-        Compatibilidade com o
-        sistema antigo.
-    */
 
     const salvo =
         localStorage.getItem(
@@ -835,15 +824,10 @@ function pegarOrcamento() {
 
 
 /* =========================
-RENDA
+   RENDA
 ========================= */
 
 function pegarRenda() {
-
-    /*
-        Primeiro tenta usar a renda
-        salva pelo planejamento.
-    */
 
     const planejamento =
         pegarPlanejamento();
@@ -859,11 +843,6 @@ function pegarRenda() {
 
     }
 
-
-    /*
-        Depois tenta a renda antiga.
-    */
-
     return Number(
         localStorage.getItem(
             "rendaMensal"
@@ -874,7 +853,7 @@ function pegarRenda() {
 
 
 /* =========================
-GASTOS DO PERÍODO
+   GASTOS DO PERÍODO
 ========================= */
 
 function gastosDoPeriodo() {
@@ -895,7 +874,7 @@ function gastosDoPeriodo() {
 
 
 /* =========================
-TOTAL DOS GASTOS
+   TOTAL DOS GASTOS
 ========================= */
 
 function calcularTotalGasto() {
@@ -919,7 +898,7 @@ function calcularTotalGasto() {
 
 
 /* =========================
-CARREGAR DASHBOARD
+   CARREGAR DASHBOARD
 ========================= */
 
 function carregarDashboard() {
@@ -1014,7 +993,7 @@ function carregarDashboard() {
 
 
 /* =========================
-MOSTRAR CATEGORIAS
+   MOSTRAR CATEGORIAS
 ========================= */
 
 function mostrarCategorias() {
@@ -1043,11 +1022,6 @@ function mostrarCategorias() {
 
     aviso.innerHTML = "";
 
-
-    /*
-        Se ainda não existir planejamento,
-        avisa o usuário.
-    */
 
     if (!planejamento) {
 
@@ -1081,21 +1055,11 @@ function mostrarCategorias() {
                 categorias[chave];
 
 
-            /*
-                Pega o limite definido
-                no planejamento.
-            */
-
             const limite =
                 Number(
                     orcamento[chave]
                 ) || 0;
 
-
-            /*
-                Soma os gastos daquela
-                categoria no período.
-            */
 
             let gasto = 0;
 
@@ -1115,10 +1079,6 @@ function mostrarCategorias() {
 
             });
 
-
-            /*
-                Calcula porcentagem.
-            */
 
             let porcentagem = 0;
 
@@ -1140,11 +1100,6 @@ function mostrarCategorias() {
                     100
                 );
 
-
-            /*
-                Verifica se ultrapassou
-                o planejamento.
-            */
 
             const excedida =
                 limite > 0 &&
@@ -1211,7 +1166,7 @@ function mostrarCategorias() {
 
 
 /* =========================
-ABRIR EDITAR RENDA
+   ABRIR EDITAR RENDA
 ========================= */
 
 function abrirEditarRenda() {
@@ -1233,7 +1188,7 @@ function abrirEditarRenda() {
 
 
 /* =========================
-FECHAR MODAL
+   FECHAR MODAL
 ========================= */
 
 function fecharEditarRenda() {
@@ -1246,7 +1201,7 @@ function fecharEditarRenda() {
 
 
 /* =========================
-SALVAR NOVA RENDA
+   SALVAR NOVA RENDA
 ========================= */
 
 function salvarNovaRenda() {
@@ -1275,19 +1230,11 @@ function salvarNovaRenda() {
     }
 
 
-    /*
-        Atualiza a renda antiga.
-    */
-
     localStorage.setItem(
         "rendaMensal",
         renda.toString()
     );
 
-
-    /*
-        Atualiza o usuário.
-    */
 
     const usuario =
         pegarUsuario();
@@ -1305,10 +1252,6 @@ function salvarNovaRenda() {
 
     }
 
-
-    /*
-        Atualiza também o planejamento.
-    */
 
     const planejamento =
         pegarPlanejamento();
@@ -1342,7 +1285,7 @@ function salvarNovaRenda() {
 
 
 /* =========================
-REGISTRAR GASTO
+   REGISTRAR GASTO
 ========================= */
 
 function registrarGasto() {
@@ -1354,7 +1297,7 @@ function registrarGasto() {
 
 
 /* =========================
-VER REGISTROS
+   VER REGISTROS
 ========================= */
 
 function verRegistros() {
@@ -1366,7 +1309,7 @@ function verRegistros() {
 
 
 /* =========================
-EDITAR ORÇAMENTO
+   EDITAR ORÇAMENTO
 ========================= */
 
 function editarOrcamento() {
@@ -1378,7 +1321,7 @@ function editarOrcamento() {
 
 
 /* =========================
-NOVO PERÍODO
+   RECEBI MEU PAGAMENTO
 ========================= */
 
 function novoMes() {
@@ -1390,60 +1333,122 @@ function novoMes() {
         obterMesReal();
 
 
-    /*
-        Se ainda estiver no mesmo mês,
-        confirma se a pessoa realmente
-        recebeu o pagamento.
-    */
+    const resposta =
+        confirm(
 
-    if (
-        periodoAtual === novoPeriodo
-    ) {
+            "💰 Você recebeu seu pagamento?\n\n" +
 
-        const resposta =
-            confirm(
+            "Isso vai iniciar um novo período " +
+            "de gastos.\n\n" +
 
-                "💰 Você recebeu seu pagamento?\n\n" +
+            "Os gastos anteriores NÃO serão apagados.\n\n" +
 
-                "Isso vai iniciar um novo período " +
-                "de gastos.\n\n" +
+            "Eles continuarão disponíveis em " +
+            "\"Ver registros\".\n\n" +
 
-                "Seus gastos atuais NÃO serão apagados " +
-                "e continuarão disponíveis no histórico.\n\n" +
+            "No Dashboard, os gastos e gráficos " +
+            "começarão novamente do zero.\n\n" +
 
-                "Deseja continuar?"
+            "Deseja continuar?"
 
-            );
+        );
 
 
-        if (!resposta) {
+    if (!resposta) {
 
-            return;
-
-        }
+        return;
 
     }
 
 
     /*
-        Apenas muda o período financeiro.
-        
-        Os gastos antigos continuam
-        salvos no localStorage.
+        Se a pessoa clicar no botão no
+        mesmo mês do calendário, precisamos
+        criar um identificador de período
+        diferente para separar os gastos.
+
+        Exemplo:
+
+        2026-09-01
+        2026-09-02
+        2026-09-03
+
+        Assim podemos receber o pagamento
+        mais de uma vez no mesmo mês sem
+        misturar os gastos antigos com os novos.
+    */
+
+    let novoPeriodoFinanceiro;
+
+
+    if (
+        periodoAtual === novoPeriodo
+    ) {
+
+        const contadorSalvo =
+            Number(
+                localStorage.getItem(
+                    "contadorPeriodo"
+                )
+            ) || 0;
+
+
+        const novoContador =
+            contadorSalvo + 1;
+
+
+        localStorage.setItem(
+            "contadorPeriodo",
+            novoContador.toString()
+        );
+
+
+        novoPeriodoFinanceiro =
+            novoPeriodo +
+            "-periodo-" +
+            novoContador;
+
+    } else {
+
+        /*
+            Quando muda o mês real,
+            começa normalmente pelo
+            novo mês.
+        */
+
+        localStorage.setItem(
+            "contadorPeriodo",
+            "0"
+        );
+
+
+        novoPeriodoFinanceiro =
+            novoPeriodo;
+
+    }
+
+
+    /*
+        Salva o novo período.
+
+        Os gastos antigos permanecem
+        intactos dentro de "gastos".
     */
 
     localStorage.setItem(
         "periodoFinanceiro",
-        novoPeriodo
+        novoPeriodoFinanceiro
     );
 
 
     /*
-        Atualiza o Dashboard.
-        
-        Como o Dashboard mostra somente
-        os gastos do novo período, ele
-        aparecerá zerado.
+        Recarrega o Dashboard.
+
+        Como gastosDoPeriodo() procura
+        somente gastos que possuem o
+        mesmo identificador do período,
+        os gastos anteriores deixam de
+        aparecer no Dashboard.
     */
 
     carregarDashboard();
@@ -1455,6 +1460,10 @@ function novoMes() {
 
         "Seu novo período começou.\n\n" +
 
+        "Gastos: R$ 0,00\n" +
+
+        "Gráficos: zerados\n\n" +
+
         "Seus gastos anteriores continuam " +
         "salvos no histórico."
 
@@ -1463,72 +1472,8 @@ function novoMes() {
 }
 
 
-    const periodoAtual =
-        obterPeriodo();
-
-    const novoPeriodo =
-        obterMesReal();
-
-
-    /*
-        Se ainda estiver no mesmo mês,
-        pergunta antes de iniciar.
-    */
-
-    if (
-        periodoAtual ===
-        novoPeriodo
-    ) {
-
-        const resposta =
-            confirm(
-
-                "Você recebeu seu pagamento?\n\n" +
-
-                "Isso vai começar um novo " +
-                "período de gastos.\n\n" +
-
-                "Os gastos antigos NÃO serão apagados."
-
-            );
-
-
-        if (!resposta) {
-
-            return;
-
-        }
-
-    }
-
-
-    /*
-        Cria o novo período.
-    */
-
-    localStorage.setItem(
-        "periodoFinanceiro",
-        novoPeriodo
-    );
-
-
-    alert(
-
-        "Novo período iniciado! 💚\n\n" +
-
-        "Seus gastos anteriores continuam " +
-        "salvos nos registros."
-
-    );
-
-
-    carregarDashboard();
-
-}
-
-
 /* =========================
-INICIAR
+   INICIAR
 ========================= */
 
 carregarDashboard();

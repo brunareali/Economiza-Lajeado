@@ -1,212 +1,153 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar conta - Meu Dinheiro</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
 
-    <title>Criar conta - Meu Dinheiro</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f7f5;
-            color: #26352b;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            width: 100%;
-            max-width: 430px;
-            padding: 35px 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-        }
-
-        .voltar {
-            color: #287a4b;
-            text-decoration: none;
-            font-size: 14px;
-            display: block;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            color: #287a4b;
-            margin-bottom: 8px;
-        }
-
-        .subtitulo {
-            color: #718078;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #d8ded9;
-            border-radius: 12px;
-            margin-bottom: 18px;
-            font-size: 16px;
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            background: #287a4b;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1f633c;
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <a href="index.html" class="voltar">← Voltar</a>
-
-    <h1>Criar minha conta 💚</h1>
-
-    <p class="subtitulo">
-        Primeiro vamos conhecer você e entender
-        como organizar seu dinheiro.
-    </p>
-
-    <form onsubmit="salvarCadastro(event)">
-
-        <label>Seu nome</label>
-
-        <input
-            id="nome"
-            type="text"
-            placeholder="Ex: Maria"
-            required
-        >
-
-        <label>Seu e-mail</label>
-
-        <input
-            id="email"
-            type="email"
-            placeholder="Ex: seuemail@email.com"
-            required
-        >
-
-        <label>Crie uma senha</label>
-
-        <input
-            id="senha"
-            type="password"
-            placeholder="Digite sua senha"
-            required
-        >
-
-        <label>Quanto você ganha por mês?</label>
-
-        <input
-            id="renda"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="Ex: 2500"
-            required
-        >
-
-        <button type="submit">
-            Continuar →
-        </button>
-
-    </form>
-
-</div>
-
-
-<script>
-
-function salvarCadastro(event) {
-
-    event.preventDefault();
-
-    const nome = document.getElementById("nome").value.trim();
-
-    const email = document.getElementById("email").value.trim();
-
-    const senha = document.getElementById("senha").value;
-
-    const renda = Number(document.getElementById("renda").value);
-
-
-    if (!nome || !email || !senha || !renda) {
-
-        alert("Preencha todos os campos.");
-
-        return;
-
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
     }
 
+    body {
+        background: #f5f7f5;
+        color: #26352b;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
 
-    const usuario = {
+    .container {
+        background: white;
+        width: 100%;
+        max-width: 430px;
+        padding: 35px 30px;
+        border-radius: 24px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    }
 
-        nome: nome,
+    .voltar {
+        color: #287a4b;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 25px;
+    }
 
-        email: email,
+    h1 {
+        color: #287a4b;
+        margin-bottom: 8px;
+    }
 
-        senha: senha,
+    .subtitulo {
+        color: #718078;
+        margin-bottom: 25px;
+        line-height: 1.5;
+    }
 
-        renda: renda
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+        font-size: 14px;
+    }
 
-    };
+    input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d8ded9;
+        border-radius: 12px;
+        margin-bottom: 18px;
+        font-size: 16px;
+    }
 
+    input:focus {
+        outline: none;
+        border-color: #287a4b;
+        box-shadow: 0 0 0 3px rgba(40, 122, 75, 0.1);
+    }
 
-    localStorage.setItem(
-        "usuario",
-        JSON.stringify(usuario)
-    );
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        background: #287a4b;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
+    button:hover {
+        background: #1f633c;
+    }
 
-    localStorage.setItem(
-        "rendaMensal",
-        renda.toString()
-    );
+</style>
 
+</head> <body> <div class="container">
+<a href="index.html" class="voltar">← Voltar</a>
 
-    window.location.href = "orcamento.html";
+<h1>Criar minha conta 💚</h1>
 
-}
+<p class="subtitulo">
+    Primeiro vamos conhecer você e entender
+    como organizar seu dinheiro.
+</p>
 
-</script>
+<form onsubmit="salvarCadastro(event)">
 
-</body>
+    <label for="nome">Seu nome</label>
 
-</html>
+    <input
+        id="nome"
+        type="text"
+        placeholder="Ex: Maria"
+        autocomplete="name"
+        required
+    >
+
+    <label for="email">Seu e-mail</label>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Ex: seuemail@email.com"
+        autocomplete="email"
+        required
+    >
+
+    <label for="senha">Crie uma senha</label>
+
+    <input
+        id="senha"
+        type="password"
+        placeholder="Digite sua senha"
+        autocomplete="new-password"
+        minlength="4"
+        required
+    >
+
+    <label for="renda">Quanto você ganha por mês?</label>
+
+    <input
+        id="renda"
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="Ex: 2500"
+        inputmode="decimal"
+        required
+    >
+
+    <button type="submit">
+        Continuar →
+    </button>
+
+</form>
+
+</div> <script> function salvarCadastro(event) { event.preventDefault(); const nome = document.getElementById("nome").value.trim(); const email = document.getElementById("email").value.trim(); const senha = document.getElementById("senha").value; const rendaTexto = document.getElementById("renda").value.trim(); const renda = Number(rendaTexto); /* Verifica os campos de texto. */ if (!nome || !email || !senha || !rendaTexto) { alert("Preencha todos os campos."); return; } /* Verifica se a renda é um número válido. Aqui 0 também é permitido. */ if (Number.isNaN(renda) || renda < 0) { alert("Digite uma renda válida."); return; } /* Cria o usuário. */ const usuario = { nome: nome, email: email, senha: senha, renda: renda }; /* Salva os dados do usuário. */ localStorage.setItem( "usuario", JSON.stringify(usuario) ); /* Salva a renda mensal. Vamos utilizar esse valor posteriormente no controle financeiro. */ localStorage.setItem( "rendaMensal", renda.toString() ); /* Cria uma lista de gastos vazia caso ainda não exista. */ if (!localStorage.getItem("gastos")) { localStorage.setItem( "gastos", JSON.stringify([]) ); } /* Envia o usuário para a próxima página. */ window.location.href = "orcamento.html"; } </script> </body> </html>

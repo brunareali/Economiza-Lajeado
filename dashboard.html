@@ -1,617 +1,191 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrar gasto - Meu Dinheiro</title>
 
-<head>
+<style>
 
-    <meta charset="UTF-8">
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    body {
+        background: #f5f7f5;
+        color: #26352b;
+        min-height: 100vh;
+        padding: 20px;
+    }
 
-    <title>Meu Dinheiro</title>
+    .container {
+        max-width: 500px;
+        margin: 40px auto;
+    }
 
-    <style>
+    .voltar {
+        display: inline-block;
+        color: #287a4b;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 22px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
 
-        body {
-            background: #f5f7f5;
-            color: #26352b;
-            padding: 20px;
-        }
+    h1 {
+        color: #287a4b;
+        margin-bottom: 8px;
+    }
 
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
+    .subtitulo {
+        color: #718078;
+        line-height: 1.5;
+        margin-bottom: 25px;
+    }
 
-        .topo {
-            margin-bottom: 25px;
-        }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
 
-        .topo h1 {
-            color: #287a4b;
-            margin-bottom: 8px;
-        }
+    input,
+    select {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #d8ded9;
+        border-radius: 12px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        background: white;
+    }
 
-        .topo p {
-            color: #718078;
-        }
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        background: #287a4b;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        .resumo {
-            background: #287a4b;
-            color: white;
-            padding: 25px;
-            border-radius: 22px;
-            margin-bottom: 25px;
-        }
+    button:hover {
+        background: #1f633c;
+    }
 
-        .resumo small {
-            opacity: 0.8;
-        }
+    .disponivel {
+        background: #f0f5f1;
+        padding: 14px;
+        border-radius: 12px;
+        margin-top: -5px;
+        margin-bottom: 20px;
+        color: #287a4b;
+        font-weight: bold;
+    }
 
-        .resumo h2 {
-            font-size: 32px;
-            margin-top: 8px;
-        }
+</style>
 
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
+</head> <body> <div class="container">
+<a href="dashboard.html" class="voltar">
+    ← Voltar para o resumo
+</a>
 
-        .categoria {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+<div class="card">
 
-        .icone {
-            font-size: 30px;
-        }
+    <h1>Registrar gasto 💸</h1>
 
-        .info {
-            flex: 1;
-        }
+    <p class="subtitulo">
+        Anote uma compra para acompanhar
+        quanto você já gastou em cada área.
+    </p>
 
-        .info h3 {
-            margin-bottom: 5px;
-        }
+    <label for="descricao">
+        O que você comprou?
+    </label>
 
-        .info p {
-            color: #718078;
-            font-size: 14px;
-        }
+    <input
+        id="descricao"
+        type="text"
+        placeholder="Ex: Sabonete"
+    >
 
-        .valor {
-            color: #287a4b;
-            font-weight: bold;
-        }
+    <label for="valor">
+        Quanto custou?
+    </label>
 
-        .botao {
-            width: 100%;
-            padding: 17px;
-            border: none;
-            border-radius: 15px;
-            background: #287a4b;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
+    <input
+        id="valor"
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="Ex: 15"
+    >
 
-        .botao:hover {
-            background: #1f633c;
-        }
+    <label for="categoria">
+        Qual categoria?
+    </label>
 
-    </style>
+    <select id="categoria" onchange="mostrarDisponivel()">
 
-</head>
+        <option value="">
+            Escolha uma categoria
+        </option>
 
+        <option value="fixos">
+            🏠 Gastos fixos
+        </option>
 
-<body>
+        <option value="alimentacao">
+            🍎 Alimentação
+        </option>
 
-<div class="container">
+        <option value="saude">
+            🏥 Saúde
+        </option>
 
+        <option value="higiene">
+            🧼 Higiene
+        </option>
 
-    <div class="topo">
+        <option value="lazer">
+            🎮 Lazer
+        </option>
 
-        <h1 id="tituloSaudacao">
-            Meu Dinheiro 💚
-        </h1>
+        <option value="transporte">
+            🚗 Transporte
+        </option>
 
-        <p>
-            Seu resumo financeiro deste mês.
-        </p>
+        <option value="educacao">
+            📚 Educação
+        </option>
 
+        <option value="investimentos">
+            💰 Investimentos
+        </option>
+
+    </select>
+
+    <div
+        id="disponivel"
+        class="disponivel"
+        style="display: none;"
+    >
+        Disponível nesta categoria:
+        R$ 0,00
     </div>
 
-
-    <div class="resumo">
-
-        <small>
-            Dinheiro ainda disponível
-        </small>
-
-        <h2 id="dinheiroDisponivel">
-            R$ 0,00
-        </h2>
-
-        <p id="totalGasto" style="margin-top: 12px;">
-            Você já gastou R$ 0,00 este mês.
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">🏠</div>
-
-            <div class="info">
-
-                <h3>Gastos fixos</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="fixos">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">🍎</div>
-
-            <div class="info">
-
-                <h3>Alimentação</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="alimentacao">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">🏥</div>
-
-            <div class="info">
-
-                <h3>Saúde</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="saude">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">🧼</div>
-
-            <div class="info">
-
-                <h3>Higiene</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="higiene">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">🎮</div>
-
-            <div class="info">
-
-                <h3>Lazer</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="lazer">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">🚗</div>
-
-            <div class="info">
-
-                <h3>Transporte</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="transporte">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">📚</div>
-
-            <div class="info">
-
-                <h3>Educação</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="educacao">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="categoria">
-
-            <div class="icone">💰</div>
-
-            <div class="info">
-
-                <h3>Investimentos</h3>
-
-                <p>Valor disponível</p>
-
-            </div>
-
-            <div class="valor" id="investimentos">
-                R$ 0,00
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <a href="registrar.html" class="botao">
-
-        ➕ Registrar gasto
-
-    </a>
-
+    <button onclick="registrarGasto()">
+        Registrar gasto →
+    </button>
 
 </div>
 
-
-<script>
-
-
-/* =========================
-   FORMATAÇÃO DE DINHEIRO
-========================= */
-
-function moeda(valor) {
-
-    return Number(valor).toLocaleString("pt-BR", {
-
-        style: "currency",
-
-        currency: "BRL"
-
-    });
-
-}
-
-
-/* =========================
-   RENDA MENSAL
-========================= */
-
-const renda =
-    Number(localStorage.getItem("rendaMensal")) || 0;
-
-
-/* =========================
-   NOME DO USUÁRIO
-========================= */
-
-const usuarioSalvo =
-    localStorage.getItem("usuario");
-
-
-if (usuarioSalvo) {
-
-    const usuario =
-        JSON.parse(usuarioSalvo);
-
-    document.getElementById("tituloSaudacao").textContent =
-        "Olá, " + usuario.nome + "! 💚";
-
-}
-
-
-/* =========================
-   ORÇAMENTO DAS CATEGORIAS
-========================= */
-
-const categorias = {
-
-    fixos:
-        Number(localStorage.getItem("orcamentoFixos")) || 0,
-
-    alimentacao:
-        Number(localStorage.getItem("orcamentoAlimentacao")) || 0,
-
-    saude:
-        Number(localStorage.getItem("orcamentoSaude")) || 0,
-
-    higiene:
-        Number(localStorage.getItem("orcamentoHigiene")) || 0,
-
-    lazer:
-        Number(localStorage.getItem("orcamentoLazer")) || 0,
-
-    transporte:
-        Number(localStorage.getItem("orcamentoTransporte")) || 0,
-
-    educacao:
-        Number(localStorage.getItem("orcamentoEducacao")) || 0,
-
-    investimentos:
-        Number(localStorage.getItem("orcamentoInvestimentos")) || 0
-
-};
-
-
-/* =========================
-   GASTOS REGISTRADOS
-========================= */
-
-const gastos =
-    JSON.parse(localStorage.getItem("gastos")) || [];
-
-
-/* =========================
-   GASTOS POR CATEGORIA
-========================= */
-
-const gastosPorCategoria = {
-
-    fixos: 0,
-
-    alimentacao: 0,
-
-    saude: 0,
-
-    higiene: 0,
-
-    lazer: 0,
-
-    transporte: 0,
-
-    educacao: 0,
-
-    investimentos: 0
-
-};
-
-
-gastos.forEach(function(gasto) {
-
-    if (
-        gastosPorCategoria[gasto.categoria]
-        !== undefined
-    ) {
-
-        gastosPorCategoria[gasto.categoria] +=
-            Number(gasto.valor);
-
-    }
-
-});
-
-
-/* =========================
-   SALDO DE CADA CATEGORIA
-========================= */
-
-const disponivelPorCategoria = {
-
-    fixos:
-        categorias.fixos -
-        gastosPorCategoria.fixos,
-
-    alimentacao:
-        categorias.alimentacao -
-        gastosPorCategoria.alimentacao,
-
-    saude:
-        categorias.saude -
-        gastosPorCategoria.saude,
-
-    higiene:
-        categorias.higiene -
-        gastosPorCategoria.higiene,
-
-    lazer:
-        categorias.lazer -
-        gastosPorCategoria.lazer,
-
-    transporte:
-        categorias.transporte -
-        gastosPorCategoria.transporte,
-
-    educacao:
-        categorias.educacao -
-        gastosPorCategoria.educacao,
-
-    investimentos:
-        categorias.investimentos -
-        gastosPorCategoria.investimentos
-
-};
-
-
-/* =========================
-   TOTAL DE GASTOS
-========================= */
-
-let totalGasto = 0;
-
-
-gastos.forEach(function(gasto) {
-
-    totalGasto +=
-        Number(gasto.valor);
-
-});
-
-
-document.getElementById("totalGasto").textContent =
-    "Você já gastou " +
-    moeda(totalGasto) +
-    " este mês.";
-
-
-/* =========================
-   TOTAL RESERVADO
-========================= */
-
-const totalDistribuido =
-
-    categorias.fixos +
-    categorias.alimentacao +
-    categorias.saude +
-    categorias.higiene +
-    categorias.lazer +
-    categorias.transporte +
-    categorias.educacao +
-    categorias.investimentos;
-
-
-/* =========================
-   DINHEIRO LIVRE
-=========================
-
-   IMPORTANTE:
-
-   Aqui NÃO descontamos os gastos.
-
-   Os gastos já foram descontados
-   de suas respectivas categorias.
-
-========================= */
-
-const dinheiroDisponivel =
-    renda - totalDistribuido;
-
-
-/* =========================
-   MOSTRAR DINHEIRO LIVRE
-========================= */
-
-document.getElementById("dinheiroDisponivel").textContent =
-    moeda(dinheiroDisponivel);
-
-
-/* =========================
-   MOSTRAR SALDO DAS CATEGORIAS
-========================= */
-
-document.getElementById("fixos").textContent =
-    moeda(disponivelPorCategoria.fixos);
-
-document.getElementById("alimentacao").textContent =
-    moeda(disponivelPorCategoria.alimentacao);
-
-document.getElementById("saude").textContent =
-    moeda(disponivelPorCategoria.saude);
-
-document.getElementById("higiene").textContent =
-    moeda(disponivelPorCategoria.higiene);
-
-document.getElementById("lazer").textContent =
-    moeda(disponivelPorCategoria.lazer);
-
-document.getElementById("transporte").textContent =
-    moeda(disponivelPorCategoria.transporte);
-
-document.getElementById("educacao").textContent =
-    moeda(disponivelPorCategoria.educacao);
-
-document.getElementById("investimentos").textContent =
-    moeda(disponivelPorCategoria.investimentos);
-
-
-</script>
-
-
-</body>
-
-</html>
+</div> <script> function moeda(valor) { return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); } /* ========================= IDENTIFICA O MÊS ATUAL ========================= */ function mesAtual() { const agora = new Date(); return agora.getFullYear() + "-" + String(agora.getMonth() + 1).padStart(2, "0"); } /* ========================= PEGA O ORÇAMENTO ========================= */ function pegarOrcamento(categoria) { const nomeCategoria = categoria.charAt(0).toUpperCase() + categoria.slice(1); return Number( localStorage.getItem( "orcamento" + nomeCategoria ) ) || 0; } /* ========================= MOSTRAR DISPONÍVEL ========================= */ function mostrarDisponivel() { const categoria = document.getElementById("categoria").value; const elemento = document.getElementById("disponivel"); if (!categoria) { elemento.style.display = "none"; return; } const orcamento = pegarOrcamento(categoria); const gastos = JSON.parse( localStorage.getItem("gastos") ) || []; let totalGasto = 0; gastos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { totalGasto += Number(gasto.valor); } }); const disponivel = orcamento - totalGasto; elemento.textContent = "Disponível nesta categoria: " + moeda(disponivel); elemento.style.display = "block"; } /* ========================= REGISTRAR GASTO ========================= */ function registrarGasto() { const descricao = document.getElementById("descricao").value.trim(); const valor = Number( document.getElementById("valor").value ); const categoria = document.getElementById("categoria").value; if (!descricao) { alert("Digite o que você comprou."); return; } if (!valor || valor <= 0) { alert("Digite um valor válido."); return; } if (!categoria) { alert("Escolha uma categoria."); return; } const orcamento = pegarOrcamento(categoria); const gastosSalvos = JSON.parse( localStorage.getItem("gastos") ) || []; let totalGastoCategoria = 0; gastosSalvos.forEach(function(gasto) { if ( gasto.categoria === categoria && gasto.mes === mesAtual() ) { totalGastoCategoria += Number(gasto.valor); } }); const disponivel = orcamento - totalGastoCategoria; if (valor > disponivel) { alert( "Você não tem dinheiro suficiente nessa categoria.\n\n" + "Disponível: " + moeda(disponivel) ); return; } /* ========================= SALVA O GASTO COM O MÊS ========================= */ const novoGasto = { descricao: descricao, valor: valor, categoria: categoria, data: new Date() .toLocaleDateString("pt-BR"), mes: mesAtual() }; gastosSalvos.push(novoGasto); localStorage.setItem( "gastos", JSON.stringify(gastosSalvos) ); alert( "Gasto registrado com sucesso! 💚" ); window.location.href = "dashboard.html"; } </script> </body> </html>

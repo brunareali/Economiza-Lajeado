@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrar - Meu Dinheiro</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 430px;
+            padding: 35px 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+        }
+
+        .voltar {
+            color: #287a4b;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            color: #718078;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8ded9;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #287a4b;
+            box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1f633c;
+        }
+
+        .criar-conta {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #287a4b;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .criar-conta:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="index.html" class="voltar">
+        ← Voltar
+    </a>
+
+    <h1>
+        Entrar 💚
+    </h1>
+
+    <p class="subtitulo">
+        Entre na sua conta para continuar
+        organizando seu dinheiro.
+    </p>
+
+    <form onsubmit="fazerLogin(event)">
+
+        <label for="email">
+            Seu e-mail
+        </label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="Ex: seuemail@email.com"
+            autocomplete="email"
+            required
+        >
+
+        <label for="senha">
+            Sua senha
+        </label>
+
+        <input
+            id="senha"
+            type="password"
+            placeholder="Digite sua senha"
+            autocomplete="current-password"
+            required
+        >
+
+        <button type="submit">
+            Entrar →
+        </button>
+
+    </form>
+
+    <a href="cadastro.html" class="criar-conta">
+        Ainda não tenho uma conta
+    </a>
+
+</div>
+
+<script>
+
+function fazerLogin(event) {
+
+    event.preventDefault();
+
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const senha =
+        document
+            .getElementById("senha")
+            .value;
+
+    const usuarioSalvo =
+        localStorage.getItem("usuario");
+
+    if (!usuarioSalvo) {
+
+        alert(
+            "Nenhuma conta encontrada. " +
+            "Crie sua conta primeiro."
+        );
+
+        return;
+    }
+
+    let usuario;
+
+    try {
+
+        usuario =
+            JSON.parse(usuarioSalvo);
+
+    } catch {
+
+        alert(
+            "Não foi possível acessar os dados da conta."
+        );
+
+        return;
+    }
+
+    if (
+        !usuario.email ||
+        usuario.email.toLowerCase() !== email
+    ) {
+
+        alert(
+            "E-mail ou senha incorretos."
+        );
+
+        return;
+    }
+
+    if (
+        usuario.senha !== senha
+    ) {
+
+        alert(
+            "E-mail ou senha incorretos."
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        "logado",
+        "true"
+    );
+
+    if (
+        usuario.renda !== undefined
+    ) {
+
+        localStorage.setItem(
+            "rendaMensal",
+            Number(usuario.renda).toString()
+        );
+
+    }
+
+    if (
+        !localStorage.getItem("gastos")
+    ) {
+
+        localStorage.setItem(
+            "gastos",
+            JSON.stringify([])
+        );
+
+    }
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

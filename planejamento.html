@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Planejamento mensal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #222;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .resumo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .resumo-card span {
+            display: block;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .resumo-card strong {
+            font-size: 22px;
+        }
+
+        .categoria {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .categoria:last-child {
+            border-bottom: none;
+        }
+
+        .categoria-info {
+            flex: 1;
+        }
+
+        .categoria-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .categoria-info small {
+            color: #777;
+        }
+
+        .categoria input {
+            width: 160px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid #eee;
+            font-size: 18px;
+        }
+
+        .alerta {
+            display: none;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .sucesso {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 700px) {
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .categoria {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .categoria input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Planejamento mensal</h1>
+
+    <p class="subtitulo">
+        Defina quanto você pretende gastar em cada categoria.
+    </p>
+
+    <!-- RENDA -->
+    <div class="card">
+
+        <h2>Sua renda mensal</h2>
+
+        <input
+            type="number"
+            id="renda"
+            placeholder="Digite sua renda"
+            min="0"
+            step="0.01"
+            style="
+                width: 100%;
+                padding: 14px;
+                margin-top: 15px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 18px;
+            "
+        >
+
+    </div>
+
+
+    <!-- RESUMO -->
+    <div class="resumo">
+
+        <div class="resumo-card">
+            <span>Renda</span>
+            <strong id="rendaResumo">R$ 0,00</strong>
+        </div>
+
+        <div class="resumo-card">
+            <span>Total planejado</span>
+            <strong id="totalPlanejado">R$ 0,00</strong>
+        </div>
+
+        <div class="resumo-card">
+            <span>Não planejado</span>
+            <strong id="naoPlanejado">R$ 0,00</strong>
+        </div>
+
+    </div>
+
+
+    <!-- CATEGORIAS -->
+    <div class="card">
+
+        <h2>Planeje seus gastos</h2>
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>🏠 Gastos fixos</strong>
+                <small>Moradia, contas e despesas fixas</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="fixos"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>🍎 Alimentação</strong>
+                <small>Mercado, restaurantes e alimentação</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="alimentacao"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>🏥 Saúde</strong>
+                <small>Consultas, medicamentos e tratamentos</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="saude"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>🧼 Higiene</strong>
+                <small>Produtos de higiene e cuidados pessoais</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="higiene"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>🎮 Lazer</strong>
+                <small>Entretenimento, passeios e diversão</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="lazer"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>🚗 Transporte</strong>
+                <small>Combustível, ônibus, aplicativos e transporte</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="transporte"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>📚 Educação</strong>
+                <small>Cursos, livros e estudos</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="educacao"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="categoria">
+
+            <div class="categoria-info">
+                <strong>💰 Investimentos</strong>
+                <small>Valores destinados a investimentos</small>
+            </div>
+
+            <input
+                type="number"
+                class="planejamento"
+                data-categoria="investimentos"
+                placeholder="R$ 0,00"
+                min="0"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="total">
+
+            <span>Total planejado</span>
+
+            <strong id="totalFinal">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div
+            id="alerta"
+            class="alerta"
+        ></div>
+
+
+        <button onclick="salvarPlanejamento()">
+            Salvar planejamento
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const rendaInput = document.getElementById("renda");
+
+    const campos = document.querySelectorAll(".planejamento");
+
+
+    function formatarMoeda(valor) {
+
+        return valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+    }
+
+
+    function calcularPlanejamento() {
+
+        const renda = Number(rendaInput.value) || 0;
+
+        let totalPlanejado = 0;
+
+
+        campos.forEach(campo => {
+
+            totalPlanejado += Number(campo.value) || 0;
+
+        });
+
+
+        const naoPlanejado = renda - totalPlanejado;
+
+
+        document.getElementById("rendaResumo").textContent =
+            formatarMoeda(renda);
+
+
+        document.getElementById("totalPlanejado").textContent =
+            formatarMoeda(totalPlanejado);
+
+
+        document.getElementById("totalFinal").textContent =
+            formatarMoeda(totalPlanejado);
+
+
+        document.getElementById("naoPlanejado").textContent =
+            formatarMoeda(naoPlanejado);
+
+
+        const alerta = document.getElementById("alerta");
+
+
+        if (naoPlanejado < 0) {
+
+            alerta.style.display = "block";
+
+            alerta.classList.remove("sucesso");
+
+            alerta.textContent =
+                "⚠️ Atenção: seu planejamento ultrapassa sua renda em " +
+                formatarMoeda(Math.abs(naoPlanejado)) + ".";
+
+        } else {
+
+            alerta.style.display = "block";
+
+            alerta.classList.add("sucesso");
+
+            alerta.textContent =
+                "✅ Seu planejamento está dentro da sua renda. " +
+                "Você ainda tem " +
+                formatarMoeda(naoPlanejado) +
+                " não planejados.";
+
+        }
+
+    }
+
+
+    rendaInput.addEventListener("input", calcularPlanejamento);
+
+
+    campos.forEach(campo => {
+
+        campo.addEventListener("input", calcularPlanejamento);
+
+    });
+
+
+    function salvarPlanejamento() {
+
+        const renda = Number(rendaInput.value) || 0;
+
+        const categorias = {};
+
+
+        campos.forEach(campo => {
+
+            const categoria = campo.dataset.categoria;
+
+            const valor = Number(campo.value) || 0;
+
+            categorias[categoria] = valor;
+
+        });
+
+
+        const planejamento = {
+
+            renda: renda,
+
+            categorias: categorias
+
+        };
+
+
+        localStorage.setItem(
+            "planejamentoFinanceiro",
+            JSON.stringify(planejamento)
+        );
+
+
+        alert("Planejamento salvo com sucesso!");
+
+    }
+
+
+    function carregarPlanejamento() {
+
+        const dados =
+            localStorage.getItem("planejamentoFinanceiro");
+
+
+        if (!dados) {
+            calcularPlanejamento();
+            return;
+        }
+
+
+        const planejamento = JSON.parse(dados);
+
+
+        rendaInput.value = planejamento.renda || 0;
+
+
+        campos.forEach(campo => {
+
+            const categoria = campo.dataset.categoria;
+
+            campo.value =
+                planejamento.categorias?.[categoria] || 0;
+
+        });
+
+
+        calcularPlanejamento();
+
+    }
+
+
+    carregarPlanejamento();
+
+</script>
+
+</body>
+</html>

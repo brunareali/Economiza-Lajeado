@@ -189,55 +189,6 @@
             color: #c0392b;
         }
 
-        /* =========================
-           DICAS FINANCEIRAS
-        ========================= */
-
-        .dicas-card {
-            margin-bottom: 20px;
-        }
-
-        .dicas-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .dicas-header h2 {
-            color: #26352b;
-            font-size: 21px;
-        }
-
-        .dica {
-            background: #f5f9f6;
-            border-left: 4px solid #287a4b;
-            padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            color: #526158;
-            line-height: 1.5;
-            font-size: 14px;
-        }
-
-        .dica:last-child {
-            margin-bottom: 0;
-        }
-
-        .dica strong {
-            color: #26352b;
-        }
-
-        .dica.atencao {
-            background: #fff8e5;
-            border-left-color: #e6a700;
-        }
-
-        .dica.perigo {
-            background: #fff0ee;
-            border-left-color: #c0392b;
-        }
-
         .gastos-card {
             margin-bottom: 20px;
         }
@@ -588,24 +539,6 @@
         >
             🟢 Seu dinheiro está sob controle.
         </div>
-
-    </div>
-
-    <!-- =========================
-         DICAS FINANCEIRAS
-    ========================== -->
-
-    <div class="card dicas-card">
-
-        <div class="dicas-header">
-
-            <h2>
-                💡 Dicas para você
-            </h2>
-
-        </div>
-
-        <div id="dicasFinanceiras"></div>
 
     </div>
 
@@ -1470,416 +1403,6 @@ function atualizarSaudeFinanceira(
 
 
 /* =========================
-   DICAS FINANCEIRAS
-========================= */
-
-function atualizarDicasFinanceiras() {
-
-    const container =
-        document.getElementById(
-            "dicasFinanceiras"
-        );
-
-    if (!container) {
-        return;
-    }
-
-    const renda =
-        pegarRenda();
-
-    const totalGastos =
-        calcularTotalGasto();
-
-    const saldo =
-        renda - totalGastos;
-
-    const gastos =
-        gastosDoPeriodo();
-
-    const orcamento =
-        pegarOrcamento();
-
-    const dicas = [];
-
-
-    /*
-        Sem renda definida
-    */
-
-    if (renda <= 0) {
-
-        dicas.push({
-            tipo: "atencao",
-            texto:
-                "⚠️ <strong>Defina sua renda</strong> " +
-                "para conseguir acompanhar melhor " +
-                "quanto pode gastar neste período."
-        });
-
-    }
-
-
-    /*
-        Ainda não gastou
-    */
-
-    if (
-        renda > 0 &&
-        totalGastos === 0
-    ) {
-
-        dicas.push({
-            tipo: "",
-            texto:
-                "💚 <strong>Começo de período excelente!</strong> " +
-                "Você ainda não registrou gastos. " +
-                "Continue acompanhando suas despesas."
-        });
-
-    }
-
-
-    /*
-        Gastos até 50%
-    */
-
-    if (
-        renda > 0 &&
-        totalGastos > 0 &&
-        totalGastos / renda <= 0.5
-    ) {
-
-        dicas.push({
-            tipo: "",
-            texto:
-                "👏 <strong>Você está indo bem!</strong> " +
-                "Seus gastos ainda estão abaixo da metade " +
-                "da sua renda."
-        });
-
-    }
-
-
-    /*
-        Gastos entre 50% e 80%
-    */
-
-    if (
-        renda > 0 &&
-        totalGastos / renda > 0.5 &&
-        totalGastos / renda <= 0.8
-    ) {
-
-        dicas.push({
-            tipo: "atencao",
-            texto:
-                "🟡 <strong>Fique de olho nos próximos gastos.</strong> " +
-                "Você já utilizou uma boa parte da sua renda."
-        });
-
-    }
-
-
-    /*
-        Gastos entre 80% e 100%
-    */
-
-    if (
-        renda > 0 &&
-        totalGastos / renda > 0.8 &&
-        totalGastos / renda <= 1
-    ) {
-
-        dicas.push({
-            tipo: "perigo",
-            texto:
-                "🔴 <strong>Hora de segurar os gastos.</strong> " +
-                "Sua renda está quase toda comprometida. " +
-                "Evite despesas desnecessárias até o próximo período."
-        });
-
-    }
-
-
-    /*
-        Gastou mais que a renda
-    */
-
-    if (
-        renda > 0 &&
-        totalGastos > renda
-    ) {
-
-        dicas.push({
-            tipo: "perigo",
-            texto:
-                "🚨 <strong>Você ultrapassou sua renda.</strong> " +
-                "Tente reduzir gastos não essenciais " +
-                "e revisar seu orçamento."
-        });
-
-    }
-
-
-    /*
-        Existe saldo positivo
-    */
-
-    if (
-        renda > 0 &&
-        saldo > 0 &&
-        totalGastos > 0
-    ) {
-
-        const percentualSaldo =
-            saldo / renda;
-
-        if (percentualSaldo >= 0.2) {
-
-            dicas.push({
-                tipo: "",
-                texto:
-                    "💰 <strong>Você ainda tem " +
-                    moeda(saldo) +
-                    " disponíveis.</strong> " +
-                    "Se possível, considere guardar " +
-                    "uma parte desse valor."
-            });
-
-        }
-
-    }
-
-
-    /*
-        Verifica categorias acima
-        do orçamento
-    */
-
-    const categoriasExcedidas = [];
-
-
-    Object.keys(categorias)
-        .forEach(function(chave) {
-
-            const limite =
-                Number(
-                    orcamento[chave]
-                ) || 0;
-
-            if (limite <= 0) {
-                return;
-            }
-
-
-            let gasto = 0;
-
-
-            gastos.forEach(function(item) {
-
-                if (
-                    item.categoria === chave
-                ) {
-
-                    gasto +=
-                        Number(
-                            item.valor
-                        ) || 0;
-
-                }
-
-            });
-
-
-            if (gasto > limite) {
-
-                categoriasExcedidas.push({
-                    nome:
-                        categorias[chave].nome,
-
-                    icone:
-                        categorias[chave].icone,
-
-                    excesso:
-                        gasto - limite
-                });
-
-            }
-
-        });
-
-
-    categoriasExcedidas
-        .slice(0, 2)
-        .forEach(function(item) {
-
-            dicas.push({
-                tipo: "perigo",
-                texto:
-                    "📉 <strong>" +
-                    item.icone +
-                    " " +
-                    item.nome +
-                    "</strong> ultrapassou seu orçamento em " +
-                    "<strong>" +
-                    moeda(item.excesso) +
-                    "</strong>. " +
-                    "Vale a pena controlar essa categoria."
-            });
-
-        });
-
-
-    /*
-        Procura a categoria com
-        maior gasto
-    */
-
-    const totais = {};
-
-
-    Object.keys(categorias)
-        .forEach(function(chave) {
-
-            totais[chave] = 0;
-
-        });
-
-
-    gastos.forEach(function(gasto) {
-
-        if (
-            totais[gasto.categoria] !== undefined
-        ) {
-
-            totais[gasto.categoria] +=
-                Number(
-                    gasto.valor
-                ) || 0;
-
-        }
-
-    });
-
-
-    let maiorCategoria = null;
-
-
-    Object.keys(totais)
-        .forEach(function(chave) {
-
-            if (
-                totais[chave] <= 0
-            ) {
-                return;
-            }
-
-
-            if (
-                !maiorCategoria ||
-                totais[chave] >
-                maiorCategoria.valor
-            ) {
-
-                maiorCategoria = {
-
-                    chave: chave,
-
-                    valor:
-                        totais[chave]
-
-                };
-
-            }
-
-        });
-
-
-    /*
-        Se uma categoria representar
-        mais de 40% dos gastos,
-        mostra uma dica.
-    */
-
-    if (
-        maiorCategoria &&
-        totalGastos > 0 &&
-        maiorCategoria.valor /
-        totalGastos >= 0.4
-    ) {
-
-        const info =
-            categorias[
-                maiorCategoria.chave
-            ];
-
-
-        dicas.push({
-            tipo: "atencao",
-            texto:
-                "📊 <strong>" +
-                info.icone +
-                " " +
-                info.nome +
-                "</strong> representa " +
-                Math.round(
-                    (
-                        maiorCategoria.valor /
-                        totalGastos
-                    ) * 100
-                ) +
-                "% dos seus gastos. " +
-                "Talvez seja interessante verificar " +
-                "se existe alguma despesa que pode ser reduzida."
-        });
-
-    }
-
-
-    /*
-        Caso não tenha nenhuma dica
-    */
-
-    if (dicas.length === 0) {
-
-        dicas.push({
-            tipo: "",
-            texto:
-                "💚 <strong>Continue acompanhando seus gastos.</strong> " +
-                "Registrar cada despesa ajuda você a entender " +
-                "melhor para onde seu dinheiro está indo."
-        });
-
-    }
-
-
-    /*
-        Limita a quantidade
-        para não deixar o Dashboard
-        muito grande.
-    */
-
-    const dicasExibidas =
-        dicas.slice(0, 4);
-
-
-    container.innerHTML =
-        dicasExibidas
-            .map(function(dica) {
-
-                return `
-                    <div class="dica ${dica.tipo}">
-                        ${dica.texto}
-                    </div>
-                `;
-
-            })
-            .join("");
-
-}
-
-
-/* =========================
    CARREGAR DASHBOARD
 ========================= */
 
@@ -1991,9 +1514,6 @@ function carregarDashboard() {
         renda,
         totalGastos
     );
-
-
-    atualizarDicasFinanceiras();
 
 
     mostrarCategorias();
@@ -2567,4 +2087,250 @@ function salvarNovaRenda() {
    NAVEGAÇÃO
 ========================= */
 
-function registrarG
+function registrarGasto() {
+
+    window.location.href =
+        "registrar.html";
+
+}
+
+
+function verRegistros() {
+
+    window.location.href =
+        "registros.html";
+
+}
+
+
+function editarOrcamento() {
+
+    window.location.href =
+        "orcamento.html";
+
+}
+
+
+/* =========================
+   RECEBI MEU PAGAMENTO
+=========================
+
+   NOVA REGRA:
+
+   Renda atual
+        +
+   sobra do mês atual
+        =
+   renda do próximo mês
+
+   Exemplo:
+
+   Renda:       R$ 2.500
+   Gastos:      R$ 2.000
+   Sobra:         R$ 500
+
+   Próximo mês:
+
+   Renda:       R$ 3.000
+
+   Os gastos antigos continuam
+   salvos no histórico.
+
+========================= */
+
+function novoMes() {
+
+    const periodoAtual =
+        obterPeriodo();
+
+
+    const proximoMes =
+        obterProximoMes(
+            periodoAtual
+        );
+
+
+    const rendaAtual =
+        pegarRenda();
+
+
+    const gastosAtual =
+        calcularTotalGasto();
+
+
+    /*
+        Calcula quanto sobrou
+        do mês atual.
+    */
+
+    const sobra =
+        rendaAtual -
+        gastosAtual;
+
+
+    /*
+        Se houver sobra positiva,
+        ela será adicionada à
+        renda do próximo mês.
+
+        Se o saldo for negativo,
+        não carregamos dívida.
+
+        Portanto:
+
+        R$ 2.500 - R$ 2.000
+        = R$ 500 de sobra
+
+        Próximo mês:
+
+        R$ 2.500 + R$ 500
+        = R$ 3.000
+    */
+
+    const valorCarregado =
+        Math.max(
+            sobra,
+            0
+        );
+
+
+    const novaRenda =
+        rendaAtual +
+        valorCarregado;
+
+
+    const confirmar =
+        confirm(
+
+            "💰 Você recebeu seu pagamento?\n\n" +
+
+            "Mês atual:\n" +
+            nomeDoMes(periodoAtual) +
+            "\n\n" +
+
+            "Renda atual: " +
+            moeda(rendaAtual) +
+            "\n" +
+
+            "Gastos: " +
+            moeda(gastosAtual) +
+            "\n" +
+
+            "Valor que sobrou: " +
+            moeda(valorCarregado) +
+            "\n\n" +
+
+            "Próximo mês:\n" +
+            nomeDoMes(proximoMes) +
+            "\n\n" +
+
+            "Nova renda disponível: " +
+            moeda(novaRenda) +
+            "\n\n" +
+
+            "Os gastos de " +
+            nomeDoMes(periodoAtual) +
+            " NÃO serão apagados.\n\n" +
+
+            "Eles continuarão disponíveis " +
+            "em \"Ver registros\".\n\n" +
+
+            "Deseja iniciar o novo mês?"
+
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    /*
+        Primeiro salva a nova renda.
+
+        Assim o próximo mês começa
+        já com o valor acumulado.
+    */
+
+    salvarRenda(
+        novaRenda
+    );
+
+
+    /*
+        Agora muda o período.
+
+        Exemplo:
+
+        2026-09
+        ↓
+        2026-10
+    */
+
+    localStorage.setItem(
+        "periodoFinanceiro",
+        proximoMes
+    );
+
+
+    /*
+        Recarrega o Dashboard.
+
+        Como os gastos antigos
+        possuem:
+
+        gasto.mes = "2026-09"
+
+        e o novo período é:
+
+        2026-10
+
+        eles não aparecem nos
+        gastos do novo mês.
+
+        Mas continuam no histórico.
+    */
+
+    carregarDashboard();
+
+
+    alert(
+
+        "Pagamento recebido! 💚\n\n" +
+
+        "Novo mês iniciado:\n" +
+
+        nomeDoMes(proximoMes) +
+
+        "\n\n" +
+
+        "Renda deste mês: " +
+        moeda(novaRenda) +
+
+        "\n\n" +
+
+        "Valor carregado do mês anterior: " +
+        moeda(valorCarregado) +
+
+        "\n\n" +
+
+        "Gastos do novo mês: R$ 0,00"
+
+    );
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+carregarDashboard();
+
+</script>
+
+</body>
+
+</html>

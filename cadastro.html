@@ -1,153 +1,441 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Criar conta - Meu Dinheiro</title>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<style>
+<head>
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-        background: #f5f7f5;
-        color: #26352b;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
+    <title>Criar conta - economiza.com</title>
 
-    .container {
-        background: white;
-        width: 100%;
-        max-width: 430px;
-        padding: 35px 30px;
-        border-radius: 24px;
-        box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-    }
+    <style>
 
-    .voltar {
-        color: #287a4b;
-        text-decoration: none;
-        font-size: 14px;
-        display: block;
-        margin-bottom: 25px;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    h1 {
-        color: #287a4b;
-        margin-bottom: 8px;
-    }
+        body {
+            background: #f5f7f5;
+            color: #26352b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .subtitulo {
-        color: #718078;
-        margin-bottom: 25px;
-        line-height: 1.5;
-    }
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 430px;
+            padding: 35px 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+        }
 
-    label {
-        display: block;
-        margin-bottom: 7px;
-        font-weight: bold;
-        font-size: 14px;
-    }
+        .marca {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-    input {
-        width: 100%;
-        padding: 14px;
-        border: 1px solid #d8ded9;
-        border-radius: 12px;
-        margin-bottom: 18px;
-        font-size: 16px;
-    }
+        .logo {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
 
-    input:focus {
-        outline: none;
-        border-color: #287a4b;
-        box-shadow: 0 0 0 3px rgba(40, 122, 75, 0.1);
-    }
+        .marca-nome {
+            color: #287a4b;
+            font-size: 22px;
+            font-weight: bold;
+        }
 
-    button {
-        width: 100%;
-        padding: 16px;
-        border: none;
-        border-radius: 14px;
-        background: #287a4b;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+        .voltar {
+            color: #287a4b;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 25px;
+        }
 
-    button:hover {
-        background: #1f633c;
-    }
+        .voltar:hover {
+            text-decoration: underline;
+        }
 
-</style>
+        h1 {
+            color: #287a4b;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
 
-</head> <body> <div class="container">
-<a href="index.html" class="voltar">← Voltar</a>
+        .subtitulo {
+            color: #718078;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
 
-<h1>Criar minha conta 💚</h1>
+        .campo {
+            margin-bottom: 18px;
+        }
 
-<p class="subtitulo">
-    Primeiro vamos conhecer você e entender
-    como organizar seu dinheiro.
-</p>
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+        }
 
-<form onsubmit="salvarCadastro(event)">
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d8ded9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.2s;
+        }
 
-    <label for="nome">Seu nome</label>
+        input:focus {
+            outline: none;
+            border-color: #287a4b;
+            box-shadow: 0 0 0 3px rgba(40, 122, 75, 0.1);
+        }
 
-    <input
-        id="nome"
-        type="text"
-        placeholder="Ex: Maria"
-        autocomplete="name"
-        required
+        .ajuda-renda {
+            color: #718078;
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.4;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: #287a4b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #1f633c;
+        }
+
+        .seguranca {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f0f5f1;
+            border-radius: 12px;
+            color: #718078;
+            font-size: 12px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                padding: 30px 22px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="marca">
+
+        <div class="logo">
+            💰
+        </div>
+
+        <div class="marca-nome">
+            economiza.com
+        </div>
+
+    </div>
+
+
+    <a
+        href="index.html"
+        class="voltar"
     >
+        ← Voltar
+    </a>
 
-    <label for="email">Seu e-mail</label>
 
-    <input
-        id="email"
-        type="email"
-        placeholder="Ex: seuemail@email.com"
-        autocomplete="email"
-        required
-    >
+    <h1>
+        Criar minha conta 💚
+    </h1>
 
-    <label for="senha">Crie uma senha</label>
 
-    <input
-        id="senha"
-        type="password"
-        placeholder="Digite sua senha"
-        autocomplete="new-password"
-        minlength="4"
-        required
-    >
+    <p class="subtitulo">
 
-    <label for="renda">Quanto você ganha por mês?</label>
+        Primeiro vamos conhecer você
+        e entender como organizar
+        seu dinheiro.
 
-    <input
-        id="renda"
-        type="number"
-        min="0"
-        step="0.01"
-        placeholder="Ex: 2500"
-        inputmode="decimal"
-        required
-    >
+    </p>
 
-    <button type="submit">
-        Continuar →
-    </button>
 
-</form>
+    <form onsubmit="salvarCadastro(event)">
 
-</div> <script> function salvarCadastro(event) { event.preventDefault(); const nome = document.getElementById("nome").value.trim(); const email = document.getElementById("email").value.trim(); const senha = document.getElementById("senha").value; const rendaTexto = document.getElementById("renda").value.trim(); const renda = Number(rendaTexto); /* Verifica os campos de texto. */ if (!nome || !email || !senha || !rendaTexto) { alert("Preencha todos os campos."); return; } /* Verifica se a renda é um número válido. Aqui 0 também é permitido. */ if (Number.isNaN(renda) || renda < 0) { alert("Digite uma renda válida."); return; } /* Cria o usuário. */ const usuario = { nome: nome, email: email, senha: senha, renda: renda }; /* Salva os dados do usuário. */ localStorage.setItem( "usuario", JSON.stringify(usuario) ); /* Salva a renda mensal. Vamos utilizar esse valor posteriormente no controle financeiro. */ localStorage.setItem( "rendaMensal", renda.toString() ); /* Cria uma lista de gastos vazia caso ainda não exista. */ if (!localStorage.getItem("gastos")) { localStorage.setItem( "gastos", JSON.stringify([]) ); } /* Envia o usuário para a próxima página. */ window.location.href = "orcamento.html"; } </script> </body> </html>
+        <div class="campo">
+
+            <label for="nome">
+                Seu nome
+            </label>
+
+            <input
+                id="nome"
+                type="text"
+                placeholder="Ex: Maria"
+                autocomplete="name"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="email">
+                Seu e-mail
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="Ex: seuemail@email.com"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="senha">
+                Crie uma senha
+            </label>
+
+            <input
+                id="senha"
+                type="password"
+                placeholder="Digite sua senha"
+                autocomplete="new-password"
+                minlength="4"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="renda">
+                Quanto você ganha por mês?
+            </label>
+
+            <input
+                id="renda"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Ex: 2500"
+                inputmode="decimal"
+                required
+            >
+
+            <div class="ajuda-renda">
+
+                💡 Não se preocupe.
+                Você poderá alterar sua renda depois.
+
+            </div>
+
+        </div>
+
+
+        <button type="submit">
+
+            Continuar →
+
+        </button>
+
+    </form>
+
+
+    <div class="seguranca">
+
+        🔒 Seus dados ficam salvos neste dispositivo
+        para manter seu planejamento financeiro.
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SALVAR CADASTRO
+========================= */
+
+function salvarCadastro(event) {
+
+    event.preventDefault();
+
+
+    const nome =
+        document
+            .getElementById("nome")
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+    const senha =
+        document
+            .getElementById("senha")
+            .value;
+
+
+    const rendaTexto =
+        document
+            .getElementById("renda")
+            .value
+            .trim();
+
+
+    const renda =
+        Number(rendaTexto);
+
+
+    /* =========================
+       VALIDAR CAMPOS
+    ========================= */
+
+    if (
+        !nome ||
+        !email ||
+        !senha ||
+        !rendaTexto
+    ) {
+
+        alert(
+            "Preencha todos os campos."
+        );
+
+        return;
+
+    }
+
+
+    /* =========================
+       VALIDAR RENDA
+    ========================= */
+
+    if (
+        Number.isNaN(renda) ||
+        renda < 0
+    ) {
+
+        alert(
+            "Digite uma renda válida."
+        );
+
+        return;
+
+    }
+
+
+    /* =========================
+       CRIAR USUÁRIO
+    ========================= */
+
+    const usuario = {
+
+        nome: nome,
+
+        email: email,
+
+        senha: senha,
+
+        renda: renda
+
+    };
+
+
+    /* =========================
+       SALVAR USUÁRIO
+    ========================= */
+
+    localStorage.setItem(
+        "usuario",
+        JSON.stringify(usuario)
+    );
+
+
+    /* =========================
+       SALVAR RENDA
+    ========================= */
+
+    localStorage.setItem(
+        "rendaMensal",
+        renda.toString()
+    );
+
+
+    /* =========================
+       CRIAR LISTA DE GASTOS
+    ========================= */
+
+    if (
+        !localStorage.getItem("gastos")
+    ) {
+
+        localStorage.setItem(
+            "gastos",
+            JSON.stringify([])
+        );
+
+    }
+
+
+    /* =========================
+       IR PARA ORÇAMENTO
+    ========================= */
+
+    window.location.href =
+        "orcamento.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

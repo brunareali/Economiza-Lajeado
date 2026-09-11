@@ -358,9 +358,7 @@ function pegarGastos() {
         localStorage.getItem("gastos");
 
     if (!salvo) {
-
         return [];
-
     }
 
     try {
@@ -393,9 +391,7 @@ function obterPeriodoAtual() {
         );
 
     if (salvo) {
-
         return salvo;
-
     }
 
     return obterMesAtual();
@@ -424,28 +420,42 @@ function obterMesAtual() {
 
 
 /* =========================
-NOME DO MÊS
+NOME DO PERÍODO
 ========================= */
 
 function nomeMes(mes) {
 
+    if (!mes) {
+        return "Período desconhecido";
+    }
+
+    /*
+        Períodos normais:
+        2026-09
+
+        Períodos iniciados após pagamento:
+        2026-09-periodo-1
+        2026-09-periodo-2
+    */
+
+    const partes =
+        mes.split("-");
+
     if (
-        !mes ||
-        !mes.includes("-")
+        partes.length < 2
     ) {
 
         return "Período desconhecido";
 
     }
 
-    const partes =
-        mes.split("-");
 
     const ano =
         Number(partes[0]);
 
     const numero =
         Number(partes[1]);
+
 
     const meses = [
 
@@ -464,6 +474,7 @@ function nomeMes(mes) {
 
     ];
 
+
     if (
         numero < 1 ||
         numero > 12
@@ -473,11 +484,35 @@ function nomeMes(mes) {
 
     }
 
-    return (
+
+    let nome =
         meses[numero - 1] +
         " " +
-        ano
-    );
+        ano;
+
+
+    /*
+        Se for um período criado
+        pelo botão "Recebi meu pagamento",
+        mostramos o número dele.
+    */
+
+    if (
+        partes.length >= 4 &&
+        partes[2] === "periodo"
+    ) {
+
+        const numeroPeriodo =
+            partes[3];
+
+        nome +=
+            " • Período " +
+            numeroPeriodo;
+
+    }
+
+
+    return nome;
 
 }
 
@@ -519,6 +554,7 @@ function criarFiltros() {
 
     select.innerHTML = "";
 
+
     const meses = [];
 
 
@@ -542,6 +578,12 @@ function criarFiltros() {
         obterPeriodoAtual();
 
 
+    /*
+        Garante que o período atual
+        apareça mesmo que ainda não
+        tenha nenhum gasto.
+    */
+
     if (
         !meses.includes(
             periodoAtual
@@ -555,7 +597,16 @@ function criarFiltros() {
     }
 
 
-    meses.sort().reverse();
+    /*
+        Ordena do período mais recente
+        para o mais antigo.
+    */
+
+    meses.sort(function(a, b) {
+
+        return b.localeCompare(a);
+
+    });
 
 
     meses.forEach(function(mes) {
@@ -604,25 +655,30 @@ function mostrarRegistros() {
     const gastos =
         pegarGastos();
 
+
     const select =
         document.getElementById(
             "filtroMes"
         );
+
 
     const lista =
         document.getElementById(
             "listaRegistros"
         );
 
+
     const totalElemento =
         document.getElementById(
             "totalMes"
         );
 
+
     const textoResumo =
         document.getElementById(
             "textoResumo"
         );
+
 
     const avisoPeriodo =
         document.getElementById(
@@ -632,6 +688,7 @@ function mostrarRegistros() {
 
     const mesSelecionado =
         select.value;
+
 
     const periodoAtual =
         obterPeriodoAtual();
@@ -685,6 +742,7 @@ function mostrarRegistros() {
                 nomeMes(mesSelecionado)
             ) +
             "<br><br>" +
+
             "Este é o período que aparece no seu dashboard.";
 
     } else {
@@ -696,10 +754,17 @@ function mostrarRegistros() {
                 nomeMes(mesSelecionado)
             ) +
             "<br><br>" +
-            "Estes gastos continuam salvos como histórico e não afetam o seu dashboard atual.";
+
+            "Estes gastos continuam salvos como histórico " +
+            "e não afetam o seu dashboard atual.";
 
     }
 
+
+    /*
+        Se não houver gastos,
+        mostramos uma mensagem.
+    */
 
     if (
         gastosDoMes.length === 0
@@ -730,6 +795,10 @@ function mostrarRegistros() {
     }
 
 
+    /*
+        Mais recentes primeiro.
+    */
+
     gastosDoMes.sort(function(a, b) {
 
         return (
@@ -753,6 +822,7 @@ function mostrarRegistros() {
             document.createElement(
                 "div"
             );
+
 
         div.className =
             "registro";
@@ -813,14 +883,15 @@ function mostrarRegistros() {
 
                 <button
                     class="btn editar"
-                    onclick="editarGasto('${escaparHTML(gasto.id)}')"
+                    onclick="editarGasto('${String(gasto.id).replace(/'/g, "\\'")}')"
                 >
                     ✏️ Editar
                 </button>
 
+
                 <button
                     class="btn excluir"
-                    onclick="excluirGasto('${escaparHTML(gasto.id)}')"
+                    onclick="excluirGasto('${String(gasto.id).replace(/'/g, "\\'")}')"
                 >
                     🗑️ Excluir
                 </button>
@@ -849,10 +920,39 @@ function excluirGasto(id) {
         pegarGastos();
 
 
+    const gasto =
+        gastos.find(function(item) {
+
+            return (
+                String(item.id) ===
+                String(id)
+            );
+
+        });
+
+
+    if (!gasto) {
+
+        alert(
+            "Gasto não encontrado."
+        );
+
+        return;
+
+    }
+
+
     const confirmar =
         confirm(
+
             "Deseja excluir este gasto?\n\n" +
-            "Essa ação não poderá ser desfeita."
+
+            gasto.descricao +
+            " - " +
+            moeda(gasto.valor) +
+
+            "\n\nEssa ação não poderá ser desfeita."
+
         );
 
 
@@ -864,10 +964,10 @@ function excluirGasto(id) {
 
 
     const novosGastos =
-        gastos.filter(function(gasto) {
+        gastos.filter(function(item) {
 
             return (
-                String(gasto.id) !==
+                String(item.id) !==
                 String(id)
             );
 
@@ -884,6 +984,12 @@ function excluirGasto(id) {
 
     criarFiltros();
 
+
+    /*
+        Depois de excluir,
+        voltamos para o período
+        que está atualmente ativo.
+    */
 
     const periodoAtual =
         obterPeriodoAtual();
@@ -968,10 +1074,13 @@ function editarGasto(id) {
 
     const novoValorTexto =
         prompt(
+
             "Novo valor:",
+
             Number(
                 gasto.valor
             ).toFixed(2)
+
         );
 
 
@@ -1013,6 +1122,7 @@ function editarGasto(id) {
     gasto.descricao =
         descricao;
 
+
     gasto.valor =
         novoValor;
 
@@ -1027,6 +1137,11 @@ function editarGasto(id) {
 
     criarFiltros();
 
+
+    /*
+        Mantém o usuário no período
+        do gasto que foi editado.
+    */
 
     document
         .getElementById(

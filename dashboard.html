@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -72,16 +71,15 @@
         .renda-card {
             background: #287a4b;
             color: white;
-            position: relative;
+        }
+
+        .renda-card small,
+        .renda-card h2 {
+            color: white;
         }
 
         .renda-card small {
-            color: white;
             opacity: 0.85;
-        }
-
-        .renda-card h2 {
-            color: white;
         }
 
         .editar-renda {
@@ -125,7 +123,6 @@
 
         .saude-header h2 {
             font-size: 21px;
-            color: #26352b;
         }
 
         .percentual {
@@ -189,7 +186,8 @@
             color: #c0392b;
         }
 
-        .gastos-card {
+        .gastos-card,
+        .grafico-card {
             margin-bottom: 20px;
         }
 
@@ -201,7 +199,6 @@
         }
 
         .gastos-header h2 {
-            color: #26352b;
             font-size: 21px;
         }
 
@@ -248,10 +245,6 @@
 
         .barra-preenchida.excedida {
             background: #c0392b;
-        }
-
-        .grafico-card {
-            margin-bottom: 20px;
         }
 
         .grafico-container {
@@ -382,7 +375,6 @@
         }
 
         @media (max-width: 550px) {
-
             .cards {
                 grid-template-columns: 1fr;
             }
@@ -403,11 +395,8 @@
                 max-width: 320px;
                 height: 320px;
             }
-
         }
-
     </style>
-
 </head>
 
 <body>
@@ -415,19 +404,14 @@
 <div class="container">
 
     <div class="topo">
-
-        <h1 id="saudacao">
-            Olá! 👋
-        </h1>
+        <h1 id="saudacao">Olá! 👋</h1>
 
         <p>
             Aqui está o resumo do seu dinheiro.
         </p>
-
     </div>
 
     <div class="periodo">
-
         📅 <strong>Período atual:</strong>
         <span id="periodoAtual">-</span>
 
@@ -435,7 +419,6 @@
 
         Seus gastos anteriores continuam
         salvos no histórico.
-
     </div>
 
     <div class="cards">
@@ -723,6 +706,11 @@ const categorias = {
 
 let graficoGastos = null;
 
+
+/* =========================
+   MOEDA
+========================= */
+
 function moeda(valor) {
 
     return Number(valor).toLocaleString(
@@ -734,6 +722,11 @@ function moeda(valor) {
     );
 
 }
+
+
+/* =========================
+   MÊS REAL
+========================= */
 
 function obterMesReal() {
 
@@ -750,26 +743,9 @@ function obterMesReal() {
 }
 
 
-/*
-==================================================
-NOVO SISTEMA DE PERÍODO
-==================================================
-
-Agora cada pagamento cria um ID único:
-
-2026-09-01
-
-depois:
-
-2026-09-01-periodo-1
-
-depois:
-
-2026-09-01-periodo-2
-
-Assim os gastos antigos nunca entram
-novamente no período novo.
-*/
+/* =========================
+   PERÍODO FINANCEIRO
+========================= */
 
 function obterPeriodo() {
 
@@ -794,6 +770,10 @@ function obterPeriodo() {
 
 }
 
+
+/* =========================
+   NOME DO MÊS
+========================= */
 
 function nomeDoMes(mes) {
 
@@ -863,6 +843,10 @@ function nomeDoMes(mes) {
 }
 
 
+/* =========================
+   USUÁRIO
+========================= */
+
 function pegarUsuario() {
 
     const salvo =
@@ -888,6 +872,10 @@ function pegarUsuario() {
 
 }
 
+
+/* =========================
+   GASTOS
+========================= */
 
 function pegarGastos() {
 
@@ -919,6 +907,10 @@ function pegarGastos() {
 
 }
 
+
+/* =========================
+   PLANEJAMENTO
+========================= */
 
 function pegarPlanejamento() {
 
@@ -957,6 +949,10 @@ function pegarPlanejamento() {
 
 }
 
+
+/* =========================
+   ORÇAMENTO
+========================= */
 
 function pegarOrcamento() {
 
@@ -1008,6 +1004,10 @@ function pegarOrcamento() {
 }
 
 
+/* =========================
+   RENDA
+========================= */
+
 function pegarRenda() {
 
     const planejamento =
@@ -1033,6 +1033,10 @@ function pegarRenda() {
 }
 
 
+/* =========================
+   GASTOS DO PERÍODO ATUAL
+========================= */
+
 function gastosDoPeriodo() {
 
     const periodo =
@@ -1050,6 +1054,10 @@ function gastosDoPeriodo() {
 
 }
 
+
+/* =========================
+   TOTAL DOS GASTOS
+========================= */
 
 function calcularTotalGasto() {
 
@@ -1070,6 +1078,10 @@ function calcularTotalGasto() {
 
 }
 
+
+/* =========================
+   SAÚDE FINANCEIRA
+========================= */
 
 function atualizarSaudeFinanceira(
     renda,
@@ -1096,6 +1108,7 @@ function atualizarSaudeFinanceira(
             "saudeAlerta"
         );
 
+
     if (renda <= 0) {
 
         percentualElemento.textContent =
@@ -1121,20 +1134,24 @@ function atualizarSaudeFinanceira(
 
     }
 
+
     const percentual =
         (
             totalGastos /
             renda
         ) * 100;
 
+
     const percentualExibido =
         Math.round(
             percentual
         );
 
+
     percentualElemento.textContent =
         percentualExibido +
         "%";
+
 
     const largura =
         Math.min(
@@ -1142,15 +1159,18 @@ function atualizarSaudeFinanceira(
             100
         );
 
+
     barra.style.width =
         largura +
         "%";
+
 
     barra.className =
         "barra-saude-preenchida";
 
     alerta.className =
         "saude-alerta";
+
 
     if (percentual <= 50) {
 
@@ -1206,9 +1226,11 @@ function atualizarSaudeFinanceira(
 
     }
 
+
     const disponivel =
         renda -
         totalGastos;
+
 
     if (disponivel >= 0) {
 
@@ -1232,6 +1254,10 @@ function atualizarSaudeFinanceira(
 
 }
 
+
+/* =========================
+   CARREGAR DASHBOARD
+========================= */
 
 function carregarDashboard() {
 
@@ -1260,54 +1286,50 @@ function carregarDashboard() {
     const periodo =
         obterPeriodo();
 
+
     document
-        .getElementById(
-            "saudacao"
-        )
+        .getElementById("saudacao")
         .textContent =
             "Olá, " +
             usuario.nome +
             "! 👋";
 
+
     document
-        .getElementById(
-            "renda"
-        )
+        .getElementById("renda")
         .textContent =
             moeda(renda);
 
+
     document
-        .getElementById(
-            "totalGastos"
-        )
+        .getElementById("totalGastos")
         .textContent =
             moeda(totalGastos);
 
+
     document
-        .getElementById(
-            "saldo"
-        )
+        .getElementById("saldo")
         .textContent =
             moeda(saldo);
 
+
     document
-        .getElementById(
-            "mesAtual"
-        )
+        .getElementById("mesAtual")
         .textContent =
             nomeDoMes(periodo);
 
+
     document
-        .getElementById(
-            "periodoAtual"
-        )
+        .getElementById("periodoAtual")
         .textContent =
             nomeDoMes(periodo);
+
 
     const cardSaldo =
         document.getElementById(
             "cardSaldo"
         );
+
 
     if (saldo < 0) {
 
@@ -1323,10 +1345,12 @@ function carregarDashboard() {
 
     }
 
+
     atualizarSaudeFinanceira(
         renda,
         totalGastos
     );
+
 
     mostrarCategorias();
 
@@ -1334,6 +1358,10 @@ function carregarDashboard() {
 
 }
 
+
+/* =========================
+   CATEGORIAS
+========================= */
 
 function mostrarCategorias() {
 
@@ -1356,9 +1384,11 @@ function mostrarCategorias() {
     const gastos =
         gastosDoPeriodo();
 
+
     container.innerHTML = "";
 
     aviso.innerHTML = "";
+
 
     if (!planejamento) {
 
@@ -1384,18 +1414,22 @@ function mostrarCategorias() {
 
     }
 
+
     Object.keys(categorias)
         .forEach(function(chave) {
 
             const info =
                 categorias[chave];
 
+
             const limite =
                 Number(
                     orcamento[chave]
                 ) || 0;
 
+
             let gasto = 0;
+
 
             gastos.forEach(function(item) {
 
@@ -1412,7 +1446,9 @@ function mostrarCategorias() {
 
             });
 
+
             let porcentagem = 0;
+
 
             if (limite > 0) {
 
@@ -1424,23 +1460,28 @@ function mostrarCategorias() {
 
             }
 
+
             const porcentagemBarra =
                 Math.min(
                     porcentagem,
                     100
                 );
 
+
             const excedida =
                 limite > 0 &&
                 gasto > limite;
+
 
             const div =
                 document.createElement(
                     "div"
                 );
 
+
             div.className =
                 "categoria";
+
 
             div.innerHTML = `
 
@@ -1463,6 +1504,7 @@ function mostrarCategorias() {
 
                 </div>
 
+
                 <div class="barra">
 
                     <div
@@ -1480,6 +1522,7 @@ function mostrarCategorias() {
 
             `;
 
+
             container.appendChild(
                 div
             );
@@ -1488,6 +1531,10 @@ function mostrarCategorias() {
 
 }
 
+
+/* =========================
+   GRÁFICO
+========================= */
 
 function atualizarGrafico() {
 
@@ -1506,16 +1553,20 @@ function atualizarGrafico() {
             "semGastosGrafico"
         );
 
+
     if (!canvas) {
 
         return;
 
     }
 
+
     const gastos =
         gastosDoPeriodo();
 
+
     const totais = {};
+
 
     Object.keys(categorias)
         .forEach(function(chave) {
@@ -1523,6 +1574,7 @@ function atualizarGrafico() {
             totais[chave] = 0;
 
         });
+
 
     gastos.forEach(function(gasto) {
 
@@ -1533,6 +1585,7 @@ function atualizarGrafico() {
             Number(
                 gasto.valor
             ) || 0;
+
 
         if (
             totais[categoria] !== undefined
@@ -1545,6 +1598,7 @@ function atualizarGrafico() {
 
     });
 
+
     const categoriasComGasto =
         Object.keys(totais)
             .filter(function(chave) {
@@ -1554,6 +1608,7 @@ function atualizarGrafico() {
                 );
 
             });
+
 
     if (
         categoriasComGasto.length === 0
@@ -1577,11 +1632,13 @@ function atualizarGrafico() {
 
     }
 
+
     container.style.display =
         "block";
 
     mensagem.style.display =
         "none";
+
 
     const labels =
         categoriasComGasto.map(
@@ -1596,6 +1653,7 @@ function atualizarGrafico() {
             }
         );
 
+
     const valores =
         categoriasComGasto.map(
             function(chave) {
@@ -1604,6 +1662,7 @@ function atualizarGrafico() {
 
             }
         );
+
 
     const cores = [
 
@@ -1618,11 +1677,13 @@ function atualizarGrafico() {
 
     ];
 
+
     if (graficoGastos) {
 
         graficoGastos.destroy();
 
     }
+
 
     graficoGastos =
         new Chart(
@@ -1753,10 +1814,15 @@ function atualizarGrafico() {
 }
 
 
+/* =========================
+   EDITAR RENDA
+========================= */
+
 function abrirEditarRenda() {
 
     const renda =
         pegarRenda();
+
 
     document
         .getElementById(
@@ -1764,6 +1830,7 @@ function abrirEditarRenda() {
         )
         .value =
         renda;
+
 
     document
         .getElementById(
@@ -1789,6 +1856,10 @@ function fecharEditarRenda() {
 }
 
 
+/* =========================
+   SALVAR RENDA
+========================= */
+
 function salvarNovaRenda() {
 
     const campo =
@@ -1796,10 +1867,12 @@ function salvarNovaRenda() {
             "novaRenda"
         );
 
+
     const renda =
         Number(
             campo.value
         );
+
 
     if (
         !Number.isFinite(renda) ||
@@ -1814,13 +1887,16 @@ function salvarNovaRenda() {
 
     }
 
+
     localStorage.setItem(
         "rendaMensal",
         renda.toString()
     );
 
+
     const usuario =
         pegarUsuario();
+
 
     if (usuario) {
 
@@ -1836,8 +1912,10 @@ function salvarNovaRenda() {
 
     }
 
+
     const planejamento =
         pegarPlanejamento();
+
 
     if (planejamento) {
 
@@ -1853,9 +1931,11 @@ function salvarNovaRenda() {
 
     }
 
+
     fecharEditarRenda();
 
     carregarDashboard();
+
 
     alert(
         "Renda atualizada com sucesso! 💚"
@@ -1863,6 +1943,10 @@ function salvarNovaRenda() {
 
 }
 
+
+/* =========================
+   NAVEGAÇÃO
+========================= */
 
 function registrarGasto() {
 
@@ -1888,30 +1972,15 @@ function editarOrcamento() {
 }
 
 
-/*
-==================================================
-RECEBI MEU PAGAMENTO
-==================================================
-
-Esta é a parte principal corrigida.
-
-O problema anterior era que o período novo podia
-voltar a coincidir com o período anterior.
-
-Agora criamos SEMPRE um novo identificador.
-
-Os gastos antigos continuam em localStorage,
-mas cada um pertence ao período antigo.
-
-O Dashboard busca SOMENTE gastos cujo campo
-"mes" seja exatamente igual ao novo período.
-==================================================
-*/
+/* =========================
+   RECEBI MEU PAGAMENTO
+========================= */
 
 function novoMes() {
 
     const periodoAtual =
         obterPeriodo();
+
 
     const confirmar =
         confirm(
@@ -1935,6 +2004,7 @@ function novoMes() {
 
         );
 
+
     if (!confirmar) {
 
         return;
@@ -1943,9 +2013,11 @@ function novoMes() {
 
 
     /*
-        Criamos um contador independente
-        para garantir que o novo período
-        nunca tenha o mesmo ID do anterior.
+        Descobrimos o próximo número
+        de período.
+
+        Isso impede que o novo período
+        tenha o mesmo ID do anterior.
     */
 
     let contador =
@@ -1966,18 +2038,19 @@ function novoMes() {
 
 
     /*
-        Mesmo que seja o mesmo mês,
-        o período será diferente.
+        Criamos um ID único.
 
         Exemplo:
 
         2026-09
         2026-09-periodo-1
         2026-09-periodo-2
+        2026-10-periodo-3
     */
 
     const mesReal =
         obterMesReal();
+
 
     const novoPeriodoFinanceiro =
         mesReal +
@@ -1986,7 +2059,9 @@ function novoMes() {
 
 
     /*
-        Salva o NOVO período.
+        Salvamos somente o novo período.
+
+        NENHUM gasto é apagado.
     */
 
     localStorage.setItem(
@@ -1996,17 +2071,12 @@ function novoMes() {
 
 
     /*
-        IMPORTANTE:
-        Não apagamos os gastos antigos.
+        Recarrega o Dashboard.
 
-        Eles continuam no localStorage,
-        mas agora pertencem ao período antigo.
-    */
-
-
-    /*
-        Recarrega completamente os dados
-        do Dashboard.
+        Como gastosDoPeriodo()
+        procura apenas gastos cujo
+        "mes" seja IGUAL ao novo ID,
+        os gastos antigos não aparecem.
     */
 
     carregarDashboard();
@@ -2030,28 +2100,9 @@ function novoMes() {
 }
 
 
-/*
-==================================================
-CORREÇÃO AUTOMÁTICA DE PERÍODOS ANTIGOS
-==================================================
-
-Se o usuário tinha um período antigo
-no formato:
-
-2026-09
-
-ele continua funcionando.
-
-Quando clicar em "Recebi meu pagamento",
-será criado:
-
-2026-09-periodo-1
-
-E a partir daí os novos gastos serão
-salvos nesse novo período.
-==================================================
-*/
-
+/* =========================
+   INICIAR
+========================= */
 
 carregarDashboard();
 

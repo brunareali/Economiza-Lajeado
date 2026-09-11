@@ -272,6 +272,52 @@
 
             font-size: 13px;
 
+            margin-bottom: 14px;
+
+        }
+
+        .registro-acoes {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 5px;
+
+        }
+
+        .botao-editar {
+
+            background: #e9f5ed;
+
+            color: #287a4b;
+
+            border: 1px solid #cfe3d5;
+
+        }
+
+        .botao-editar:hover {
+
+            background: #dcefe2;
+
+        }
+
+        .botao-excluir {
+
+            background: #fff0ee;
+
+            color: #c0392b;
+
+            border: 1px solid #f1c5bf;
+
+        }
+
+        .botao-excluir:hover {
+
+            background: #ffe4e0;
+
         }
 
         .sem-registros {
@@ -356,6 +402,148 @@
 
         }
 
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.45);
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 20;
+
+        }
+
+        .modal.ativo {
+
+            display: flex;
+
+        }
+
+        .modal-conteudo {
+
+            background: white;
+
+            width: 100%;
+
+            max-width: 420px;
+
+            padding: 25px;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 10px 40px
+                rgba(0,0,0,0.15);
+
+        }
+
+        .modal-conteudo h2 {
+
+            color: #287a4b;
+
+            margin-bottom: 10px;
+
+        }
+
+        .modal-conteudo p {
+
+            color: #718078;
+
+            line-height: 1.5;
+
+            margin-bottom: 20px;
+
+        }
+
+        .campo {
+
+            margin-bottom: 15px;
+
+        }
+
+        .campo label {
+
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #26352b;
+
+            margin-bottom: 7px;
+
+        }
+
+        .campo input,
+
+        .campo select {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #d8ded9;
+
+            border-radius: 12px;
+
+            background: white;
+
+            font-size: 16px;
+
+            color: #26352b;
+
+        }
+
+        .campo input:focus,
+
+        .campo select:focus {
+
+            outline: none;
+
+            border-color: #287a4b;
+
+        }
+
+        .modal-botoes {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+        .botao-salvar {
+
+            background: #287a4b;
+
+            color: white;
+
+        }
+
+        .botao-cancelar {
+
+            background: white;
+
+            color: #287a4b;
+
+            border: 1px solid #287a4b;
+
+        }
+
         @media (max-width: 550px) {
 
             .resumo {
@@ -390,6 +578,18 @@
 
             }
 
+            .registro-acoes {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .modal-botoes {
+
+                grid-template-columns: 1fr;
+
+            }
+
         }
 
     </style>
@@ -408,7 +608,7 @@
 
         <p>
             Aqui ficam salvos todos os seus gastos,
-            inclusive os de períodos anteriores.
+            inclusive os de meses anteriores.
         </p>
 
     </div>
@@ -422,7 +622,7 @@
 
         Quando você clicar em
         <strong>"Recebi meu pagamento"</strong>,
-        o Dashboard começa um novo período,
+        o Dashboard começa um novo mês,
         mas os gastos antigos continuam aparecendo
         aqui.
 
@@ -473,7 +673,7 @@
             >
 
                 <option value="todos">
-                    Todos os períodos
+                    Todos os meses
                 </option>
 
             </select>
@@ -541,6 +741,97 @@
 </div>
 
 
+<!-- ==================================================
+     MODAL DE EDIÇÃO
+================================================== -->
+
+<div
+    class="modal"
+    id="modalEditar"
+>
+
+    <div class="modal-conteudo">
+
+        <h2>
+            ✏️ Editar gasto
+        </h2>
+
+        <p>
+            Altere as informações do gasto
+            e depois clique em salvar.
+        </p>
+
+
+        <div class="campo">
+
+            <label for="editarDescricao">
+                Descrição
+            </label>
+
+            <input
+                type="text"
+                id="editarDescricao"
+                placeholder="Ex: Mercado"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="editarValor">
+                Valor
+            </label>
+
+            <input
+                type="number"
+                id="editarValor"
+                min="0"
+                step="0.01"
+                placeholder="Ex: 50"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="editarCategoria">
+                Categoria
+            </label>
+
+            <select
+                id="editarCategoria"
+            >
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-botoes">
+
+            <button
+                class="botao-salvar"
+                onclick="salvarEdicao()"
+            >
+                💾 Salvar alterações
+            </button>
+
+            <button
+                class="botao-cancelar"
+                onclick="fecharEditar()"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 /* ==================================================
@@ -590,6 +881,13 @@ const categorias = {
     }
 
 };
+
+
+/* ==================================================
+   VARIÁVEL DO GASTO SENDO EDITADO
+================================================== */
+
+let indiceGastoEditando = null;
 
 
 /* ==================================================
@@ -766,32 +1064,11 @@ function nomeDoPeriodo(periodo) {
     }
 
 
-    let nome =
+    return (
         meses[numeroMes - 1] +
         " " +
-        ano;
-
-
-    /*
-        Se for um período criado pelo botão
-        "Recebi meu pagamento", mostramos:
-
-        Setembro 2026 • Período 1
-    */
-
-    if (
-        partes.length >= 4 &&
-        partes[2] === "periodo"
-    ) {
-
-        nome +=
-            " • Período " +
-            partes[3];
-
-    }
-
-
-    return nome;
+        ano
+    );
 
 }
 
@@ -808,13 +1085,6 @@ function formatarData(data) {
 
     }
 
-
-    /*
-        Tenta tratar datas como:
-
-        2026-09-11
-        2026-09-11T14:30:00
-    */
 
     const objeto =
         new Date(data);
@@ -925,10 +1195,6 @@ function ordenarGastos(gastos) {
                 ).getTime() || 0;
 
 
-            /*
-                Mais recente primeiro.
-            */
-
             return dataB - dataA;
 
         }
@@ -959,15 +1225,10 @@ function carregarFiltros() {
         );
 
 
-    /*
-        Limpa as opções extras
-        para evitar duplicação.
-    */
-
     filtroPeriodo.innerHTML = `
 
         <option value="todos">
-            Todos os períodos
+            Todos os meses
         </option>
 
     `;
@@ -981,18 +1242,6 @@ function carregarFiltros() {
 
     `;
 
-
-    /*
-        PEGA TODOS OS PERÍODOS
-        DOS GASTOS.
-
-        IMPORTANTE:
-
-        Não usamos somente o período atual.
-
-        Assim os gastos antigos continuam
-        disponíveis no histórico.
-    */
 
     const periodos = [];
 
@@ -1020,11 +1269,6 @@ function carregarFiltros() {
         }
     );
 
-
-    /*
-        Ordena períodos do mais recente
-        para o mais antigo.
-    */
 
     periodos.sort(
         function(a, b) {
@@ -1061,11 +1305,6 @@ function carregarFiltros() {
         }
     );
 
-
-    /*
-        Categorias existentes
-        nos gastos.
-    */
 
     const categoriasExistentes = [];
 
@@ -1163,10 +1402,6 @@ function mostrarRegistros() {
         todosGastos.slice();
 
 
-    /*
-        FILTRO POR PERÍODO
-    */
-
     if (
         filtroPeriodo !== "todos"
     ) {
@@ -1189,10 +1424,6 @@ function mostrarRegistros() {
 
     }
 
-
-    /*
-        FILTRO POR CATEGORIA
-    */
 
     if (
         filtroCategoria !== "todas"
@@ -1223,10 +1454,6 @@ function mostrarRegistros() {
         );
 
 
-    /*
-        Atualiza quantidade.
-    */
-
     document
         .getElementById(
             "quantidadeFiltrada"
@@ -1240,10 +1467,6 @@ function mostrarRegistros() {
             );
 
 
-    /*
-        Container.
-    */
-
     const container =
         document.getElementById(
             "listaRegistros"
@@ -1252,10 +1475,6 @@ function mostrarRegistros() {
 
     container.innerHTML = "";
 
-
-    /*
-        Nenhum registro.
-    */
 
     if (
         gastos.length === 0
@@ -1282,11 +1501,23 @@ function mostrarRegistros() {
 
 
     /*
-        Cria cada registro.
+        IMPORTANTE:
+
+        Descobrimos o índice REAL do gasto
+        dentro do array original.
+
+        Assim editar/excluir continua funcionando
+        mesmo quando existem filtros ativos.
     */
 
     gastos.forEach(
         function(gasto) {
+
+            const indiceReal =
+                todosGastos.indexOf(
+                    gasto
+                );
+
 
             const div =
                 document.createElement(
@@ -1371,6 +1602,25 @@ function mostrarRegistros() {
 
                 </div>
 
+
+                <div class="registro-acoes">
+
+                    <button
+                        class="botao-editar"
+                        onclick="abrirEditar(${indiceReal})"
+                    >
+                        ✏️ Editar
+                    </button>
+
+                    <button
+                        class="botao-excluir"
+                        onclick="excluirGasto(${indiceReal})"
+                    >
+                        🗑️ Excluir
+                    </button>
+
+                </div>
+
             `;
 
 
@@ -1434,6 +1684,416 @@ function atualizarResumo() {
 
 
 /* ==================================================
+   ABRIR EDIÇÃO
+================================================== */
+
+function abrirEditar(indice) {
+
+    const gastos =
+        pegarGastos();
+
+
+    if (
+        !gastos[indice]
+    ) {
+
+        alert(
+            "Não foi possível encontrar este gasto."
+        );
+
+        return;
+
+    }
+
+
+    const gasto =
+        gastos[indice];
+
+
+    indiceGastoEditando =
+        indice;
+
+
+    document
+        .getElementById(
+            "editarDescricao"
+        )
+        .value =
+            pegarDescricao(gasto);
+
+
+    document
+        .getElementById(
+            "editarValor"
+        )
+        .value =
+            Number(
+                gasto.valor
+            ) || 0;
+
+
+    const selectCategoria =
+        document.getElementById(
+            "editarCategoria"
+        );
+
+
+    selectCategoria.innerHTML = "";
+
+
+    Object.keys(categorias)
+        .forEach(
+            function(chave) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    chave;
+
+
+                option.textContent =
+                    categorias[chave].icone +
+                    " " +
+                    categorias[chave].nome;
+
+
+                if (
+                    String(
+                        gasto.categoria
+                    ) ===
+                    String(
+                        chave
+                    )
+                ) {
+
+                    option.selected =
+                        true;
+
+                }
+
+
+                selectCategoria.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+    /*
+        Caso exista uma categoria antiga
+        que não esteja na lista atual,
+        mantém ela disponível.
+    */
+
+    if (
+        gasto.categoria &&
+        !categorias[gasto.categoria]
+    ) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            gasto.categoria;
+
+
+        option.textContent =
+            "📦 " +
+            gasto.categoria;
+
+
+        option.selected =
+            true;
+
+
+        selectCategoria.appendChild(
+            option
+        );
+
+    }
+
+
+    document
+        .getElementById(
+            "modalEditar"
+        )
+        .classList.add(
+            "ativo"
+        );
+
+}
+
+
+/* ==================================================
+   FECHAR EDIÇÃO
+================================================== */
+
+function fecharEditar() {
+
+    indiceGastoEditando =
+        null;
+
+
+    document
+        .getElementById(
+            "modalEditar"
+        )
+        .classList.remove(
+            "ativo"
+        );
+
+}
+
+
+/* ==================================================
+   SALVAR EDIÇÃO
+================================================== */
+
+function salvarEdicao() {
+
+    if (
+        indiceGastoEditando === null
+    ) {
+
+        return;
+
+    }
+
+
+    const gastos =
+        pegarGastos();
+
+
+    if (
+        !gastos[indiceGastoEditando]
+    ) {
+
+        alert(
+            "Não foi possível encontrar este gasto."
+        );
+
+        fecharEditar();
+
+        return;
+
+    }
+
+
+    const descricao =
+        document
+            .getElementById(
+                "editarDescricao"
+            )
+            .value
+            .trim();
+
+
+    const valor =
+        Number(
+            document
+                .getElementById(
+                    "editarValor"
+                )
+                .value
+        );
+
+
+    const categoria =
+        document
+            .getElementById(
+                "editarCategoria"
+            )
+            .value;
+
+
+    if (
+        !descricao
+    ) {
+
+        alert(
+            "Digite uma descrição para o gasto."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !Number.isFinite(valor) ||
+        valor <= 0
+    ) {
+
+        alert(
+            "Digite um valor válido maior que zero."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !categoria
+    ) {
+
+        alert(
+            "Selecione uma categoria."
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Mantemos todos os outros dados
+        do gasto exatamente como estavam.
+
+        Alteramos somente:
+
+        - descrição
+        - valor
+        - categoria
+    */
+
+    gastos[indiceGastoEditando].descricao =
+        descricao;
+
+
+    gastos[indiceGastoEditando].valor =
+        valor;
+
+
+    gastos[indiceGastoEditando].categoria =
+        categoria;
+
+
+    salvarGastos(
+        gastos
+    );
+
+
+    fecharEditar();
+
+
+    carregarFiltros();
+
+    atualizarResumo();
+
+    mostrarRegistros();
+
+
+    alert(
+        "Gasto atualizado com sucesso! 💚"
+    );
+
+}
+
+
+/* ==================================================
+   EXCLUIR GASTO INDIVIDUAL
+================================================== */
+
+function excluirGasto(indice) {
+
+    const gastos =
+        pegarGastos();
+
+
+    if (
+        !gastos[indice]
+    ) {
+
+        alert(
+            "Não foi possível encontrar este gasto."
+        );
+
+        return;
+
+    }
+
+
+    const gasto =
+        gastos[indice];
+
+
+    const valor =
+        Number(
+            gasto.valor
+        ) || 0;
+
+
+    const descricao =
+        pegarDescricao(
+            gasto
+        );
+
+
+    const confirmar =
+        confirm(
+
+            "🗑️ Excluir este gasto?\n\n" +
+
+            descricao +
+            "\n" +
+
+            moeda(valor) +
+            "\n\n" +
+
+            "Essa ação não poderá ser desfeita."
+
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    /*
+        Remove SOMENTE o gasto selecionado.
+
+        Todos os outros registros continuam
+        exatamente como estavam.
+    */
+
+    gastos.splice(
+        indice,
+        1
+    );
+
+
+    salvarGastos(
+        gastos
+    );
+
+
+    carregarFiltros();
+
+    atualizarResumo();
+
+    mostrarRegistros();
+
+
+    alert(
+        "Gasto excluído com sucesso."
+    );
+
+}
+
+
+/* ==================================================
    VOLTAR PARA DASHBOARD
 ================================================== */
 
@@ -1446,7 +2106,7 @@ function voltarDashboard() {
 
 
 /* ==================================================
-   APAGAR HISTÓRICO
+   APAGAR TODO O HISTÓRICO
 ================================================== */
 
 function limparHistorico() {
@@ -1518,6 +2178,31 @@ function limparHistorico() {
     );
 
 }
+
+
+/* ==================================================
+   FECHAR MODAL CLICANDO FORA
+================================================== */
+
+document
+    .getElementById(
+        "modalEditar"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                fecharEditar();
+
+            }
+
+        }
+    );
 
 
 /* ==================================================

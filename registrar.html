@@ -2,153 +2,280 @@
 <html lang="pt-BR">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Registrar gasto - Meu Dinheiro</title>
+    <meta charset="UTF-8">
 
-<style>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+    <title>Meu Dinheiro - Registrar Gasto</title>
 
-body {
-    background: #f5f7f5;
-    color: #26352b;
-    min-height: 100vh;
-    padding: 20px;
-}
+    <style>
 
-.container {
-    max-width: 500px;
-    margin: 30px auto;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-.voltar {
-    display: inline-block;
-    color: #287a4b;
-    text-decoration: none;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
+        body {
 
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 22px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
-}
+            background: #f5f7f5;
 
-h1 {
-    color: #287a4b;
-    margin-bottom: 8px;
-}
+            color: #26352b;
 
-.subtitulo {
-    color: #718078;
-    line-height: 1.5;
-    margin-bottom: 25px;
-}
+            min-height: 100vh;
 
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
+            padding: 20px;
 
-input,
-select {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #d8ded9;
-    border-radius: 12px;
-    font-size: 16px;
-    margin-bottom: 18px;
-    background: white;
-}
+        }
 
-input:focus,
-select:focus {
-    outline: none;
-    border-color: #287a4b;
-    box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
-}
+        .container {
 
-.periodo-atual {
-    background: #e8f5eb;
-    color: #287a4b;
-    padding: 14px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    font-size: 14px;
-}
+            max-width: 600px;
 
-.orcamento {
-    background: #f0f5f1;
-    color: #287a4b;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    line-height: 1.6;
-    display: none;
-}
+            margin: 30px auto;
 
-.orcamento.excedido {
-    background: #fff0ee;
-    color: #c0392b;
-}
+        }
 
-.orcamento.atencao {
-    background: #fff8df;
-    color: #856404;
-}
+        .topo {
 
-.orcamento strong {
-    font-weight: bold;
-}
+            margin-bottom: 25px;
 
-button {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    background: #287a4b;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        }
 
-button:hover {
-    background: #1f633c;
-}
+        .topo h1 {
 
-.cancelar {
-    margin-top: 10px;
-    background: white;
-    color: #287a4b;
-    border: 1px solid #287a4b;
-}
+            color: #287a4b;
 
-.cancelar:hover {
-    background: #eef5f0;
-}
+            margin-bottom: 8px;
 
-@media (max-width: 500px) {
+        }
 
-    .card {
-        padding: 22px;
-    }
+        .topo p {
 
-}
+            color: #718078;
 
-</style>
+            line-height: 1.5;
+
+        }
+
+        .card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.06);
+
+            margin-bottom: 20px;
+
+        }
+
+        .periodo {
+
+            background: #e9f5ed;
+
+            color: #287a4b;
+
+            padding: 14px;
+
+            border-radius: 13px;
+
+            line-height: 1.5;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+        }
+
+        .campo {
+
+            margin-bottom: 18px;
+
+        }
+
+        .campo label {
+
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+            color: #26352b;
+
+        }
+
+        .campo input,
+
+        .campo select,
+
+        .campo textarea {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #d8ded9;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            background: white;
+
+            color: #26352b;
+
+        }
+
+        .campo textarea {
+
+            resize: vertical;
+
+            min-height: 90px;
+
+        }
+
+        .campo input:focus,
+
+        .campo select:focus,
+
+        .campo textarea:focus {
+
+            outline: none;
+
+            border-color: #287a4b;
+
+        }
+
+        .valor-input {
+
+            font-size: 20px !important;
+
+            font-weight: bold;
+
+        }
+
+        .botoes {
+
+            display: grid;
+
+            gap: 12px;
+
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        .botao-salvar {
+
+            background: #287a4b;
+
+            color: white;
+
+        }
+
+        .botao-salvar:hover {
+
+            background: #1f633c;
+
+        }
+
+        .botao-voltar {
+
+            background: white;
+
+            color: #287a4b;
+
+            border: 1px solid #287a4b;
+
+        }
+
+        .mensagem {
+
+            display: none;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+
+            line-height: 1.5;
+
+        }
+
+        .mensagem.sucesso {
+
+            display: block;
+
+            background: #e9f5ed;
+
+            color: #287a4b;
+
+        }
+
+        .mensagem.erro {
+
+            display: block;
+
+            background: #fff0ee;
+
+            color: #c0392b;
+
+        }
+
+        .categoria-info {
+
+            color: #718078;
+
+            font-size: 13px;
+
+            margin-top: 7px;
+
+        }
+
+        @media (max-width: 550px) {
+
+            .container {
+
+                margin-top: 15px;
+
+            }
+
+            .card {
+
+                padding: 20px;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -156,289 +283,327 @@ button:hover {
 
 <div class="container">
 
-<a href="dashboard.html" class="voltar">
-← Voltar para o resumo
-</a>
 
-<div class="card">
+    <div class="topo">
 
-<h1>
-Registrar gasto 💸
-</h1>
+        <h1>
+            ➕ Registrar gasto
+        </h1>
 
-<p class="subtitulo">
-Registre seu gasto para acompanhar
-quanto você já utilizou em cada categoria.
-</p>
+        <p>
+            Registre um novo gasto no seu período financeiro atual.
+        </p>
+
+    </div>
 
 
-<div
-    id="periodoAtual"
-    class="periodo-atual"
->
-</div>
+    <div class="periodo">
+
+        📅 <strong>Período atual:</strong>
+
+        <span id="periodoAtual">
+            Carregando...
+        </span>
+
+        <br>
+
+        Este gasto será salvo somente neste período.
+        Os gastos de períodos anteriores continuam
+        salvos no histórico.
+
+    </div>
 
 
-<form onsubmit="registrarGasto(event)">
-
-<label for="descricao">
-O que você comprou?
-</label>
-
-<input
-id="descricao"
-type="text"
-placeholder="Ex: Mercado"
-required
->
+    <div
+        id="mensagem"
+        class="mensagem"
+    ></div>
 
 
-<label for="valor">
-Quanto você gastou?
-</label>
-
-<input
-id="valor"
-type="number"
-min="0.01"
-step="0.01"
-placeholder="Ex: 50,00"
-required
-oninput="mostrarOrcamento()"
->
+    <div class="card">
 
 
-<label for="categoria">
-Categoria
-</label>
+        <div class="campo">
 
-<select
-id="categoria"
-required
-onchange="mostrarOrcamento()"
->
+            <label for="valor">
 
-<option value="">
-Escolha uma categoria
-</option>
+                💰 Valor do gasto
 
-<option value="fixos">
-🏠 Gastos fixos
-</option>
+            </label>
 
-<option value="alimentacao">
-🍎 Alimentação
-</option>
+            <input
+                id="valor"
+                class="valor-input"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Ex: 50,00"
+            >
 
-<option value="saude">
-🏥 Saúde
-</option>
-
-<option value="higiene">
-🧼 Higiene
-</option>
-
-<option value="lazer">
-🎮 Lazer
-</option>
-
-<option value="transporte">
-🚗 Transporte
-</option>
-
-<option value="educacao">
-📚 Educação
-</option>
-
-<option value="investimentos">
-💰 Investimentos
-</option>
-
-</select>
+        </div>
 
 
-<div
-id="informacaoOrcamento"
-class="orcamento"
-></div>
+        <div class="campo">
+
+            <label for="categoria">
+
+                📂 Categoria
+
+            </label>
+
+            <select id="categoria">
+
+                <option value="">
+
+                    Selecione uma categoria
+
+                </option>
+
+                <option value="fixos">
+
+                    🏠 Gastos fixos
+
+                </option>
+
+                <option value="alimentacao">
+
+                    🍎 Alimentação
+
+                </option>
+
+                <option value="saude">
+
+                    🏥 Saúde
+
+                </option>
+
+                <option value="higiene">
+
+                    🧼 Higiene
+
+                </option>
+
+                <option value="lazer">
+
+                    🎮 Lazer
+
+                </option>
+
+                <option value="transporte">
+
+                    🚗 Transporte
+
+                </option>
+
+                <option value="educacao">
+
+                    📚 Educação
+
+                </option>
+
+                <option value="investimentos">
+
+                    💰 Investimentos
+
+                </option>
+
+            </select>
+
+            <div class="categoria-info">
+
+                Escolha onde este gasto se encaixa.
+
+            </div>
+
+        </div>
 
 
-<label for="data">
-Data do gasto
-</label>
+        <div class="campo">
 
-<input
-id="data"
-type="date"
-required
->
+            <label for="descricao">
 
+                📝 Descrição
 
-<button type="submit">
-💾 Salvar gasto
-</button>
+            </label>
 
-</form>
+            <textarea
+                id="descricao"
+                placeholder="Ex: Mercado, gasolina, farmácia..."
+            ></textarea>
+
+        </div>
 
 
-<button
-class="cancelar"
-onclick="window.location.href='dashboard.html'"
->
-Cancelar
-</button>
+        <div class="campo">
 
-</div>
+            <label for="data">
+
+                📅 Data do gasto
+
+            </label>
+
+            <input
+                id="data"
+                type="date"
+            >
+
+        </div>
+
+
+        <div class="botoes">
+
+            <button
+                class="botao-salvar"
+                onclick="salvarGasto()"
+            >
+
+                💾 Salvar gasto
+
+            </button>
+
+
+            <button
+                class="botao-voltar"
+                onclick="voltarDashboard()"
+            >
+
+                ← Voltar para o Dashboard
+
+            </button>
+
+        </div>
+
+
+    </div>
 
 </div>
 
 
 <script>
 
-/* =========================
-CATEGORIAS
-========================= */
+/* ==================================================
+   CATEGORIAS
+================================================== */
 
-const nomesCategorias = {
+const categorias = {
 
-    fixos: "🏠 Gastos fixos",
+    fixos: {
+        nome: "Gastos fixos",
+        icone: "🏠"
+    },
 
-    alimentacao: "🍎 Alimentação",
+    alimentacao: {
+        nome: "Alimentação",
+        icone: "🍎"
+    },
 
-    saude: "🏥 Saúde",
+    saude: {
+        nome: "Saúde",
+        icone: "🏥"
+    },
 
-    higiene: "🧼 Higiene",
+    higiene: {
+        nome: "Higiene",
+        icone: "🧼"
+    },
 
-    lazer: "🎮 Lazer",
+    lazer: {
+        nome: "Lazer",
+        icone: "🎮"
+    },
 
-    transporte: "🚗 Transporte",
+    transporte: {
+        nome: "Transporte",
+        icone: "🚗"
+    },
 
-    educacao: "📚 Educação",
+    educacao: {
+        nome: "Educação",
+        icone: "📚"
+    },
 
-    investimentos: "💰 Investimentos"
+    investimentos: {
+        nome: "Investimentos",
+        icone: "💰"
+    }
 
 };
 
 
-/* =========================
-DATA ATUAL
-========================= */
-
-function colocarDataAtual() {
-
-    const hoje =
-        new Date();
-
-
-    const ano =
-        hoje.getFullYear();
-
-
-    const mes =
-        String(
-            hoje.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    const dia =
-        String(
-            hoje.getDate()
-        ).padStart(2, "0");
-
-
-    document
-        .getElementById("data")
-        .value =
-            ano +
-            "-" +
-            mes +
-            "-" +
-            dia;
-
-}
-
-
-/* =========================
-MOEDA
-========================= */
-
-function moeda(valor) {
-
-    return Number(valor).toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        }
-    );
-
-}
-
-
-/* =========================
-MÊS REAL
-========================= */
+/* ==================================================
+   OBTER MÊS REAL
+================================================== */
 
 function obterMesReal() {
 
-    const hoje =
+    const agora =
         new Date();
 
 
     return (
-        hoje.getFullYear() +
+        agora.getFullYear() +
         "-" +
         String(
-            hoje.getMonth() + 1
+            agora.getMonth() + 1
         ).padStart(2, "0")
     );
 
 }
 
 
-/* =========================
-PERÍODO FINANCEIRO
-========================= */
+/* ==================================================
+   OBTER PERÍODO FINANCEIRO ATUAL
+==================================================
+
+   IMPORTANTE:
+
+   O registrar.html NÃO cria um período novo.
+
+   Ele sempre pega o período que foi definido
+   pelo Dashboard.
+
+   Exemplo:
+
+   2026-09
+
+   depois do pagamento:
+
+   2026-09-periodo-1
+
+   depois:
+
+   2026-09-periodo-2
+
+   Assim cada gasto fica vinculado ao período
+   correto.
+================================================== */
 
 function obterPeriodo() {
 
-    const salvo =
+    let periodo =
         localStorage.getItem(
             "periodoFinanceiro"
         );
 
 
     /*
-        Se já existe um período,
-        usamos exatamente ele.
-
-        Isso é importante porque
-        depois de clicar em
-        "Recebi meu pagamento",
-        o período pode ser:
-
-        2026-09-periodo-1
-
-        e não apenas:
-
-        2026-09
+        Se ainda não existir um período,
+        cria o primeiro período baseado
+        no mês atual.
     */
 
-    if (salvo) {
+    if (!periodo) {
 
-        return salvo;
+        periodo =
+            obterMesReal();
+
+
+        localStorage.setItem(
+            "periodoFinanceiro",
+            periodo
+        );
 
     }
-
-
-    const periodo =
-        obterMesReal();
-
-
-    localStorage.setItem(
-        "periodoFinanceiro",
-        periodo
-    );
 
 
     return periodo;
@@ -446,15 +611,18 @@ function obterPeriodo() {
 }
 
 
-/* =========================
-NOME DO PERÍODO
-========================= */
+/* ==================================================
+   NOME DO PERÍODO
+================================================== */
 
 function nomeDoPeriodo(periodo) {
 
-    if (!periodo) {
+    if (
+        !periodo ||
+        typeof periodo !== "string"
+    ) {
 
-        return "Período atual";
+        return "-";
 
     }
 
@@ -467,7 +635,7 @@ function nomeDoPeriodo(periodo) {
         partes.length < 2
     ) {
 
-        return "Período atual";
+        return periodo;
 
     }
 
@@ -477,7 +645,9 @@ function nomeDoPeriodo(periodo) {
 
 
     const numeroMes =
-        Number(partes[1]);
+        Number(
+            partes[1]
+        );
 
 
     const meses = [
@@ -499,11 +669,12 @@ function nomeDoPeriodo(periodo) {
 
 
     if (
+        !numeroMes ||
         numeroMes < 1 ||
         numeroMes > 12
     ) {
 
-        return "Período atual";
+        return periodo;
 
     }
 
@@ -515,8 +686,7 @@ function nomeDoPeriodo(periodo) {
 
 
     /*
-        Mostra o número do período
-        quando existir.
+        Mostra também o número do período.
 
         Exemplo:
 
@@ -540,39 +710,9 @@ function nomeDoPeriodo(periodo) {
 }
 
 
-/* =========================
-MOSTRAR PERÍODO NA TELA
-========================= */
-
-function mostrarPeriodoAtual() {
-
-    const periodo =
-        obterPeriodo();
-
-
-    const elemento =
-        document.getElementById(
-            "periodoAtual"
-        );
-
-
-    elemento.innerHTML =
-
-        "📅 <strong>Período atual:</strong> " +
-
-        nomeDoPeriodo(periodo) +
-
-        "<br><br>" +
-
-        "Este gasto será registrado " +
-        "somente no período atual.";
-
-}
-
-
-/* =========================
-PEGAR GASTOS
-========================= */
+/* ==================================================
+   PEGAR GASTOS
+================================================== */
 
 function pegarGastos() {
 
@@ -592,13 +732,21 @@ function pegarGastos() {
     try {
 
         const gastos =
-            JSON.parse(salvo);
+            JSON.parse(
+                salvo
+            );
 
 
-        return Array.isArray(gastos)
-            ? gastos
-            : [];
+        if (
+            Array.isArray(gastos)
+        ) {
 
+            return gastos;
+
+        }
+
+
+        return [];
 
     } catch {
 
@@ -609,485 +757,251 @@ function pegarGastos() {
 }
 
 
-/* =========================
-PEGAR ORÇAMENTO
-========================= */
+/* ==================================================
+   SALVAR GASTOS
+================================================== */
 
-function pegarOrcamento() {
+function salvarGastos(gastos) {
 
-    /*
-        Primeiro tentamos usar
-        o planejamento novo.
-    */
-
-    const planejamentoSalvo =
-        localStorage.getItem(
-            "planejamentoFinanceiro"
-        );
-
-
-    if (planejamentoSalvo) {
-
-        try {
-
-            const planejamento =
-                JSON.parse(
-                    planejamentoSalvo
-                );
-
-
-            if (
-                planejamento &&
-                planejamento.categorias &&
-                typeof planejamento.categorias === "object"
-            ) {
-
-                return planejamento.categorias;
-
-            }
-
-        } catch {
-
-            console.log(
-                "Planejamento inválido."
-            );
-
-        }
-
-    }
-
-
-    /*
-        Compatibilidade com
-        o orçamento antigo.
-    */
-
-    const salvo =
-        localStorage.getItem(
-            "orcamento"
-        );
-
-
-    if (salvo) {
-
-        try {
-
-            const orcamento =
-                JSON.parse(
-                    salvo
-                );
-
-
-            if (
-                orcamento &&
-                typeof orcamento === "object"
-            ) {
-
-                return orcamento;
-
-            }
-
-        } catch {
-
-            console.log(
-                "Orçamento inválido."
-            );
-
-        }
-
-    }
-
-
-    return {};
+    localStorage.setItem(
+        "gastos",
+        JSON.stringify(
+            gastos
+        )
+    );
 
 }
 
 
-/* =========================
-CALCULAR UTILIZADO
-========================= */
+/* ==================================================
+   DATA DE HOJE
+================================================== */
 
-function calcularUtilizado(
-    categoria
-) {
+function obterDataHoje() {
 
-    const gastos =
-        pegarGastos();
+    const agora =
+        new Date();
 
+
+    const ano =
+        agora.getFullYear();
+
+
+    const mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia
+    );
+
+}
+
+
+/* ==================================================
+   MOSTRAR PERÍODO ATUAL
+================================================== */
+
+function mostrarPeriodoAtual() {
 
     const periodo =
         obterPeriodo();
 
 
-    let utilizado =
-        0;
-
-
-    gastos.forEach(function(gasto) {
-
-        /*
-            A comparação usa o período
-            financeiro completo.
-
-            Portanto:
-
-            2026-09
-
-            é diferente de:
-
-            2026-09-periodo-1
-        */
-
-        if (
-            gasto.categoria === categoria &&
-            gasto.mes === periodo
-        ) {
-
-            utilizado +=
-                Number(
-                    gasto.valor
-                ) || 0;
-
-        }
-
-    });
-
-
-    return utilizado;
+    document
+        .getElementById(
+            "periodoAtual"
+        )
+        .textContent =
+            nomeDoPeriodo(
+                periodo
+            );
 
 }
 
 
-/* =========================
-MOSTRAR ORÇAMENTO
-========================= */
+/* ==================================================
+   MOSTRAR MENSAGEM
+================================================== */
 
-function mostrarOrcamento() {
+function mostrarMensagem(
+    texto,
+    tipo
+) {
 
-    const categoria =
+    const elemento =
+        document.getElementById(
+            "mensagem"
+        );
+
+
+    elemento.textContent =
+        texto;
+
+
+    elemento.className =
+        "mensagem " +
+        tipo;
+
+
+}
+
+
+/* ==================================================
+   LIMPAR MENSAGEM
+================================================== */
+
+function limparMensagem() {
+
+    const elemento =
+        document.getElementById(
+            "mensagem"
+        );
+
+
+    elemento.textContent =
+        "";
+
+
+    elemento.className =
+        "mensagem";
+
+}
+
+
+/* ==================================================
+   SALVAR GASTO
+================================================== */
+
+function salvarGasto() {
+
+    limparMensagem();
+
+
+    /*
+        Pega os campos.
+    */
+
+    const campoValor =
+        document.getElementById(
+            "valor"
+        );
+
+
+    const campoCategoria =
         document.getElementById(
             "categoria"
-        ).value;
+        );
 
+
+    const campoDescricao =
+        document.getElementById(
+            "descricao"
+        );
+
+
+    const campoData =
+        document.getElementById(
+            "data"
+        );
+
+
+    /*
+        Converte o valor.
+
+        Number("50.50") = 50.50
+    */
 
     const valor =
         Number(
-            document.getElementById(
-                "valor"
-            ).value
-        ) || 0;
-
-
-    const caixa =
-        document.getElementById(
-            "informacaoOrcamento"
+            campoValor.value
         );
 
 
-    if (!categoria) {
-
-        caixa.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    const orcamento =
-        pegarOrcamento();
-
-
-    const limite =
-        Number(
-            orcamento[categoria]
-        ) || 0;
-
-
-    const utilizado =
-        calcularUtilizado(
-            categoria
-        );
-
-
-    const disponivel =
-        limite -
-        utilizado;
-
-
-    const restanteDepois =
-        limite -
-        (
-            utilizado +
-            valor
-        );
-
-
-    caixa.style.display =
-        "block";
-
-
-    caixa.className =
-        "orcamento";
-
-
-    /*
-        Não existe orçamento.
-    */
-
-    if (limite <= 0) {
-
-        caixa.innerHTML =
-
-            "⚠️ Você ainda não definiu um orçamento " +
-            "para esta categoria.<br><br>" +
-
-            "Você pode definir um valor em " +
-            "<strong>Editar orçamento</strong>.";
-
-        return;
-
-    }
-
-
-    /*
-        Ainda não digitou o valor.
-    */
-
-    if (valor <= 0) {
-
-        caixa.innerHTML =
-
-            "💰 <strong>Orçamento:</strong> " +
-            moeda(limite) +
-
-            "<br>" +
-
-            "📊 <strong>Já utilizado:</strong> " +
-            moeda(utilizado) +
-
-            "<br>" +
-
-            "💚 <strong>Disponível:</strong> " +
-            moeda(disponivel);
-
-        return;
-
-    }
-
-
-    /*
-        Vai ultrapassar.
-    */
-
-    if (
-        restanteDepois < 0
-    ) {
-
-        caixa.classList.add(
-            "excedido"
-        );
-
-
-        caixa.innerHTML =
-
-            "⚠️ <strong>Atenção!</strong> " +
-
-            "Este gasto ultrapassará " +
-            "seu orçamento." +
-
-            "<br><br>" +
-
-            "💰 Orçamento: " +
-            moeda(limite) +
-
-            "<br>" +
-
-            "📊 Já utilizado: " +
-            moeda(utilizado) +
-
-            "<br>" +
-
-            "🛒 Novo gasto: " +
-            moeda(valor) +
-
-            "<br>" +
-
-            "🔴 Ultrapassará em: " +
-            moeda(
-                Math.abs(
-                    restanteDepois
-                )
-            );
-
-        return;
-
-    }
-
-
-    /*
-        Restará 20% ou menos.
-    */
-
-    if (
-        restanteDepois <=
-        limite * 0.2
-    ) {
-
-        caixa.classList.add(
-            "atencao"
-        );
-
-
-        caixa.innerHTML =
-
-            "⚠️ <strong>Quase no limite!</strong>" +
-
-            "<br><br>" +
-
-            "💰 Orçamento: " +
-            moeda(limite) +
-
-            "<br>" +
-
-            "📊 Já utilizado: " +
-            moeda(utilizado) +
-
-            "<br>" +
-
-            "🛒 Novo gasto: " +
-            moeda(valor) +
-
-            "<br>" +
-
-            "🟡 Restará: " +
-            moeda(restanteDepois);
-
-        return;
-
-    }
-
-
-    /*
-        Tudo normal.
-    */
-
-    caixa.innerHTML =
-
-        "✅ <strong>Tudo certo!</strong>" +
-
-        "<br><br>" +
-
-        "💰 Orçamento: " +
-        moeda(limite) +
-
-        "<br>" +
-
-        "📊 Já utilizado: " +
-        moeda(utilizado) +
-
-        "<br>" +
-
-        "🛒 Novo gasto: " +
-        moeda(valor) +
-
-        "<br>" +
-
-        "💚 Restará: " +
-        moeda(restanteDepois);
-
-}
-
-
-/* =========================
-REGISTRAR GASTO
-========================= */
-
-function registrarGasto(event) {
-
-    event.preventDefault();
+    const categoria =
+        campoCategoria.value;
 
 
     const descricao =
-        document
-            .getElementById(
-                "descricao"
-            )
-            .value
-            .trim();
-
-
-    const valor =
-        Number(
-            document
-                .getElementById(
-                    "valor"
-                )
-                .value
-        );
-
-
-    const categoria =
-        document
-            .getElementById(
-                "categoria"
-            )
-            .value;
+        campoDescricao.value.trim();
 
 
     const data =
-        document
-            .getElementById(
-                "data"
-            )
-            .value;
+        campoData.value;
 
 
     /*
-        VALIDAÇÕES
+        Validação do valor.
     */
-
-    if (!descricao) {
-
-        alert(
-            "Digite a descrição do gasto."
-        );
-
-        return;
-
-    }
-
 
     if (
         !Number.isFinite(valor) ||
         valor <= 0
     ) {
 
-        alert(
-            "Digite um valor válido."
+        mostrarMensagem(
+            "Digite um valor válido para o gasto.",
+            "erro"
         );
+
+        campoValor.focus();
 
         return;
 
     }
 
 
-    if (!categoria) {
+    /*
+        Validação da categoria.
+    */
 
-        alert(
-            "Escolha uma categoria."
+    if (
+        !categoria ||
+        !categorias[categoria]
+    ) {
+
+        mostrarMensagem(
+            "Selecione uma categoria.",
+            "erro"
         );
+
+        campoCategoria.focus();
 
         return;
 
     }
 
+
+    /*
+        Validação da data.
+    */
 
     if (!data) {
 
-        alert(
-            "Escolha a data do gasto."
+        mostrarMensagem(
+            "Informe a data do gasto.",
+            "erro"
         );
+
+        campoData.focus();
 
         return;
 
@@ -1097,148 +1011,74 @@ function registrarGasto(event) {
     /*
         PEGA O PERÍODO ATUAL.
 
-        É MUITO IMPORTANTE que o gasto
-        receba o período financeiro atual,
-        e não simplesmente o mês da data.
+        Esta é a parte mais importante.
+
+        O gasto será salvo com:
+
+        mes: periodoAtual
+
+        Portanto:
+
+        Se o Dashboard está em:
+
+        2026-09
+
+        o gasto será salvo em:
+
+        mes: "2026-09"
+
+        Se o usuário recebeu pagamento
+        e o Dashboard está em:
+
+        2026-09-periodo-1
+
+        o novo gasto será salvo em:
+
+        mes: "2026-09-periodo-1"
     */
 
-    const periodo =
+    const periodoAtual =
         obterPeriodo();
 
 
-    const orcamento =
-        pegarOrcamento();
+    /*
+        Pega todos os gastos antigos.
 
-
-    const limite =
-        Number(
-            orcamento[categoria]
-        ) || 0;
-
+        NÃO apagamos nenhum deles.
+    */
 
     const gastos =
         pegarGastos();
 
 
     /*
-        Calcula somente o que foi gasto
-        dentro do período atual.
+        Cria o novo gasto.
     */
 
-    let utilizado =
-        0;
-
-
-    gastos.forEach(function(gasto) {
-
-        if (
-            gasto.categoria === categoria &&
-            gasto.mes === periodo
-        ) {
-
-            utilizado +=
-                Number(
-                    gasto.valor
-                ) || 0;
-
-        }
-
-    });
-
-
-    /*
-        AVISO DE ORÇAMENTO
-    */
-
-    if (
-        limite > 0 &&
-        utilizado + valor > limite
-    ) {
-
-        const excesso =
-            utilizado +
-            valor -
-            limite;
-
-
-        const continuar =
-            confirm(
-
-                "⚠️ ATENÇÃO!\n\n" +
-
-                "Este gasto vai ultrapassar " +
-                "o orçamento desta categoria.\n\n" +
-
-                "Orçamento: " +
-                moeda(limite) +
-
-                "\nJá utilizado: " +
-                moeda(utilizado) +
-
-                "\nNovo gasto: " +
-                moeda(valor) +
-
-                "\n\nUltrapassará em: " +
-                moeda(excesso) +
-
-                "\n\nDeseja registrar mesmo assim?"
-
-            );
-
-
-        if (!continuar) {
-
-            return;
-
-        }
-
-    }
-
-
-    /*
-        CRIA O GASTO
-    */
-
-    const gasto = {
+    const novoGasto = {
 
         id:
-            Date.now().toString() +
+            Date.now() +
+            "-" +
             Math.random()
-                .toString(16)
-                .slice(2),
-
-
-        descricao:
-            descricao,
-
+                .toString(36)
+                .substring(2, 9),
 
         valor:
             valor,
 
-
         categoria:
             categoria,
 
+        descricao:
+            descricao ||
+            "Gasto registrado",
 
         data:
             data,
 
-
-        /*
-            Aqui está uma das partes
-            mais importantes da correção.
-
-            O gasto recebe o período
-            financeiro atual.
-
-            Exemplo:
-
-            2026-09-periodo-1
-        */
-
         mes:
-            periodo,
-
+            periodoAtual,
 
         criadoEm:
             new Date().toISOString()
@@ -1247,43 +1087,87 @@ function registrarGasto(event) {
 
 
     /*
-        ADICIONA O GASTO
+        Adiciona o novo gasto
+        ao final da lista.
+
+        Os gastos antigos continuam
+        exatamente onde estavam.
     */
 
     gastos.push(
-        gasto
+        novoGasto
     );
 
 
     /*
-        SALVA TODOS OS GASTOS.
+        Salva TODOS os gastos novamente.
     */
 
-    localStorage.setItem(
-        "gastos",
-        JSON.stringify(
-            gastos
-        )
+    salvarGastos(
+        gastos
     );
 
 
     /*
-        CONFIRMAÇÃO
+        Limpa os campos.
     */
 
-    alert(
+    campoValor.value =
+        "";
 
-        "Gasto registrado com sucesso! 💚\n\n" +
+    campoCategoria.value =
+        "";
 
-        "Período: " +
-        nomeDoPeriodo(periodo)
+    campoDescricao.value =
+        "";
+
+    campoData.value =
+        obterDataHoje();
+
+
+    /*
+        Mostra confirmação.
+    */
+
+    mostrarMensagem(
+
+        "Gasto registrado com sucesso! 💚",
+
+        "sucesso"
 
     );
 
 
     /*
-        VOLTA PARA O DASHBOARD.
+        Atualiza o período mostrado.
     */
+
+    mostrarPeriodoAtual();
+
+
+    /*
+        Depois de um pequeno intervalo,
+        volta para o Dashboard.
+    */
+
+    setTimeout(
+        function() {
+
+            window.location.href =
+                "dashboard.html";
+
+        },
+        700
+    );
+
+}
+
+
+/* ==================================================
+   VOLTAR PARA O DASHBOARD
+================================================== */
+
+function voltarDashboard() {
 
     window.location.href =
         "dashboard.html";
@@ -1291,15 +1175,72 @@ function registrarGasto(event) {
 }
 
 
-/* =========================
-INICIAR
-========================= */
+/* ==================================================
+   TECLA ENTER
+==================================================
 
-colocarDataAtual();
+   Permite salvar pressionando Enter
+   quando estiver no campo de descrição.
+================================================== */
 
-mostrarPeriodoAtual();
+document
+    .getElementById(
+        "descricao"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
 
-mostrarOrcamento();
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                salvarGasto();
+
+            }
+
+        }
+    );
+
+
+/* ==================================================
+   INICIAR
+================================================== */
+
+function iniciar() {
+
+    mostrarPeriodoAtual();
+
+
+    /*
+        Coloca a data de hoje automaticamente.
+    */
+
+    document
+        .getElementById(
+            "data"
+        )
+        .value =
+            obterDataHoje();
+
+
+    /*
+        Coloca o cursor no valor.
+    */
+
+    document
+        .getElementById(
+            "valor"
+        )
+        .focus();
+
+}
+
+
+iniciar();
 
 </script>
 

@@ -763,22 +763,7 @@ function obterMesReal() {
 
 /* =========================
    PRÓXIMO MÊS
-=========================
-
-   Recebe um mês no formato:
-
-   2026-09
-
-   e retorna:
-
-   2026-10
-
-   Também funciona na virada do ano:
-
-   2026-12
-   ↓
-   2027-01
-*/
+========================= */
 
 function obterProximoMes(mesAtual) {
 
@@ -821,23 +806,7 @@ function obterProximoMes(mesAtual) {
 
 /* =========================
    PERÍODO FINANCEIRO
-=========================
-
-   Agora o período é sempre um
-   mês real:
-
-   2026-09
-   2026-10
-   2026-11
-   2026-12
-   2027-01
-
-   Não existem mais:
-
-   -periodo-1
-   -periodo-2
-   -periodo-3
-*/
+========================= */
 
 function obterPeriodo() {
 
@@ -847,38 +816,23 @@ function obterPeriodo() {
         );
 
 
-    /*
-        Se ainda não existe período,
-        começa pelo mês atual.
-    */
-
     if (!periodo) {
 
         periodo =
             obterMesReal();
 
-        /*
-            Caso exista algum período antigo
-            no formato:
-
-            2026-09-periodo-1
-
-            ele será convertido para:
-
-            2026-09
-        */
-
     }
 
 
     /*
-        Limpeza de períodos antigos.
+        Converte possíveis períodos
+        antigos para o formato mensal.
 
-        Se o sistema antigo criou:
+        Exemplo:
 
         2026-09-periodo-1
 
-        vamos considerar somente:
+        vira:
 
         2026-09
     */
@@ -891,11 +845,6 @@ function obterPeriodo() {
             periodo.split(
                 "-periodo-"
             )[0];
-
-        localStorage.setItem(
-            "periodoFinanceiro",
-            periodo
-        );
 
     }
 
@@ -1156,6 +1105,76 @@ function pegarRenda() {
             "rendaMensal"
         )
     ) || 0;
+
+}
+
+
+/* =========================
+   SALVAR RENDA
+========================= */
+
+function salvarRenda(valor) {
+
+    const renda =
+        Number(valor) || 0;
+
+
+    /*
+        Salva no localStorage antigo
+        para manter compatibilidade.
+    */
+
+    localStorage.setItem(
+        "rendaMensal",
+        renda.toString()
+    );
+
+
+    /*
+        Atualiza também o usuário.
+    */
+
+    const usuario =
+        pegarUsuario();
+
+
+    if (usuario) {
+
+        usuario.renda =
+            renda;
+
+        localStorage.setItem(
+            "usuario",
+            JSON.stringify(
+                usuario
+            )
+        );
+
+    }
+
+
+    /*
+        Atualiza o planejamento,
+        caso ele exista.
+    */
+
+    const planejamento =
+        pegarPlanejamento();
+
+
+    if (planejamento) {
+
+        planejamento.renda =
+            renda;
+
+        localStorage.setItem(
+            "planejamentoFinanceiro",
+            JSON.stringify(
+                planejamento
+            )
+        );
+
+    }
 
 }
 
@@ -2048,50 +2067,7 @@ function salvarNovaRenda() {
     }
 
 
-    localStorage.setItem(
-        "rendaMensal",
-        renda.toString()
-    );
-
-
-    const usuario =
-        pegarUsuario();
-
-
-    if (usuario) {
-
-        usuario.renda =
-            renda;
-
-
-        localStorage.setItem(
-            "usuario",
-            JSON.stringify(
-                usuario
-            )
-        );
-
-    }
-
-
-    const planejamento =
-        pegarPlanejamento();
-
-
-    if (planejamento) {
-
-        planejamento.renda =
-            renda;
-
-
-        localStorage.setItem(
-            "planejamentoFinanceiro",
-            JSON.stringify(
-                planejamento
-            )
-        );
-
-    }
+    salvarRenda(renda);
 
 
     fecharEditarRenda();
@@ -2139,23 +2115,27 @@ function editarOrcamento() {
    RECEBI MEU PAGAMENTO
 =========================
 
-   AGORA FUNCIONA ASSIM:
+   NOVA REGRA:
 
-   Setembro 2026
-        ↓
-   Outubro 2026
-        ↓
-   Novembro 2026
-        ↓
-   Dezembro 2026
-        ↓
-   Janeiro 2027
+   Renda atual
+        +
+   sobra do mês atual
+        =
+   renda do próximo mês
 
-   Os gastos antigos NÃO são apagados.
+   Exemplo:
 
-   Eles continuam no localStorage.
+   Renda:       R$ 2.500
+   Gastos:      R$ 2.000
+   Sobra:         R$ 500
 
-   Apenas o período atual muda.
+   Próximo mês:
+
+   Renda:       R$ 3.000
+
+   Os gastos antigos continuam
+   salvos no histórico.
+
 ========================= */
 
 function novoMes() {
@@ -2170,17 +2150,82 @@ function novoMes() {
         );
 
 
+    const rendaAtual =
+        pegarRenda();
+
+
+    const gastosAtual =
+        calcularTotalGasto();
+
+
+    /*
+        Calcula quanto sobrou
+        do mês atual.
+    */
+
+    const sobra =
+        rendaAtual -
+        gastosAtual;
+
+
+    /*
+        Se houver sobra positiva,
+        ela será adicionada à
+        renda do próximo mês.
+
+        Se o saldo for negativo,
+        não carregamos dívida.
+
+        Portanto:
+
+        R$ 2.500 - R$ 2.000
+        = R$ 500 de sobra
+
+        Próximo mês:
+
+        R$ 2.500 + R$ 500
+        = R$ 3.000
+    */
+
+    const valorCarregado =
+        Math.max(
+            sobra,
+            0
+        );
+
+
+    const novaRenda =
+        rendaAtual +
+        valorCarregado;
+
+
     const confirmar =
         confirm(
 
             "💰 Você recebeu seu pagamento?\n\n" +
 
-            "Seu período atual é:\n" +
+            "Mês atual:\n" +
             nomeDoMes(periodoAtual) +
             "\n\n" +
 
-            "O próximo período será:\n" +
+            "Renda atual: " +
+            moeda(rendaAtual) +
+            "\n" +
+
+            "Gastos: " +
+            moeda(gastosAtual) +
+            "\n" +
+
+            "Valor que sobrou: " +
+            moeda(valorCarregado) +
+            "\n\n" +
+
+            "Próximo mês:\n" +
             nomeDoMes(proximoMes) +
+            "\n\n" +
+
+            "Nova renda disponível: " +
+            moeda(novaRenda) +
             "\n\n" +
 
             "Os gastos de " +
@@ -2190,13 +2235,7 @@ function novoMes() {
             "Eles continuarão disponíveis " +
             "em \"Ver registros\".\n\n" +
 
-            "O Dashboard começará o novo mês " +
-            "com os gastos zerados.\n\n" +
-
-            "Deseja receber o pagamento e " +
-            "começar " +
-            nomeDoMes(proximoMes) +
-            "?"
+            "Deseja iniciar o novo mês?"
 
         );
 
@@ -2209,8 +2248,25 @@ function novoMes() {
 
 
     /*
-        Salva o próximo mês como
-        o novo período financeiro.
+        Primeiro salva a nova renda.
+
+        Assim o próximo mês começa
+        já com o valor acumulado.
+    */
+
+    salvarRenda(
+        novaRenda
+    );
+
+
+    /*
+        Agora muda o período.
+
+        Exemplo:
+
+        2026-09
+        ↓
+        2026-10
     */
 
     localStorage.setItem(
@@ -2220,25 +2276,22 @@ function novoMes() {
 
 
     /*
-        IMPORTANTE:
+        Recarrega o Dashboard.
 
-        NÃO apagamos os gastos.
-
-        Os gastos antigos continuam
-        salvos com o mês antigo.
-
-        Exemplo:
+        Como os gastos antigos
+        possuem:
 
         gasto.mes = "2026-09"
 
-        Depois do pagamento:
+        e o novo período é:
 
-        periodoFinanceiro = "2026-10"
+        2026-10
 
-        Portanto o Dashboard não
-        encontra o gasto de setembro.
+        eles não aparecem nos
+        gastos do novo mês.
+
+        Mas continuam no histórico.
     */
-
 
     carregarDashboard();
 
@@ -2253,10 +2306,17 @@ function novoMes() {
 
         "\n\n" +
 
-        "Gastos do novo mês: R$ 0,00\n\n" +
+        "Renda deste mês: " +
+        moeda(novaRenda) +
 
-        "Seus gastos anteriores continuam " +
-        "salvos no histórico."
+        "\n\n" +
+
+        "Valor carregado do mês anterior: " +
+        moeda(valorCarregado) +
+
+        "\n\n" +
+
+        "Gastos do novo mês: R$ 0,00"
 
     );
 

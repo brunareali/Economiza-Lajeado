@@ -7,6 +7,9 @@
 
     <title>Meu Dinheiro - Dashboard</title>
 
+    <!-- Biblioteca do gráfico -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
 
         * {
@@ -255,34 +258,35 @@
         .barra-preenchida.excedida {
             background: #c0392b;
         }
-/* =========================
-   GRÁFICO
-========================= */
 
-.grafico-card {
-    margin-bottom: 20px;
-}
+        /* =========================
+           GRÁFICO
+        ========================= */
 
-.grafico-container {
-    width: 100%;
-    max-width: 360px;
-    height: 360px;
-    margin: 10px auto 0;
-    position: relative;
-}
+        .grafico-card {
+            margin-bottom: 20px;
+        }
 
-.grafico-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
+        .grafico-container {
+            width: 100%;
+            max-width: 360px;
+            height: 360px;
+            margin: 10px auto 0;
+            position: relative;
+        }
 
-.sem-gastos-grafico {
-    display: none;
-    text-align: center;
-    color: #718078;
-    padding: 30px 10px;
-    line-height: 1.5;
-}
+        .grafico-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .sem-gastos-grafico {
+            display: none;
+            text-align: center;
+            color: #718078;
+            padding: 30px 10px;
+            line-height: 1.5;
+        }
 
         /* =========================
            BOTÕES
@@ -416,10 +420,14 @@
                 align-items: flex-start;
             }
 
+            .grafico-container {
+                max-width: 320px;
+                height: 320px;
+            }
+
         }
 
     </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -567,61 +575,21 @@
     </div>
 
 
+    <!-- GASTOS POR CATEGORIA -->
+
     <div class="card gastos-card">
 
-    <div class="gastos-header">
+        <div class="gastos-header">
 
-        <h2>
-            Gastos por categoria
-        </h2>
+            <h2>
+                Gastos por categoria
+            </h2>
 
-        <span>
-            Período atual
-        </span>
+            <span>
+                Período atual
+            </span>
 
-    </div>
-
-
-    <div id="avisoPlanejamento"></div>
-
-
-    <div id="categorias"></div>
-
-</div>
-
-
-<!-- GRÁFICO DOS GASTOS -->
-
-<div class="card grafico-card">
-
-    <div class="gastos-header">
-
-        <h2>
-            📊 Para onde está indo seu dinheiro?
-        </h2>
-
-        <span>
-            Período atual
-        </span>
-
-    </div>
-
-    <div class="grafico-container">
-
-        <canvas id="graficoGastos"></canvas>
-
-    </div>
-
-    <div
-        id="semGastosGrafico"
-        class="sem-gastos-grafico"
-    >
-        Ainda não há gastos registrados
-        neste período.
-    </div>
-
-</div>
-
+        </div>
 
 
         <div id="avisoPlanejamento"></div>
@@ -631,6 +599,46 @@
 
     </div>
 
+
+    <!-- GRÁFICO DOS GASTOS -->
+
+    <div class="card grafico-card">
+
+        <div class="gastos-header">
+
+            <h2>
+                📊 Para onde está indo seu dinheiro?
+            </h2>
+
+            <span>
+                Período atual
+            </span>
+
+        </div>
+
+
+        <div
+            class="grafico-container"
+            id="graficoContainer"
+        >
+
+            <canvas id="graficoGastos"></canvas>
+
+        </div>
+
+
+        <div
+            id="semGastosGrafico"
+            class="sem-gastos-grafico"
+        >
+            Ainda não há gastos registrados
+            neste período.
+        </div>
+
+    </div>
+
+
+    <!-- BOTÕES -->
 
     <div class="botoes">
 
@@ -768,6 +776,273 @@ const categorias = {
     }
 
 };
+
+
+/* =========================
+   GRÁFICO
+========================= */
+
+let graficoGastos = null;
+
+
+function atualizarGrafico() {
+
+    const canvas =
+        document.getElementById(
+            "graficoGastos"
+        );
+
+    const container =
+        document.getElementById(
+            "graficoContainer"
+        );
+
+    const mensagem =
+        document.getElementById(
+            "semGastosGrafico"
+        );
+
+    if (!canvas) {
+        return;
+    }
+
+
+    const gastos =
+        gastosDoPeriodo();
+
+
+    const totais = {};
+
+    Object.keys(categorias)
+        .forEach(function(chave) {
+
+            totais[chave] = 0;
+
+        });
+
+
+    gastos.forEach(function(gasto) {
+
+        const categoria =
+            gasto.categoria;
+
+        const valor =
+            Number(gasto.valor) || 0;
+
+
+        if (
+            totais[categoria] !== undefined
+        ) {
+
+            totais[categoria] += valor;
+
+        }
+
+    });
+
+
+    const categoriasComGasto =
+        Object.keys(totais)
+            .filter(function(chave) {
+
+                return totais[chave] > 0;
+
+            });
+
+
+    /*
+        Se não houver gastos,
+        mostramos a mensagem.
+    */
+
+    if (
+        categoriasComGasto.length === 0
+    ) {
+
+        if (graficoGastos) {
+
+            graficoGastos.destroy();
+
+            graficoGastos = null;
+
+        }
+
+        container.style.display = "none";
+        mensagem.style.display = "block";
+
+        return;
+
+    }
+
+
+    container.style.display = "block";
+    mensagem.style.display = "none";
+
+
+    const labels =
+        categoriasComGasto.map(function(chave) {
+
+            return (
+                categorias[chave].icone +
+                " " +
+                categorias[chave].nome
+            );
+
+        });
+
+
+    const valores =
+        categoriasComGasto.map(function(chave) {
+
+            return totais[chave];
+
+        });
+
+
+    const cores = [
+
+        "#287a4b",
+        "#5c9f73",
+        "#82b894",
+        "#a8cfae",
+        "#d2e6d5",
+        "#e6a700",
+        "#c98236",
+        "#c0392b"
+
+    ];
+
+
+    if (graficoGastos) {
+
+        graficoGastos.destroy();
+
+    }
+
+
+    graficoGastos =
+        new Chart(
+            canvas,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [
+
+                        {
+
+                            data: valores,
+
+                            backgroundColor:
+                                categoriasComGasto.map(
+                                    function(_, index) {
+
+                                        return cores[
+                                            index %
+                                            cores.length
+                                        ];
+
+                                    }
+                                ),
+
+                            borderColor: "#ffffff",
+
+                            borderWidth: 3
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: "58%",
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "bottom",
+
+                            labels: {
+
+                                padding: 15,
+
+                                usePointStyle: true,
+
+                                font: {
+
+                                    size: 13
+
+                                }
+
+                            }
+
+                        },
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    const valor =
+                                        context.raw || 0;
+
+                                    const total =
+                                        valores.reduce(
+                                            function(
+                                                soma,
+                                                numero
+                                            ) {
+
+                                                return soma +
+                                                    numero;
+
+                                            },
+                                            0
+                                        );
+
+                                    const percentual =
+                                        total > 0
+                                            ? (
+                                                valor /
+                                                total
+                                            ) * 100
+                                            : 0;
+
+                                    return (
+                                        " " +
+                                        moeda(valor) +
+                                        " (" +
+                                        percentual.toFixed(1) +
+                                        "%)"
+                                    );
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+}
 
 
 /* =========================
@@ -1144,12 +1419,6 @@ function atualizarSaudeFinanceira(
         );
 
 
-    /*
-        Se a renda for zero,
-        não conseguimos calcular
-        a porcentagem.
-    */
-
     if (renda <= 0) {
 
         percentualElemento.textContent =
@@ -1214,10 +1483,6 @@ function atualizarSaudeFinanceira(
         "saude-alerta";
 
 
-    /*
-        Até 50% da renda.
-    */
-
     if (percentual <= 50) {
 
         alerta.classList.add(
@@ -1228,11 +1493,6 @@ function atualizarSaudeFinanceira(
             "🟢 Seu dinheiro está sob controle.";
 
     }
-
-
-    /*
-        Entre 50% e 80%.
-    */
 
     else if (percentual <= 80) {
 
@@ -1251,11 +1511,6 @@ function atualizarSaudeFinanceira(
 
     }
 
-
-    /*
-        Entre 80% e 100%.
-    */
-
     else if (percentual <= 100) {
 
         barra.classList.add(
@@ -1270,11 +1525,6 @@ function atualizarSaudeFinanceira(
             "🔴 Cuidado: sua renda está quase toda comprometida.";
 
     }
-
-
-    /*
-        Acima da renda.
-    */
 
     else {
 
@@ -1416,6 +1666,15 @@ function carregarDashboard() {
 
 
     mostrarCategorias();
+
+
+    /*
+        Atualiza o gráfico
+        depois de carregar
+        os gastos.
+    */
+
+    atualizarGrafico();
 
 }
 

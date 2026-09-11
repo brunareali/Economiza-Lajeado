@@ -2,244 +2,397 @@
 <html lang="pt-BR">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Meus registros - Meu Dinheiro</title>
+    <meta charset="UTF-8">
 
-<style>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+    <title>Meu Dinheiro - Registros</title>
 
-body {
-    background: #f5f7f5;
-    color: #26352b;
-    min-height: 100vh;
-    padding: 20px;
-}
+    <style>
 
-.container {
-    max-width: 700px;
-    margin: 30px auto;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-.voltar {
-    display: inline-block;
-    color: #287a4b;
-    text-decoration: none;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
+        body {
 
-.topo {
-    margin-bottom: 25px;
-}
+            background: #f5f7f5;
 
-.topo h1 {
-    color: #287a4b;
-    margin-bottom: 8px;
-}
+            color: #26352b;
 
-.topo p {
-    color: #718078;
-    line-height: 1.5;
-}
+            min-height: 100vh;
 
-.resumo {
-    background: #287a4b;
-    color: white;
-    padding: 22px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-}
+            padding: 20px;
 
-.resumo small {
-    display: block;
-    opacity: 0.8;
-    margin-bottom: 7px;
-}
+        }
 
-.resumo h2 {
-    font-size: 30px;
-    margin-bottom: 5px;
-}
+        .container {
 
-.resumo p {
-    font-size: 14px;
-    opacity: 0.85;
-}
+            max-width: 700px;
 
-.filtros {
-    background: white;
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-    margin-bottom: 20px;
-}
+            margin: 30px auto;
 
-.filtros label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
+        }
 
-.filtros select {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #d8ded9;
-    border-radius: 12px;
-    font-size: 16px;
-    background: white;
-    color: #26352b;
-}
+        .topo {
 
-.filtros select:focus {
-    outline: none;
-    border-color: #287a4b;
-    box-shadow: 0 0 0 3px rgba(40,122,75,0.1);
-}
+            margin-bottom: 25px;
 
-.periodo-atual {
-    background: #e8f5eb;
-    color: #287a4b;
-    padding: 14px 16px;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    font-size: 14px;
-}
+        }
 
-.registro {
-    background: white;
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    margin-bottom: 15px;
-}
+        .topo h1 {
 
-.registro-topo {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 10px;
-}
+            color: #287a4b;
 
-.descricao {
-    font-size: 18px;
-    font-weight: bold;
-    color: #26352b;
-}
+            margin-bottom: 8px;
 
-.valor {
-    color: #c0392b;
-    font-weight: bold;
-    font-size: 17px;
-    white-space: nowrap;
-}
+        }
 
-.categoria {
-    display: inline-block;
-    background: #f0f5f1;
-    color: #287a4b;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    margin-bottom: 10px;
-}
+        .topo p {
 
-.data {
-    color: #718078;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
+            color: #718078;
 
-.acoes {
-    display: flex;
-    gap: 10px;
-}
+            line-height: 1.5;
 
-.btn {
-    border: none;
-    padding: 10px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-}
+        }
 
-.editar {
-    background: #e8f3eb;
-    color: #287a4b;
-}
+        .card {
 
-.excluir {
-    background: #fff0ee;
-    color: #c0392b;
-}
+            background: white;
 
-.vazio {
-    background: white;
-    padding: 35px 25px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-}
+            padding: 22px;
 
-.vazio .icone {
-    font-size: 45px;
-    margin-bottom: 15px;
-}
+            border-radius: 20px;
 
-.vazio h2 {
-    margin-bottom: 8px;
-}
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.06);
 
-.vazio p {
-    color: #718078;
-    line-height: 1.5;
-}
+            margin-bottom: 20px;
 
-.novo {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    background: #287a4b;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-}
+        }
 
-.novo:hover {
-    background: #1f633c;
-}
+        .resumo {
 
-@media (max-width: 500px) {
+            display: grid;
 
-    .registro-topo {
-        flex-direction: column;
-    }
+            grid-template-columns:
+                repeat(2, 1fr);
 
-    .acoes {
-        width: 100%;
-    }
+            gap: 15px;
 
-    .btn {
-        flex: 1;
-    }
+            margin-bottom: 20px;
 
-}
+        }
 
-</style>
+        .resumo-card {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.06);
+
+        }
+
+        .resumo-card small {
+
+            display: block;
+
+            color: #718078;
+
+            margin-bottom: 8px;
+
+        }
+
+        .resumo-card h2 {
+
+            color: #287a4b;
+
+            font-size: 23px;
+
+        }
+
+        .filtros {
+
+            display: grid;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+
+        }
+
+        .filtros label {
+
+            color: #26352b;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+        .filtros select {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d8ded9;
+
+            border-radius: 12px;
+
+            background: white;
+
+            font-size: 15px;
+
+            color: #26352b;
+
+        }
+
+        .filtros select:focus {
+
+            outline: none;
+
+            border-color: #287a4b;
+
+        }
+
+        .periodo-titulo {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+        }
+
+        .periodo-titulo h2 {
+
+            font-size: 20px;
+
+            color: #26352b;
+
+        }
+
+        .periodo-titulo span {
+
+            color: #718078;
+
+            font-size: 13px;
+
+            text-align: right;
+
+        }
+
+        .registro {
+
+            border: 1px solid #e2e7e3;
+
+            border-radius: 15px;
+
+            padding: 16px;
+
+            margin-bottom: 12px;
+
+            background: #fbfcfb;
+
+        }
+
+        .registro-topo {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+            margin-bottom: 10px;
+
+        }
+
+        .registro-categoria {
+
+            font-weight: bold;
+
+            color: #26352b;
+
+        }
+
+        .registro-valor {
+
+            color: #c0392b;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+        .registro-descricao {
+
+            color: #718078;
+
+            line-height: 1.5;
+
+            margin-bottom: 8px;
+
+        }
+
+        .registro-info {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            color: #8a958e;
+
+            font-size: 13px;
+
+        }
+
+        .sem-registros {
+
+            text-align: center;
+
+            color: #718078;
+
+            padding: 30px 15px;
+
+            line-height: 1.6;
+
+        }
+
+        .botoes {
+
+            display: grid;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        .botao-voltar {
+
+            background: #287a4b;
+
+            color: white;
+
+        }
+
+        .botao-voltar:hover {
+
+            background: #1f633c;
+
+        }
+
+        .botao-limpar {
+
+            background: #fff0ee;
+
+            color: #c0392b;
+
+            border: 1px solid #f1c5bf;
+
+        }
+
+        .aviso {
+
+            background: #e9f5ed;
+
+            color: #287a4b;
+
+            padding: 14px;
+
+            border-radius: 13px;
+
+            line-height: 1.5;
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+
+        }
+
+        @media (max-width: 550px) {
+
+            .resumo {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .periodo-titulo {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+            .periodo-titulo span {
+
+                text-align: left;
+
+            }
+
+            .registro-topo {
+
+                flex-direction: column;
+
+            }
+
+            .registro-valor {
+
+                white-space: normal;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -247,93 +400,201 @@ body {
 
 <div class="container">
 
-<a href="dashboard.html" class="voltar">
-← Voltar para o resumo
-</a>
+    <div class="topo">
 
-<div class="topo">
+        <h1>
+            📋 Registros
+        </h1>
 
-<h1>
-Meus registros 📋
-</h1>
+        <p>
+            Aqui ficam salvos todos os seus gastos,
+            inclusive os de períodos anteriores.
+        </p>
 
-<p>
-Aqui você pode acompanhar todos os gastos que já registrou.
-Os gastos antigos continuam salvos mesmo depois de receber um novo pagamento.
-</p>
+    </div>
+
+
+    <div class="aviso">
+
+        💚 <strong>Seu histórico está preservado.</strong>
+
+        <br>
+
+        Quando você clicar em
+        <strong>"Recebi meu pagamento"</strong>,
+        o Dashboard começa um novo período,
+        mas os gastos antigos continuam aparecendo
+        aqui.
+
+    </div>
+
+
+    <div class="resumo">
+
+        <div class="resumo-card">
+
+            <small>
+                Total de registros
+            </small>
+
+            <h2 id="totalRegistros">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="resumo-card">
+
+            <small>
+                Total de gastos
+            </small>
+
+            <h2 id="totalHistorico">
+                R$ 0,00
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="filtros">
+
+            <label for="filtroPeriodo">
+                Filtrar por período
+            </label>
+
+            <select
+                id="filtroPeriodo"
+                onchange="mostrarRegistros()"
+            >
+
+                <option value="todos">
+                    Todos os períodos
+                </option>
+
+            </select>
+
+
+            <label for="filtroCategoria">
+                Filtrar por categoria
+            </label>
+
+            <select
+                id="filtroCategoria"
+                onchange="mostrarRegistros()"
+            >
+
+                <option value="todas">
+                    Todas as categorias
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="periodo-titulo">
+
+            <h2>
+                Histórico de gastos
+            </h2>
+
+            <span id="quantidadeFiltrada">
+                0 registros
+            </span>
+
+        </div>
+
+
+        <div id="listaRegistros"></div>
+
+    </div>
+
+
+    <div class="botoes">
+
+        <button
+            class="botao-voltar"
+            onclick="voltarDashboard()"
+        >
+            ← Voltar para o Dashboard
+        </button>
+
+
+        <button
+            class="botao-limpar"
+            onclick="limparHistorico()"
+        >
+            🗑️ Apagar todo o histórico
+        </button>
+
+    </div>
 
 </div>
 
-<div class="resumo">
-
-<small>
-Total gasto no período selecionado
-</small>
-
-<h2 id="totalMes">
-R$ 0,00
-</h2>
-
-<p id="textoResumo">
--
-</p>
-
-</div>
-
-<div id="avisoPeriodo" class="periodo-atual">
-</div>
-
-<div class="filtros">
-
-<label for="filtroMes">
-Ver registros de:
-</label>
-
-<select id="filtroMes"></select>
-
-</div>
-
-<div id="listaRegistros"></div>
-
-<button
-class="novo"
-onclick="window.location.href='registrar.html'"
->
-+ Registrar novo gasto
-</button>
-
-</div>
 
 <script>
 
-/* =========================
-CATEGORIAS
-========================= */
+/* ==================================================
+   CATEGORIAS
+================================================== */
 
-const nomesCategorias = {
+const categorias = {
 
-    fixos: "🏠 Gastos fixos",
+    fixos: {
+        nome: "Gastos fixos",
+        icone: "🏠"
+    },
 
-    alimentacao: "🍎 Alimentação",
+    alimentacao: {
+        nome: "Alimentação",
+        icone: "🍎"
+    },
 
-    saude: "🏥 Saúde",
+    saude: {
+        nome: "Saúde",
+        icone: "🏥"
+    },
 
-    higiene: "🧼 Higiene",
+    higiene: {
+        nome: "Higiene",
+        icone: "🧼"
+    },
 
-    lazer: "🎮 Lazer",
+    lazer: {
+        nome: "Lazer",
+        icone: "🎮"
+    },
 
-    transporte: "🚗 Transporte",
+    transporte: {
+        nome: "Transporte",
+        icone: "🚗"
+    },
 
-    educacao: "📚 Educação",
+    educacao: {
+        nome: "Educação",
+        icone: "📚"
+    },
 
-    investimentos: "💰 Investimentos"
+    investimentos: {
+        nome: "Investimentos",
+        icone: "💰"
+    }
 
 };
 
 
-/* =========================
-MOEDA
-========================= */
+/* ==================================================
+   MOEDA
+================================================== */
 
 function moeda(valor) {
 
@@ -348,17 +609,21 @@ function moeda(valor) {
 }
 
 
-/* =========================
-PEGAR GASTOS
-========================= */
+/* ==================================================
+   PEGAR GASTOS
+================================================== */
 
 function pegarGastos() {
 
     const salvo =
-        localStorage.getItem("gastos");
+        localStorage.getItem(
+            "gastos"
+        );
 
     if (!salvo) {
+
         return [];
+
     }
 
     try {
@@ -366,9 +631,15 @@ function pegarGastos() {
         const gastos =
             JSON.parse(salvo);
 
-        return Array.isArray(gastos)
-            ? gastos
-            : [];
+        if (
+            Array.isArray(gastos)
+        ) {
+
+            return gastos;
+
+        }
+
+        return [];
 
     } catch {
 
@@ -379,70 +650,64 @@ function pegarGastos() {
 }
 
 
-/* =========================
-PERÍODO ATUAL
-========================= */
+/* ==================================================
+   SALVAR GASTOS
+================================================== */
 
-function obterPeriodoAtual() {
+function salvarGastos(gastos) {
 
-    const salvo =
-        localStorage.getItem(
-            "periodoFinanceiro"
-        );
-
-    if (salvo) {
-        return salvo;
-    }
-
-    return obterMesAtual();
-
-}
-
-
-/* =========================
-MÊS ATUAL
-========================= */
-
-function obterMesAtual() {
-
-    const agora =
-        new Date();
-
-    return (
-        agora.getFullYear() +
-        "-" +
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0")
+    localStorage.setItem(
+        "gastos",
+        JSON.stringify(gastos)
     );
 
 }
 
 
-/* =========================
-NOME DO PERÍODO
-========================= */
+/* ==================================================
+   PERÍODO ATUAL
+================================================== */
 
-function nomeMes(mes) {
+function obterPeriodo() {
 
-    if (!mes) {
-        return "Período desconhecido";
+    let periodo =
+        localStorage.getItem(
+            "periodoFinanceiro"
+        );
+
+    if (!periodo) {
+
+        const agora =
+            new Date();
+
+        periodo =
+            agora.getFullYear() +
+            "-" +
+            String(
+                agora.getMonth() + 1
+            ).padStart(2, "0");
+
+        localStorage.setItem(
+            "periodoFinanceiro",
+            periodo
+        );
+
     }
 
-    /*
-        Períodos normais:
-        2026-09
+    return periodo;
 
-        Períodos iniciados após pagamento:
-        2026-09-periodo-1
-        2026-09-periodo-2
-    */
+}
 
-    const partes =
-        mes.split("-");
+
+/* ==================================================
+   NOME DO PERÍODO
+================================================== */
+
+function nomeDoPeriodo(periodo) {
 
     if (
-        partes.length < 2
+        !periodo ||
+        typeof periodo !== "string"
     ) {
 
         return "Período desconhecido";
@@ -450,11 +715,26 @@ function nomeMes(mes) {
     }
 
 
-    const ano =
-        Number(partes[0]);
+    const partes =
+        periodo.split("-");
 
-    const numero =
-        Number(partes[1]);
+
+    if (
+        partes.length < 2
+    ) {
+
+        return periodo;
+
+    }
+
+
+    const ano =
+        partes[0];
+
+    const numeroMes =
+        Number(
+            partes[1]
+        );
 
 
     const meses = [
@@ -476,25 +756,27 @@ function nomeMes(mes) {
 
 
     if (
-        numero < 1 ||
-        numero > 12
+        !numeroMes ||
+        numeroMes < 1 ||
+        numeroMes > 12
     ) {
 
-        return "Período desconhecido";
+        return periodo;
 
     }
 
 
     let nome =
-        meses[numero - 1] +
+        meses[numeroMes - 1] +
         " " +
         ano;
 
 
     /*
-        Se for um período criado
-        pelo botão "Recebi meu pagamento",
-        mostramos o número dele.
+        Se for um período criado pelo botão
+        "Recebi meu pagamento", mostramos:
+
+        Setembro 2026 • Período 1
     */
 
     if (
@@ -502,12 +784,9 @@ function nomeMes(mes) {
         partes[2] === "periodo"
     ) {
 
-        const numeroPeriodo =
-            partes[3];
-
         nome +=
             " • Período " +
-            numeroPeriodo;
+            partes[3];
 
     }
 
@@ -517,274 +796,481 @@ function nomeMes(mes) {
 }
 
 
-/* =========================
-ESCAPAR HTML
-========================= */
+/* ==================================================
+   FORMATAR DATA
+================================================== */
 
-function escaparHTML(texto) {
+function formatarData(data) {
 
-    return String(texto)
+    if (!data) {
 
-        .replaceAll("&", "&amp;")
-
-        .replaceAll("<", "&lt;")
-
-        .replaceAll(">", "&gt;")
-
-        .replaceAll('"', "&quot;")
-
-        .replaceAll("'", "&#039;");
-
-}
-
-
-/* =========================
-CRIAR FILTROS
-========================= */
-
-function criarFiltros() {
-
-    const gastos =
-        pegarGastos();
-
-    const select =
-        document.getElementById(
-            "filtroMes"
-        );
-
-    select.innerHTML = "";
-
-
-    const meses = [];
-
-
-    gastos.forEach(function(gasto) {
-
-        if (
-            gasto.mes &&
-            !meses.includes(gasto.mes)
-        ) {
-
-            meses.push(
-                gasto.mes
-            );
-
-        }
-
-    });
-
-
-    const periodoAtual =
-        obterPeriodoAtual();
-
-
-    /*
-        Garante que o período atual
-        apareça mesmo que ainda não
-        tenha nenhum gasto.
-    */
-
-    if (
-        !meses.includes(
-            periodoAtual
-        )
-    ) {
-
-        meses.push(
-            periodoAtual
-        );
+        return "Data não informada";
 
     }
 
 
     /*
-        Ordena do período mais recente
-        para o mais antigo.
+        Tenta tratar datas como:
+
+        2026-09-11
+        2026-09-11T14:30:00
     */
 
-    meses.sort(function(a, b) {
-
-        return b.localeCompare(a);
-
-    });
+    const objeto =
+        new Date(data);
 
 
-    meses.forEach(function(mes) {
+    if (
+        !Number.isNaN(
+            objeto.getTime()
+        )
+    ) {
 
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value =
-            mes;
-
-        option.textContent =
-            nomeMes(mes);
-
-
-        if (
-            mes === periodoAtual
-        ) {
-
-            option.selected =
-                true;
-
-        }
-
-
-        select.appendChild(
-            option
+        return objeto.toLocaleDateString(
+            "pt-BR"
         );
 
-    });
+    }
 
 
-    select.onchange =
-        mostrarRegistros;
+    return data;
 
 }
 
 
-/* =========================
-MOSTRAR REGISTROS
-========================= */
+/* ==================================================
+   PEGAR DESCRIÇÃO
+================================================== */
 
-function mostrarRegistros() {
+function pegarDescricao(gasto) {
+
+    return (
+        gasto.descricao ||
+        gasto.nome ||
+        gasto.observacao ||
+        "Gasto registrado"
+    );
+
+}
+
+
+/* ==================================================
+   PEGAR DATA DO GASTO
+================================================== */
+
+function pegarData(gasto) {
+
+    return (
+        gasto.data ||
+        gasto.createdAt ||
+        gasto.criadoEm ||
+        ""
+    );
+
+}
+
+
+/* ==================================================
+   PEGAR NOME DA CATEGORIA
+================================================== */
+
+function pegarCategoria(gasto) {
+
+    const chave =
+        gasto.categoria;
+
+
+    if (
+        categorias[chave]
+    ) {
+
+        return (
+            categorias[chave].icone +
+            " " +
+            categorias[chave].nome
+        );
+
+    }
+
+
+    return (
+        "📦 " +
+        (
+            chave ||
+            "Outros"
+        )
+    );
+
+}
+
+
+/* ==================================================
+   ORDENAR GASTOS
+================================================== */
+
+function ordenarGastos(gastos) {
+
+    return gastos.slice().sort(
+        function(a, b) {
+
+            const dataA =
+                new Date(
+                    pegarData(a)
+                ).getTime() || 0;
+
+
+            const dataB =
+                new Date(
+                    pegarData(b)
+                ).getTime() || 0;
+
+
+            /*
+                Mais recente primeiro.
+            */
+
+            return dataB - dataA;
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   CRIAR FILTROS
+================================================== */
+
+function carregarFiltros() {
 
     const gastos =
         pegarGastos();
 
 
-    const select =
+    const filtroPeriodo =
         document.getElementById(
-            "filtroMes"
+            "filtroPeriodo"
         );
 
 
-    const lista =
+    const filtroCategoria =
+        document.getElementById(
+            "filtroCategoria"
+        );
+
+
+    /*
+        Limpa as opções extras
+        para evitar duplicação.
+    */
+
+    filtroPeriodo.innerHTML = `
+
+        <option value="todos">
+            Todos os períodos
+        </option>
+
+    `;
+
+
+    filtroCategoria.innerHTML = `
+
+        <option value="todas">
+            Todas as categorias
+        </option>
+
+    `;
+
+
+    /*
+        PEGA TODOS OS PERÍODOS
+        DOS GASTOS.
+
+        IMPORTANTE:
+
+        Não usamos somente o período atual.
+
+        Assim os gastos antigos continuam
+        disponíveis no histórico.
+    */
+
+    const periodos = [];
+
+
+    gastos.forEach(
+        function(gasto) {
+
+            const periodo =
+                gasto.mes;
+
+
+            if (
+                periodo &&
+                !periodos.includes(
+                    periodo
+                )
+            ) {
+
+                periodos.push(
+                    periodo
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+        Ordena períodos do mais recente
+        para o mais antigo.
+    */
+
+    periodos.sort(
+        function(a, b) {
+
+            return b.localeCompare(a);
+
+        }
+    );
+
+
+    periodos.forEach(
+        function(periodo) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                periodo;
+
+
+            option.textContent =
+                nomeDoPeriodo(
+                    periodo
+                );
+
+
+            filtroPeriodo.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    /*
+        Categorias existentes
+        nos gastos.
+    */
+
+    const categoriasExistentes = [];
+
+
+    gastos.forEach(
+        function(gasto) {
+
+            const categoria =
+                gasto.categoria;
+
+
+            if (
+                categoria &&
+                !categoriasExistentes.includes(
+                    categoria
+                )
+            ) {
+
+                categoriasExistentes.push(
+                    categoria
+                );
+
+            }
+
+        }
+    );
+
+
+    categoriasExistentes.sort();
+
+
+    categoriasExistentes.forEach(
+        function(categoria) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                categoria;
+
+
+            if (
+                categorias[categoria]
+            ) {
+
+                option.textContent =
+                    categorias[categoria].icone +
+                    " " +
+                    categorias[categoria].nome;
+
+            } else {
+
+                option.textContent =
+                    categoria;
+
+            }
+
+
+            filtroCategoria.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   MOSTRAR REGISTROS
+================================================== */
+
+function mostrarRegistros() {
+
+    const todosGastos =
+        pegarGastos();
+
+
+    const filtroPeriodo =
+        document.getElementById(
+            "filtroPeriodo"
+        ).value;
+
+
+    const filtroCategoria =
+        document.getElementById(
+            "filtroCategoria"
+        ).value;
+
+
+    let gastos =
+        todosGastos.slice();
+
+
+    /*
+        FILTRO POR PERÍODO
+    */
+
+    if (
+        filtroPeriodo !== "todos"
+    ) {
+
+        gastos =
+            gastos.filter(
+                function(gasto) {
+
+                    return (
+                        String(
+                            gasto.mes
+                        ) ===
+                        String(
+                            filtroPeriodo
+                        )
+                    );
+
+                }
+            );
+
+    }
+
+
+    /*
+        FILTRO POR CATEGORIA
+    */
+
+    if (
+        filtroCategoria !== "todas"
+    ) {
+
+        gastos =
+            gastos.filter(
+                function(gasto) {
+
+                    return (
+                        String(
+                            gasto.categoria
+                        ) ===
+                        String(
+                            filtroCategoria
+                        )
+                    );
+
+                }
+            );
+
+    }
+
+
+    gastos =
+        ordenarGastos(
+            gastos
+        );
+
+
+    /*
+        Atualiza quantidade.
+    */
+
+    document
+        .getElementById(
+            "quantidadeFiltrada"
+        )
+        .textContent =
+            gastos.length +
+            (
+                gastos.length === 1
+                    ? " registro"
+                    : " registros"
+            );
+
+
+    /*
+        Container.
+    */
+
+    const container =
         document.getElementById(
             "listaRegistros"
         );
 
 
-    const totalElemento =
-        document.getElementById(
-            "totalMes"
-        );
-
-
-    const textoResumo =
-        document.getElementById(
-            "textoResumo"
-        );
-
-
-    const avisoPeriodo =
-        document.getElementById(
-            "avisoPeriodo"
-        );
-
-
-    const mesSelecionado =
-        select.value;
-
-
-    const periodoAtual =
-        obterPeriodoAtual();
-
-
-    const gastosDoMes =
-        gastos.filter(function(gasto) {
-
-            return (
-                gasto.mes ===
-                mesSelecionado
-            );
-
-        });
-
-
-    let total =
-        0;
-
-
-    gastosDoMes.forEach(function(gasto) {
-
-        total +=
-            Number(gasto.valor) || 0;
-
-    });
-
-
-    totalElemento.textContent =
-        moeda(total);
-
-
-    textoResumo.textContent =
-        gastosDoMes.length +
-        (
-            gastosDoMes.length === 1
-                ? " gasto registrado"
-                : " gastos registrados"
-        );
-
-
-    if (
-        mesSelecionado ===
-        periodoAtual
-    ) {
-
-        avisoPeriodo.innerHTML =
-
-            "📅 <strong>Período atual:</strong> " +
-            escaparHTML(
-                nomeMes(mesSelecionado)
-            ) +
-            "<br><br>" +
-
-            "Este é o período que aparece no seu dashboard.";
-
-    } else {
-
-        avisoPeriodo.innerHTML =
-
-            "📚 <strong>Histórico:</strong> " +
-            escaparHTML(
-                nomeMes(mesSelecionado)
-            ) +
-            "<br><br>" +
-
-            "Estes gastos continuam salvos como histórico " +
-            "e não afetam o seu dashboard atual.";
-
-    }
+    container.innerHTML = "";
 
 
     /*
-        Se não houver gastos,
-        mostramos uma mensagem.
+        Nenhum registro.
     */
 
     if (
-        gastosDoMes.length === 0
+        gastos.length === 0
     ) {
 
-        lista.innerHTML = `
+        container.innerHTML = `
 
-            <div class="vazio">
+            <div class="sem-registros">
 
-                <div class="icone">
-                    📝
-                </div>
+                📭
 
-                <h2>
-                    Nenhum gasto registrado
-                </h2>
+                <br><br>
 
-                <p>
-                    Você ainda não registrou nenhum gasto neste período.
-                </p>
+                Nenhum gasto encontrado
+                com os filtros selecionados.
 
             </div>
 
@@ -796,145 +1282,185 @@ function mostrarRegistros() {
 
 
     /*
-        Mais recentes primeiro.
+        Cria cada registro.
     */
 
-    gastosDoMes.sort(function(a, b) {
+    gastos.forEach(
+        function(gasto) {
 
-        return (
-            new Date(
-                b.criadoEm || 0
-            ) -
-            new Date(
-                a.criadoEm || 0
-            )
-        );
-
-    });
+            const div =
+                document.createElement(
+                    "div"
+                );
 
 
-    lista.innerHTML = "";
+            div.className =
+                "registro";
 
 
-    gastosDoMes.forEach(function(gasto) {
+            const categoria =
+                pegarCategoria(
+                    gasto
+                );
 
-        const div =
-            document.createElement(
-                "div"
+
+            const descricao =
+                pegarDescricao(
+                    gasto
+                );
+
+
+            const data =
+                pegarData(
+                    gasto
+                );
+
+
+            const periodo =
+                gasto.mes ||
+                "Sem período";
+
+
+            const valor =
+                Number(
+                    gasto.valor
+                ) || 0;
+
+
+            div.innerHTML = `
+
+                <div class="registro-topo">
+
+                    <span class="registro-categoria">
+
+                        ${categoria}
+
+                    </span>
+
+                    <span class="registro-valor">
+
+                        - ${moeda(valor)}
+
+                    </span>
+
+                </div>
+
+
+                <div class="registro-descricao">
+
+                    ${descricao}
+
+                </div>
+
+
+                <div class="registro-info">
+
+                    <span>
+
+                        📅
+                        ${formatarData(data)}
+
+                    </span>
+
+                    <span>
+
+                        💼
+                        ${nomeDoPeriodo(periodo)}
+
+                    </span>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
             );
 
-
-        div.className =
-            "registro";
-
-
-        const categoria =
-            nomesCategorias[
-                gasto.categoria
-            ] ||
-            gasto.categoria ||
-            "Categoria não informada";
-
-
-        div.innerHTML = `
-
-            <div class="registro-topo">
-
-                <div class="descricao">
-
-                    ${escaparHTML(
-                        gasto.descricao ||
-                        "Sem descrição"
-                    )}
-
-                </div>
-
-                <div class="valor">
-
-                    - ${moeda(
-                        gasto.valor
-                    )}
-
-                </div>
-
-            </div>
-
-
-            <div class="categoria">
-
-                ${escaparHTML(
-                    categoria
-                )}
-
-            </div>
-
-
-            <div class="data">
-
-                📅 ${escaparHTML(
-                    gasto.data ||
-                    "Data não informada"
-                )}
-
-            </div>
-
-
-            <div class="acoes">
-
-                <button
-                    class="btn editar"
-                    onclick="editarGasto('${String(gasto.id).replace(/'/g, "\\'")}')"
-                >
-                    ✏️ Editar
-                </button>
-
-
-                <button
-                    class="btn excluir"
-                    onclick="excluirGasto('${String(gasto.id).replace(/'/g, "\\'")}')"
-                >
-                    🗑️ Excluir
-                </button>
-
-            </div>
-
-        `;
-
-
-        lista.appendChild(
-            div
-        );
-
-    });
+        }
+    );
 
 }
 
 
-/* =========================
-EXCLUIR GASTO
-========================= */
+/* ==================================================
+   ATUALIZAR RESUMO
+================================================== */
 
-function excluirGasto(id) {
+function atualizarResumo() {
 
     const gastos =
         pegarGastos();
 
 
-    const gasto =
-        gastos.find(function(item) {
+    const total =
+        gastos.reduce(
+            function(
+                soma,
+                gasto
+            ) {
 
-            return (
-                String(item.id) ===
-                String(id)
-            );
+                return (
+                    soma +
+                    (
+                        Number(
+                            gasto.valor
+                        ) || 0
+                    )
+                );
 
-        });
+            },
+            0
+        );
 
 
-    if (!gasto) {
+    document
+        .getElementById(
+            "totalRegistros"
+        )
+        .textContent =
+            gastos.length;
+
+
+    document
+        .getElementById(
+            "totalHistorico"
+        )
+        .textContent =
+            moeda(total);
+
+}
+
+
+/* ==================================================
+   VOLTAR PARA DASHBOARD
+================================================== */
+
+function voltarDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+/* ==================================================
+   APAGAR HISTÓRICO
+================================================== */
+
+function limparHistorico() {
+
+    const gastos =
+        pegarGastos();
+
+
+    if (
+        gastos.length === 0
+    ) {
 
         alert(
-            "Gasto não encontrado."
+            "Não há gastos salvos para apagar."
         );
 
         return;
@@ -945,13 +1471,14 @@ function excluirGasto(id) {
     const confirmar =
         confirm(
 
-            "Deseja excluir este gasto?\n\n" +
+            "⚠️ ATENÇÃO!\n\n" +
 
-            gasto.descricao +
-            " - " +
-            moeda(gasto.valor) +
+            "Isso vai apagar TODOS os gastos " +
+            "salvos no histórico.\n\n" +
 
-            "\n\nEssa ação não poderá ser desfeita."
+            "Essa ação não poderá ser desfeita.\n\n" +
+
+            "Tem certeza que deseja continuar?"
 
         );
 
@@ -963,206 +1490,52 @@ function excluirGasto(id) {
     }
 
 
-    const novosGastos =
-        gastos.filter(function(item) {
-
-            return (
-                String(item.id) !==
-                String(id)
-            );
-
-        });
-
-
-    localStorage.setItem(
-        "gastos",
-        JSON.stringify(
-            novosGastos
-        )
-    );
-
-
-    criarFiltros();
-
-
     /*
-        Depois de excluir,
-        voltamos para o período
-        que está atualmente ativo.
+        Apaga somente os gastos.
+
+        Não apaga:
+
+        - usuário
+        - renda
+        - planejamento
+        - orçamento
+        - período atual
+        - contador de períodos
     */
 
-    const periodoAtual =
-        obterPeriodoAtual();
+    salvarGastos([]);
 
 
-    document
-        .getElementById(
-            "filtroMes"
-        )
-        .value =
-            periodoAtual;
+    carregarFiltros();
 
+    atualizarResumo();
+
+    mostrarRegistros();
+
+
+    alert(
+        "Todo o histórico de gastos foi apagado."
+    );
+
+}
+
+
+/* ==================================================
+   INICIALIZAÇÃO
+================================================== */
+
+function iniciar() {
+
+    carregarFiltros();
+
+    atualizarResumo();
 
     mostrarRegistros();
 
 }
 
 
-/* =========================
-EDITAR GASTO
-========================= */
-
-function editarGasto(id) {
-
-    const gastos =
-        pegarGastos();
-
-
-    const gasto =
-        gastos.find(function(item) {
-
-            return (
-                String(item.id) ===
-                String(id)
-            );
-
-        });
-
-
-    if (!gasto) {
-
-        alert(
-            "Gasto não encontrado."
-        );
-
-        return;
-
-    }
-
-
-    const novaDescricao =
-        prompt(
-            "Nova descrição:",
-            gasto.descricao
-        );
-
-
-    if (
-        novaDescricao ===
-        null
-    ) {
-
-        return;
-
-    }
-
-
-    const descricao =
-        novaDescricao.trim();
-
-
-    if (!descricao) {
-
-        alert(
-            "A descrição não pode ficar vazia."
-        );
-
-        return;
-
-    }
-
-
-    const novoValorTexto =
-        prompt(
-
-            "Novo valor:",
-
-            Number(
-                gasto.valor
-            ).toFixed(2)
-
-        );
-
-
-    if (
-        novoValorTexto ===
-        null
-    ) {
-
-        return;
-
-    }
-
-
-    const novoValor =
-        Number(
-            novoValorTexto.replace(
-                ",",
-                "."
-            )
-        );
-
-
-    if (
-        !Number.isFinite(
-            novoValor
-        ) ||
-        novoValor <= 0
-    ) {
-
-        alert(
-            "Digite um valor válido."
-        );
-
-        return;
-
-    }
-
-
-    gasto.descricao =
-        descricao;
-
-
-    gasto.valor =
-        novoValor;
-
-
-    localStorage.setItem(
-        "gastos",
-        JSON.stringify(
-            gastos
-        )
-    );
-
-
-    criarFiltros();
-
-
-    /*
-        Mantém o usuário no período
-        do gasto que foi editado.
-    */
-
-    document
-        .getElementById(
-            "filtroMes"
-        )
-        .value =
-            gasto.mes;
-
-
-    mostrarRegistros();
-
-}
-
-
-/* =========================
-INICIAR
-========================= */
-
-criarFiltros();
-
-mostrarRegistros();
+iniciar();
 
 </script>
 

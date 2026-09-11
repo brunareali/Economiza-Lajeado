@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -71,15 +72,16 @@
         .renda-card {
             background: #287a4b;
             color: white;
-        }
-
-        .renda-card small,
-        .renda-card h2 {
-            color: white;
+            position: relative;
         }
 
         .renda-card small {
+            color: white;
             opacity: 0.85;
+        }
+
+        .renda-card h2 {
+            color: white;
         }
 
         .editar-renda {
@@ -123,6 +125,7 @@
 
         .saude-header h2 {
             font-size: 21px;
+            color: #26352b;
         }
 
         .percentual {
@@ -186,8 +189,7 @@
             color: #c0392b;
         }
 
-        .gastos-card,
-        .grafico-card {
+        .gastos-card {
             margin-bottom: 20px;
         }
 
@@ -199,6 +201,7 @@
         }
 
         .gastos-header h2 {
+            color: #26352b;
             font-size: 21px;
         }
 
@@ -245,6 +248,10 @@
 
         .barra-preenchida.excedida {
             background: #c0392b;
+        }
+
+        .grafico-card {
+            margin-bottom: 20px;
         }
 
         .grafico-container {
@@ -375,6 +382,7 @@
         }
 
         @media (max-width: 550px) {
+
             .cards {
                 grid-template-columns: 1fr;
             }
@@ -395,8 +403,11 @@
                 max-width: 320px;
                 height: 320px;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
@@ -404,14 +415,19 @@
 <div class="container">
 
     <div class="topo">
-        <h1 id="saudacao">Olá! 👋</h1>
+
+        <h1 id="saudacao">
+            Olá! 👋
+        </h1>
 
         <p>
             Aqui está o resumo do seu dinheiro.
         </p>
+
     </div>
 
     <div class="periodo">
+
         📅 <strong>Período atual:</strong>
         <span id="periodoAtual">-</span>
 
@@ -419,6 +435,7 @@
 
         Seus gastos anteriores continuam
         salvos no histórico.
+
     </div>
 
     <div class="cards">
@@ -704,6 +721,7 @@ const categorias = {
 
 };
 
+
 let graficoGastos = null;
 
 
@@ -744,8 +762,82 @@ function obterMesReal() {
 
 
 /* =========================
+   PRÓXIMO MÊS
+=========================
+
+   Recebe um mês no formato:
+
+   2026-09
+
+   e retorna:
+
+   2026-10
+
+   Também funciona na virada do ano:
+
+   2026-12
+   ↓
+   2027-01
+*/
+
+function obterProximoMes(mesAtual) {
+
+    if (
+        !mesAtual ||
+        !/^\d{4}-\d{2}$/.test(mesAtual)
+    ) {
+
+        return obterMesReal();
+
+    }
+
+    const partes =
+        mesAtual.split("-");
+
+    let ano =
+        Number(partes[0]);
+
+    let mes =
+        Number(partes[1]);
+
+    mes++;
+
+    if (mes > 12) {
+
+        mes = 1;
+
+        ano++;
+
+    }
+
+    return (
+        ano +
+        "-" +
+        String(mes).padStart(2, "0")
+    );
+
+}
+
+
+/* =========================
    PERÍODO FINANCEIRO
-========================= */
+=========================
+
+   Agora o período é sempre um
+   mês real:
+
+   2026-09
+   2026-10
+   2026-11
+   2026-12
+   2027-01
+
+   Não existem mais:
+
+   -periodo-1
+   -periodo-2
+   -periodo-3
+*/
 
 function obterPeriodo() {
 
@@ -754,10 +846,51 @@ function obterPeriodo() {
             "periodoFinanceiro"
         );
 
+
+    /*
+        Se ainda não existe período,
+        começa pelo mês atual.
+    */
+
     if (!periodo) {
 
         periodo =
             obterMesReal();
+
+        /*
+            Caso exista algum período antigo
+            no formato:
+
+            2026-09-periodo-1
+
+            ele será convertido para:
+
+            2026-09
+        */
+
+    }
+
+
+    /*
+        Limpeza de períodos antigos.
+
+        Se o sistema antigo criou:
+
+        2026-09-periodo-1
+
+        vamos considerar somente:
+
+        2026-09
+    */
+
+    if (
+        periodo.includes("-periodo-")
+    ) {
+
+        periodo =
+            periodo.split(
+                "-periodo-"
+            )[0];
 
         localStorage.setItem(
             "periodoFinanceiro",
@@ -765,6 +898,13 @@ function obterPeriodo() {
         );
 
     }
+
+
+    localStorage.setItem(
+        "periodoFinanceiro",
+        periodo
+    );
+
 
     return periodo;
 
@@ -779,7 +919,7 @@ function nomeDoMes(mes) {
 
     if (
         !mes ||
-        !mes.includes("-")
+        !/^\d{4}-\d{2}$/.test(mes)
     ) {
 
         return "-";
@@ -789,11 +929,11 @@ function nomeDoMes(mes) {
     const partes =
         mes.split("-");
 
-    const numero =
-        Number(partes[1]);
-
     const ano =
         partes[0];
+
+    const numero =
+        Number(partes[1]);
 
     const meses = [
 
@@ -813,32 +953,19 @@ function nomeDoMes(mes) {
     ];
 
     if (
-        !numero ||
         numero < 1 ||
         numero > 12
     ) {
 
-        return "Novo período";
+        return "-";
 
     }
 
-    let nome =
+    return (
         meses[numero - 1] +
         " " +
-        ano;
-
-    if (
-        partes.length >= 4 &&
-        partes[2] === "periodo"
-    ) {
-
-        nome +=
-            " • Período " +
-            partes[3];
-
-    }
-
-    return nome;
+        ano
+    );
 
 }
 
@@ -1034,7 +1161,7 @@ function pegarRenda() {
 
 
 /* =========================
-   GASTOS DO PERÍODO ATUAL
+   GASTOS DO PERÍODO
 ========================= */
 
 function gastosDoPeriodo() {
@@ -1168,6 +1295,7 @@ function atualizarSaudeFinanceira(
     barra.className =
         "barra-saude-preenchida";
 
+
     alerta.className =
         "saude-alerta";
 
@@ -1264,6 +1392,7 @@ function carregarDashboard() {
     const usuario =
         pegarUsuario();
 
+
     if (!usuario) {
 
         window.location.href =
@@ -1273,22 +1402,28 @@ function carregarDashboard() {
 
     }
 
+
     const renda =
         pegarRenda();
+
 
     const totalGastos =
         calcularTotalGasto();
 
+
     const saldo =
         renda -
         totalGastos;
+
 
     const periodo =
         obterPeriodo();
 
 
     document
-        .getElementById("saudacao")
+        .getElementById(
+            "saudacao"
+        )
         .textContent =
             "Olá, " +
             usuario.nome +
@@ -1296,31 +1431,41 @@ function carregarDashboard() {
 
 
     document
-        .getElementById("renda")
+        .getElementById(
+            "renda"
+        )
         .textContent =
             moeda(renda);
 
 
     document
-        .getElementById("totalGastos")
+        .getElementById(
+            "totalGastos"
+        )
         .textContent =
             moeda(totalGastos);
 
 
     document
-        .getElementById("saldo")
+        .getElementById(
+            "saldo"
+        )
         .textContent =
             moeda(saldo);
 
 
     document
-        .getElementById("mesAtual")
+        .getElementById(
+            "mesAtual"
+        )
         .textContent =
             nomeDoMes(periodo);
 
 
     document
-        .getElementById("periodoAtual")
+        .getElementById(
+            "periodoAtual"
+        )
         .textContent =
             nomeDoMes(periodo);
 
@@ -1354,13 +1499,14 @@ function carregarDashboard() {
 
     mostrarCategorias();
 
+
     atualizarGrafico();
 
 }
 
 
 /* =========================
-   CATEGORIAS
+   MOSTRAR CATEGORIAS
 ========================= */
 
 function mostrarCategorias() {
@@ -1370,16 +1516,20 @@ function mostrarCategorias() {
             "categorias"
         );
 
+
     const aviso =
         document.getElementById(
             "avisoPlanejamento"
         );
 
+
     const planejamento =
         pegarPlanejamento();
 
+
     const orcamento =
         pegarOrcamento();
+
 
     const gastos =
         gastosDoPeriodo();
@@ -1543,10 +1693,12 @@ function atualizarGrafico() {
             "graficoGastos"
         );
 
+
     const container =
         document.getElementById(
             "graficoContainer"
         );
+
 
     const mensagem =
         document.getElementById(
@@ -1580,6 +1732,7 @@ function atualizarGrafico() {
 
         const categoria =
             gasto.categoria;
+
 
         const valor =
             Number(
@@ -1622,11 +1775,14 @@ function atualizarGrafico() {
 
         }
 
+
         container.style.display =
             "none";
 
+
         mensagem.style.display =
             "block";
+
 
         return;
 
@@ -1635,6 +1791,7 @@ function atualizarGrafico() {
 
     container.style.display =
         "block";
+
 
     mensagem.style.display =
         "none";
@@ -1766,6 +1923,7 @@ function atualizarGrafico() {
                                             context.raw ||
                                             0;
 
+
                                         const total =
                                             valores.reduce(
                                                 function(
@@ -1782,6 +1940,7 @@ function atualizarGrafico() {
                                                 0
                                             );
 
+
                                         const percentual =
                                             total > 0
                                                 ? (
@@ -1789,6 +1948,7 @@ function atualizarGrafico() {
                                                     total
                                                 ) * 100
                                                 : 0;
+
 
                                         return (
                                             " " +
@@ -1857,7 +2017,7 @@ function fecharEditarRenda() {
 
 
 /* =========================
-   SALVAR RENDA
+   SALVAR NOVA RENDA
 ========================= */
 
 function salvarNovaRenda() {
@@ -1903,6 +2063,7 @@ function salvarNovaRenda() {
         usuario.renda =
             renda;
 
+
         localStorage.setItem(
             "usuario",
             JSON.stringify(
@@ -1922,6 +2083,7 @@ function salvarNovaRenda() {
         planejamento.renda =
             renda;
 
+
         localStorage.setItem(
             "planejamentoFinanceiro",
             JSON.stringify(
@@ -1933,6 +2095,7 @@ function salvarNovaRenda() {
 
 
     fecharEditarRenda();
+
 
     carregarDashboard();
 
@@ -1974,6 +2137,25 @@ function editarOrcamento() {
 
 /* =========================
    RECEBI MEU PAGAMENTO
+=========================
+
+   AGORA FUNCIONA ASSIM:
+
+   Setembro 2026
+        ↓
+   Outubro 2026
+        ↓
+   Novembro 2026
+        ↓
+   Dezembro 2026
+        ↓
+   Janeiro 2027
+
+   Os gastos antigos NÃO são apagados.
+
+   Eles continuam no localStorage.
+
+   Apenas o período atual muda.
 ========================= */
 
 function novoMes() {
@@ -1982,25 +2164,39 @@ function novoMes() {
         obterPeriodo();
 
 
+    const proximoMes =
+        obterProximoMes(
+            periodoAtual
+        );
+
+
     const confirmar =
         confirm(
 
             "💰 Você recebeu seu pagamento?\n\n" +
 
-            "Um novo período financeiro será iniciado.\n\n" +
+            "Seu período atual é:\n" +
+            nomeDoMes(periodoAtual) +
+            "\n\n" +
 
-            "Os gastos anteriores NÃO serão apagados.\n\n" +
+            "O próximo período será:\n" +
+            nomeDoMes(proximoMes) +
+            "\n\n" +
 
-            "Eles continuarão disponíveis em " +
-            "\"Ver registros\".\n\n" +
+            "Os gastos de " +
+            nomeDoMes(periodoAtual) +
+            " NÃO serão apagados.\n\n" +
 
-            "O Dashboard começará novamente com:\n" +
-            "• Gastos: R$ 0,00\n" +
-            "• Gráfico: vazio\n" +
-            "• Gastos por categoria: zerados\n" +
-            "• Saldo: sua renda completa\n\n" +
+            "Eles continuarão disponíveis " +
+            "em \"Ver registros\".\n\n" +
 
-            "Deseja continuar?"
+            "O Dashboard começará o novo mês " +
+            "com os gastos zerados.\n\n" +
+
+            "Deseja receber o pagamento e " +
+            "começar " +
+            nomeDoMes(proximoMes) +
+            "?"
 
         );
 
@@ -2013,71 +2209,36 @@ function novoMes() {
 
 
     /*
-        Descobrimos o próximo número
-        de período.
-
-        Isso impede que o novo período
-        tenha o mesmo ID do anterior.
-    */
-
-    let contador =
-        Number(
-            localStorage.getItem(
-                "contadorPeriodo"
-            )
-        ) || 0;
-
-
-    contador++;
-
-
-    localStorage.setItem(
-        "contadorPeriodo",
-        String(contador)
-    );
-
-
-    /*
-        Criamos um ID único.
-
-        Exemplo:
-
-        2026-09
-        2026-09-periodo-1
-        2026-09-periodo-2
-        2026-10-periodo-3
-    */
-
-    const mesReal =
-        obterMesReal();
-
-
-    const novoPeriodoFinanceiro =
-        mesReal +
-        "-periodo-" +
-        contador;
-
-
-    /*
-        Salvamos somente o novo período.
-
-        NENHUM gasto é apagado.
+        Salva o próximo mês como
+        o novo período financeiro.
     */
 
     localStorage.setItem(
         "periodoFinanceiro",
-        novoPeriodoFinanceiro
+        proximoMes
     );
 
 
     /*
-        Recarrega o Dashboard.
+        IMPORTANTE:
 
-        Como gastosDoPeriodo()
-        procura apenas gastos cujo
-        "mes" seja IGUAL ao novo ID,
-        os gastos antigos não aparecem.
+        NÃO apagamos os gastos.
+
+        Os gastos antigos continuam
+        salvos com o mês antigo.
+
+        Exemplo:
+
+        gasto.mes = "2026-09"
+
+        Depois do pagamento:
+
+        periodoFinanceiro = "2026-10"
+
+        Portanto o Dashboard não
+        encontra o gasto de setembro.
     */
+
 
     carregarDashboard();
 
@@ -2086,11 +2247,13 @@ function novoMes() {
 
         "Pagamento recebido! 💚\n\n" +
 
-        "Seu novo período começou.\n\n" +
+        "Novo mês iniciado:\n" +
 
-        "Gastos: R$ 0,00\n" +
+        nomeDoMes(proximoMes) +
 
-        "Gráfico: vazio\n\n" +
+        "\n\n" +
+
+        "Gastos do novo mês: R$ 0,00\n\n" +
 
         "Seus gastos anteriores continuam " +
         "salvos no histórico."

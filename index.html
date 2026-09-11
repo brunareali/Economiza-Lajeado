@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Dinheiro</title>
+
+    <title>economiza.com</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,7 +29,7 @@
         .container {
             background: white;
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             padding: 45px 30px;
             border-radius: 24px;
             text-align: center;
@@ -40,13 +43,13 @@
 
         h1 {
             color: #287a4b;
-            font-size: 32px;
+            font-size: 34px;
             margin-bottom: 12px;
         }
 
-        p {
+        .subtitulo {
             color: #718078;
-            font-size: 16px;
+            font-size: 17px;
             line-height: 1.5;
             margin-bottom: 30px;
         }
@@ -61,6 +64,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         button:hover {
@@ -72,35 +76,100 @@
             margin-top: 20px;
             color: #287a4b;
             font-size: 14px;
+            text-decoration: none;
         }
+
+        .login:hover {
+            text-decoration: underline;
+        }
+
+        .beneficios {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e5ebe6;
+            text-align: left;
+        }
+
+        .beneficio {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: #536159;
+            font-size: 14px;
+        }
+
+        .beneficio:last-child {
+            margin-bottom: 0;
+        }
+
+        .icone {
+            font-size: 20px;
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+        }
+
     </style>
+
 </head>
 
 <body>
 
     <div class="container">
 
-        <div class="logo">💰</div>
+        <div class="logo">
+            💰
+        </div>
 
-        <h1>Meu Dinheiro</h1>
+        <h1>
+            economiza.com
+        </h1>
 
-        <p>
+        <p class="subtitulo">
             Organize seu dinheiro de forma simples,
-            acompanhe seus gastos e saiba quanto
-            você ainda pode gastar.
+            acompanhe seus gastos e descubra
+            quanto você ainda pode gastar.
         </p>
 
         <button onclick="window.location.href='cadastro.html'">
-    Criar minha conta
-</button>
+            Começar agora
+        </button>
 
+        <a href="login.html" class="login">
+            Já tenho uma conta
+        </a>
 
-       <a href="login.html" class="login">
-    Já tenho uma conta
-</a>
+        <div class="beneficios">
 
+            <div class="beneficio">
+                <span class="icone">📊</span>
+                <span>Visualize para onde seu dinheiro está indo</span>
+            </div>
+
+            <div class="beneficio">
+                <span class="icone">💰</span>
+                <span>Acompanhe seu saldo e sua renda</span>
+            </div>
+
+            <div class="beneficio">
+                <span class="icone">🎯</span>
+                <span>Controle seus gastos por categoria</span>
+            </div>
+
+        </div>
 
     </div>
 
 </body>
+
 </html>

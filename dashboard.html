@@ -255,6 +255,34 @@
         .barra-preenchida.excedida {
             background: #c0392b;
         }
+/* =========================
+   GRÁFICO
+========================= */
+
+.grafico-card {
+    margin-bottom: 20px;
+}
+
+.grafico-container {
+    width: 100%;
+    max-width: 360px;
+    height: 360px;
+    margin: 10px auto 0;
+    position: relative;
+}
+
+.grafico-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.sem-gastos-grafico {
+    display: none;
+    text-align: center;
+    color: #718078;
+    padding: 30px 10px;
+    line-height: 1.5;
+}
 
         /* =========================
            BOTÕES
@@ -391,6 +419,7 @@
         }
 
     </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
